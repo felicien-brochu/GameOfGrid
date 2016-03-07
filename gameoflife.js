@@ -185,7 +185,10 @@ GameOfLife.prototype.onCellClick = function(event) {
 	}
 }
 
-GameOfLife.prototype.toggleGame = function(dispatchEvent = true) {
+GameOfLife.prototype.toggleGame = function(dispatchEvent) {
+	if (dispatchEvent === undefined) {
+		dispatchEvent = true;
+	}
 	if (this.started) {
 		clearInterval(this.timerId);
 		if (dispatchEvent && this.settings) {
