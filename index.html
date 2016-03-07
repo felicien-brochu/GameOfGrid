@@ -1,0 +1,82 @@
+﻿<html charset="UTF-8">
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>	
+	<canvas id="gameOfLifeCanvas"></canvas>
+	<canvas id="shadowCanvas"></canvas>
+	<canvas id="panelCanvas"></canvas>
+	<canvas id="widgetsCanvas"></canvas>
+	
+	<script type="text/javascript" src="gameoflife.js"></script>
+	<script type="text/javascript" src="settings.js"></script>
+	
+	<script id="vertex" type="x-shader">
+		attribute vec2 aVertexPosition;
+		
+		void main() {
+			gl_Position = vec4(aVertexPosition, 0.0, 1.0);
+		}
+	</script>
+	
+	<script id="fragment" type="x-shader">
+		#ifdef GL_ES
+		precision highp float;
+		#endif
+
+		uniform vec2 resolution; // width, height
+		uniform float pixWidth;  // Width, in pixels
+		uniform float pixHeight; // Height, in pixels
+		uniform sampler2D cellColors;
+
+		void main() {
+			vec2 texSize = resolution;
+			if (int(mod(resolution.x, pixWidth)) > 0) {
+				texSize.x += pixWidth - mod(resolution.x, pixWidth);
+			}
+			if (int(mod(resolution.y, pixHeight)) > 0) {
+				texSize.y = texSize.y + pixHeight - mod(resolution.y, pixHeight);
+			}
+			vec2 offset = vec2(gl_FragCoord.x, resolution.y - gl_FragCoord.y) + vec2(0.5, 0.5);
+			
+			if (int(mod(offset.x, pixWidth)) == 0 ||
+				int(mod(offset.y, pixHeight)) == 0) {
+				gl_FragColor = vec4(0.874, 0.874, 0.874, 1.0);
+			} else {
+				vec2 position = ((offset - vec2(1.0, 1.0)) / resolution) * (resolution / texSize);
+				vec4 color = texture2D(cellColors, position);
+				float alpha = color[3];
+				float alphaGray = 1.0 - alpha;
+				color = (color * vec4(alpha, alpha, alpha, 1.0)) + vec4(0.8 * alphaGray, 0.8 * alphaGray, 0.8 * alphaGray, alphaGray);
+				gl_FragColor = color;
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		var gameOfLife = new GameOfLife();
+		var settings = new Settings(gameOfLife);
+		gameOfLife.registerSettings(settings);
+		window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+	                                   window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+		function render() {
+			var t1 = window.performance.now(), t;
+			gameOfLifeMutex = true;
+			gameOfLife.render.bind(gameOfLife)();
+			gameOfLifeMutex = false;
+			//if ((t = (window.performance.now() - t1)) > 10) {
+			//	console.log("render Game: " + t);
+			//}
+			t1 = window.performance.now(), t;
+			settingsMutex = true;
+			settings.render.bind(settings)();
+			settingsMutex = false;
+			//if ((t = (window.performance.now() - t1)) > 10) {
+			//	console.log("render Sett: " + t);
+			//}
+			requestAnimationFrame(render);
+		};
+		render();
+	</script>
+
+</body>
+</html>
