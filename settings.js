@@ -61,8 +61,7 @@ Settings.prototype.loadSprite = function(src) {
 }
 
 Settings.prototype.loadSprites = function() {
-	return Promise.all([this.loadSprite("arrow.png"),
-						this.loadSprite("play.png"),
+	return Promise.all([this.loadSprite("play.png"),
 						this.loadSprite("pause.png"),
 						this.loadSprite("reset.png"),
 						this.loadSprite("shuffle.png"),
