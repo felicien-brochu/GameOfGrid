@@ -220,10 +220,10 @@ GameOfLife.prototype.nextStep = function() {
 	for (var i = 0, len = this.gridHeight * this.gridWidth; i < len; ++i) {
 		var neighborsCount = this.countNeighbors(i);
 		if (this.grid[i] === 1) {
+			this.isDirty = true;
+			this.dirtyCells.push(i);
 			if (neighborsCount < 2 || neighborsCount > 3) {
 				this.newGrid[i] = 2;
-				this.isDirty = true;
-				this.dirtyCells.push(i);
 			}
 			else {
 				this.newGrid[i] = 1;
