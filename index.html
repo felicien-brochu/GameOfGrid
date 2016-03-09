@@ -29,21 +29,25 @@
 		uniform float pixHeight; // Height, in pixels
 		uniform sampler2D cellColors;
 
+		int modulo(float dividend, float diviser) {
+			return int(dividend) - (int(dividend) / int(diviser) * int(diviser));
+		}
+		
 		void main() {
 			vec2 texSize = resolution;
-			if (int(mod(resolution.x, pixWidth)) > 0) {
+			if (modulo(resolution.x, pixWidth) > 0) {
 				texSize.x += pixWidth - mod(resolution.x, pixWidth);
 			}
-			if (int(mod(resolution.y, pixHeight)) > 0) {
+			if (modulo(resolution.y, pixHeight) > 0) {
 				texSize.y = texSize.y + pixHeight - mod(resolution.y, pixHeight);
 			}
-			vec2 offset = vec2(gl_FragCoord.x, resolution.y - gl_FragCoord.y) + vec2(0.5, 0.5);
+			vec2 offset = vec2(gl_FragCoord.x, resolution.y - gl_FragCoord.y) - vec2(0.5, 0.5);
 			
-			if (int(mod(offset.x, pixWidth)) == 0 ||
-				int(mod(offset.y, pixHeight)) == 0) {
+			if (modulo(offset.x, pixWidth) == 0 ||
+				modulo(offset.y, pixWidth) == 0) {
 				gl_FragColor = vec4(0.874, 0.874, 0.874, 1.0);
 			} else {
-				vec2 position = ((offset - vec2(1.0, 1.0)) / resolution) * (resolution / texSize);
+				vec2 position = ((offset + vec2(0.0, 0.0)) / resolution) * (resolution / texSize);
 				vec4 color = texture2D(cellColors, position);
 				float alpha = color[3];
 				float alphaGray = 1.0 - alpha;
