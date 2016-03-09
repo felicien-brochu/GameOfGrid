@@ -25,19 +25,8 @@ function Settings(gameOfLife) {
 	this.panel = new Panel(220, this.panelCanvas, this.widgetsCanvas, this.gameOfLife, true);
 	this.widgets = this.widgets.concat(this.panel.sliders);
 	
-	window.addEventListener("resize", function(event) {
-		this.widgetsCanvas.width = window.innerWidth;
-		this.widgetsCanvas.height = window.innerHeight;
-		this.shadowCanvas.width = window.innerWidth;
-		this.shadowCanvas.height = window.innerHeight;
-		this.panelCanvas.width = window.innerWidth;
-		this.panelCanvas.height = window.innerHeight;
-		
-		this.isShadowDirty = true;
-		this.widgetsCanvas.isDirty = true;
-		this.isPanelDirty = true;
-	}.bind(this));
-	
+	window.addEventListener("resize", this.onResize.bind(this));
+	window.addEventListener("keydown", this.onKeyDown.bind(this));
 	this.widgetsCanvas.addEventListener("mousemove", function(event) {this.onMouseMove(event)}.bind(this));
 	this.widgetsCanvas.addEventListener("mousedown", function(event) {this.onMouseDown(event)}.bind(this));
 	this.widgetsCanvas.addEventListener("mouseup", function(event) {this.onMouseUp(event)}.bind(this));
@@ -80,6 +69,26 @@ Settings.prototype.initButtons = function() {
 	this.shuffleButton = this.addButton(50, 10, this.buttonWidth, this.buttonHeight, this.sprites["shuffle.png"], function(){ this.onShuffleClick(); }.bind(this));
 	this.resetButton = this.addButton(90, 10, this.buttonWidth, this.buttonHeight, this.sprites["reset.png"], function(){ this.onResetClick(); }.bind(this));
 	this.playPauseButton = this.addButton(130, 10, this.buttonWidth, this.buttonHeight, this.sprites["play.png"], function(){ this.onPlayPauseClick(); }.bind(this));
+}
+
+Settings.prototype.onResize = function(event) {
+	this.widgetsCanvas.width = window.innerWidth;
+	this.widgetsCanvas.height = window.innerHeight;
+	this.shadowCanvas.width = window.innerWidth;
+	this.shadowCanvas.height = window.innerHeight;
+	this.panelCanvas.width = window.innerWidth;
+	this.panelCanvas.height = window.innerHeight;
+	
+	this.isShadowDirty = true;
+	this.widgetsCanvas.isDirty = true;
+	this.isPanelDirty = true;
+}
+
+Settings.prototype.onKeyDown = function(event) {
+	// Space bar
+	if (event.keyCode == 32 && this.gameOfLife) {
+		this.gameOfLife.toggleGame();
+	}
 }
 
 Settings.prototype.onMouseMove = function(event) {	
