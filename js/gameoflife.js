@@ -5,7 +5,7 @@ function GameOfLife() {
 	this.cellSize = 8;
 	this.interval = 100;
 	this.colorAgeSize = 100;
-	this.hueOffset = 0;
+	this.hueOffset = 55;
 	
 	this.grid = [];
 	this.newGrid = [];
