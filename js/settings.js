@@ -4,6 +4,7 @@ function Settings(gameOfLife) {
 	this.shadowCanvas = document.getElementById("shadowCanvas");
 	this.panelCanvas = document.getElementById("panelCanvas");
 	this.context = this.widgetsCanvas.getContext("2d");
+	this.cursorHider = new CursorAutoHider(this.widgetsCanvas, 2200);
 	this.buttons = [];
 	this.widgets = [];
 	this.buttonWidth = 34;
@@ -184,11 +185,13 @@ Settings.prototype.onMouseUp = function(event) {
 Settings.prototype.onGamePause = function() {
 	this.playPauseButton.image = this.sprites["play.png"];
 	this.widgetsCanvas.isDirty = true;
+	this.cursorHider.setEnabled(false);
 }
 
 Settings.prototype.onGameStart = function() {
 	this.playPauseButton.image = this.sprites["pause.png"];
 	this.widgetsCanvas.isDirty = true;
+	this.cursorHider.setEnabled(true);
 }
 
 Settings.prototype.startRendering = function() {
