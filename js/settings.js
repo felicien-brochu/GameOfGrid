@@ -54,7 +54,8 @@ Settings.prototype.loadSprites = function() {
 						this.loadSprite("pause.png"),
 						this.loadSprite("reset.png"),
 						this.loadSprite("shuffle.png"),
-						this.loadSprite("settings.png")]);
+						this.loadSprite("settings.png"),
+						this.loadSprite("fullscreen.png")]);
 }
 
 Settings.prototype.addButton = function(x, y, width, height, image, onMouseDown) {
@@ -65,10 +66,11 @@ Settings.prototype.addButton = function(x, y, width, height, image, onMouseDown)
 }
 
 Settings.prototype.initButtons = function() {
-	this.settingsButton = this.addButton(10, 10, this.buttonWidth, this.buttonHeight, this.sprites["settings.png"], function(){ this.onSettingsButtonMouseDown(); }.bind(this));
-	this.shuffleButton = this.addButton(50, 10, this.buttonWidth, this.buttonHeight, this.sprites["shuffle.png"], function(){ this.onShuffleClick(); }.bind(this));
-	this.resetButton = this.addButton(90, 10, this.buttonWidth, this.buttonHeight, this.sprites["reset.png"], function(){ this.onResetClick(); }.bind(this));
-	this.playPauseButton = this.addButton(130, 10, this.buttonWidth, this.buttonHeight, this.sprites["play.png"], function(){ this.onPlayPauseClick(); }.bind(this));
+	this.fullscreenButton = this.addButton(10, 10, this.buttonWidth, this.buttonHeight, this.sprites["fullscreen.png"], function(){ this.onFullscreenButtonMouseDown(); }.bind(this));
+	this.settingsButton = this.addButton(50, 10, this.buttonWidth, this.buttonHeight, this.sprites["settings.png"], function(){ this.onSettingsButtonMouseDown(); }.bind(this));
+	this.shuffleButton = this.addButton(90, 10, this.buttonWidth, this.buttonHeight, this.sprites["shuffle.png"], function(){ this.onShuffleClick(); }.bind(this));
+	this.resetButton = this.addButton(130, 10, this.buttonWidth, this.buttonHeight, this.sprites["reset.png"], function(){ this.onResetClick(); }.bind(this));
+	this.playPauseButton = this.addButton(170, 10, this.buttonWidth, this.buttonHeight, this.sprites["play.png"], function(){ this.onPlayPauseClick(); }.bind(this));
 }
 
 Settings.prototype.onResize = function(event) {
@@ -256,6 +258,10 @@ Settings.prototype.onShuffleClick = function() {
 
 Settings.prototype.onSettingsButtonMouseDown = function() {
 	this.togglePanel();
+}
+
+Settings.prototype.onFullscreenButtonMouseDown = function() {
+	toggleFullscreen();
 }
 
 Settings.prototype.togglePanel = function() {
