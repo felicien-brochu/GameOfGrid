@@ -65,17 +65,13 @@
 		window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
 	                                   window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 		function render() {
-			var t1 = window.performance.now(), t;
-			gameOfLifeMutex = true;
+			//var t1 = window.performance.now(), t;
 			gameOfLife.render.bind(gameOfLife)();
-			gameOfLifeMutex = false;
 			//if ((t = (window.performance.now() - t1)) > 10) {
 			//	console.log("render Game: " + t);
 			//}
-			t1 = window.performance.now(), t;
-			settingsMutex = true;
+			//t1 = window.performance.now(), t;
 			settings.render.bind(settings)();
-			settingsMutex = false;
 			//if ((t = (window.performance.now() - t1)) > 10) {
 			//	console.log("render Sett: " + t);
 			//}

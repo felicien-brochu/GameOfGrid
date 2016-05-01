@@ -296,14 +296,6 @@ Button.prototype.isMouseOver = function(event) {
 
 Button.prototype.draw = function() {
 	var context = this.widgetsCanvas.getContext("2d");
-	// if (this.hovered) {
-		// context.save();
-		// context.clearRect(this.getX(), this.y, this.width, this.height);
-		// context.fillStyle = "#BBBBBB";
-		// context.strokeStyle = "#BBBBBB";
-		// this.fillRoundedCornerRect(context, this.getX(), this.y, this.width, this.height, 8);
-		// context.restore();
-	// }
 	context.save();
 	if (!this.hovered) {
 		context.globalAlpha = 0.9;
