@@ -11,6 +11,7 @@ function GameOfLife() {
 	this.newGrid = [];
 	this.dirtyCells = [];
 	this.cellColors = [];
+	this.drawMode = "none";
 	
 	this.timerId;
 	this.rendering = false;
@@ -34,8 +35,11 @@ function GameOfLife() {
 		GameOfLife.prototype.renderFrame = this.renderContext2D;
 	}
 	window.addEventListener("resize", function(event) { this.onResize(); }.bind(this));
+	window.addEventListener("mouseout", function() {this.onMouseOut();}.bind(this));
 
-	this.canvas.addEventListener("mousedown", function(event) {this.onCellClick(event);}.bind(this));
+	this.canvas.addEventListener("mousedown", function(event) {this.onMouseDown(event);}.bind(this));
+	this.canvas.addEventListener("mouseup", function(event) {this.onMouseUp(event);}.bind(this));
+	this.canvas.addEventListener("mousemove", function(event) {this.onMouseMove(event);}.bind(this));
 
 	this.initFrame();
 	this.startRendering();
@@ -169,20 +173,42 @@ GameOfLife.prototype.onResize = function() {
 	this.isDirty = true;
 }
 
-GameOfLife.prototype.onCellClick = function(event) {
+GameOfLife.prototype.onMouseOut = function() {
+	this.drawMode = "none";
+}
+
+GameOfLife.prototype.onMouseDown = function(event) {
 	if (!this.started) {
 		var x = Math.floor(event.clientX / this.cellSize);
 		var y = Math.floor(event.clientY / this.cellSize);
 		
 		if (this.grid[y * this.gridWidth + x] === -1) {
-			this.grid[y * this.gridWidth + x] = 0;
+			this.drawMode = "erase";
 		}
 		else {
-			this.grid[y * this.gridWidth + x] = -1;
+			this.drawMode = "draw";
 		}
-		this.dirtyCells.push(y * this.gridWidth + x);
-		this.isDirty = true;
+		this.applyBrush(x, y);
 	}
+}
+
+GameOfLife.prototype.onMouseUp = function(event) {
+	this.drawMode = "none";
+}
+
+GameOfLife.prototype.onMouseMove = function(event) {
+	if (!this.started && this.drawMode != "none") {
+		var x = Math.floor(event.clientX / this.cellSize);
+		var y = Math.floor(event.clientY / this.cellSize);
+		this.applyBrush(x, y);
+	}
+}
+
+GameOfLife.prototype.applyBrush = function(x, y) {
+	var drawValue = this.drawMode === "draw" ? -1 : 0;
+	this.grid[y * this.gridWidth + x] = drawValue;
+	this.dirtyCells.push(y * this.gridWidth + x);
+	this.isDirty = true;
 }
 
 GameOfLife.prototype.toggleGame = function(dispatchEvent) {
