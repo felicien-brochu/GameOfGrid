@@ -401,7 +401,7 @@ Panel.prototype.draw = function() {
 		context.fillStyle = "white";
 		context.fillText("Speed", this.panelCanvas.width - this.width + 20, 80);
 		context.fillText("Trace", this.panelCanvas.width - this.width + 24, 105);
-		context.fillText("Hue", this.panelCanvas.width - this.width + 28, 130);
+		context.fillText("Color", this.panelCanvas.width - this.width + 25, 130);
 	}
 }
 
