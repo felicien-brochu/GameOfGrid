@@ -12,6 +12,8 @@ function GameOfLife() {
 	this.dirtyCells = [];
 	this.cellColors = [];
 	this.drawMode = "none";
+	this.lastDrawX = 0;
+	this.lastDrawY = 0;
 	
 	this.timerId;
 	this.rendering = false;
@@ -179,10 +181,15 @@ GameOfLife.prototype.onMouseOut = function() {
 
 GameOfLife.prototype.onMouseDown = function(event) {
 	if (!this.started) {
-		var x = Math.floor(event.clientX / this.cellSize);
-		var y = Math.floor(event.clientY / this.cellSize);
+		var x = event.clientX;
+		var y = event.clientY;
+		var gridX = Math.floor(x / this.cellSize);
+		var gridY = Math.floor(y / this.cellSize);
 		
-		if (this.grid[y * this.gridWidth + x] === -1) {
+		this.lastDrawX = x;
+		this.lastDrawY = y;
+		
+		if (this.grid[gridY * this.gridWidth + gridX] === -1) {
 			this.drawMode = "erase";
 		}
 		else {
@@ -198,17 +205,47 @@ GameOfLife.prototype.onMouseUp = function(event) {
 
 GameOfLife.prototype.onMouseMove = function(event) {
 	if (!this.started && this.drawMode != "none") {
-		var x = Math.floor(event.clientX / this.cellSize);
-		var y = Math.floor(event.clientY / this.cellSize);
-		this.applyBrush(x, y);
+		this.applyBrush(event.clientX, event.clientY);
 	}
 }
 
 GameOfLife.prototype.applyBrush = function(x, y) {
 	var drawValue = this.drawMode === "draw" ? -1 : 0;
-	this.grid[y * this.gridWidth + x] = drawValue;
-	this.dirtyCells.push(y * this.gridWidth + x);
+	
+	var step = 0.5;
+	var dx = x - this.lastDrawX;
+	var dy = y - this.lastDrawY;
+	
+	if (Math.abs(dx) <= Math.abs(dy)) {
+		if (dy == 0) {
+			dx = 0
+		} else {
+			dx = dx / (Math.abs(dy) / step);
+		}
+		dy = dy < 0 ? -step : step;
+	} else {
+		dy = dy / (Math.abs(dx) / step);
+		dx = dx < 0 ? -step : step;
+	}
+	
+	var lastGridX = -1;
+	var lastGridY = -1;
+	for (var i = 0, deltaX = Math.abs(x - this.lastDrawX), deltaY = Math.abs(y - this.lastDrawY); Math.abs(i * dx) <= deltaX && Math.abs(i * dy) <= deltaY; i++) {
+		var gridX = Math.floor((this.lastDrawX + i * dx) / this.cellSize);
+		var gridY = Math.floor((this.lastDrawY + i * dy) / this.cellSize);
+		
+		if (lastGridX == gridX && lastGridY == gridY) {
+			continue;
+		}
+		this.grid[gridY * this.gridWidth + gridX] = drawValue;
+		this.dirtyCells.push(gridY * this.gridWidth + gridX);
+		lastGridX = gridX;
+		lastGridY = gridY;
+	}
+	
 	this.isDirty = true;
+	this.lastDrawX = x;
+	this.lastDrawY = y;
 }
 
 GameOfLife.prototype.toggleGame = function(dispatchEvent) {
