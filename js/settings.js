@@ -54,7 +54,7 @@ Settings.prototype.loadSprites = function() {
 	return Promise.all([this.loadSprite("play.png"),
 						this.loadSprite("pause.png"),
 						this.loadSprite("reset.png"),
-						this.loadSprite("shuffle.png"),
+						this.loadSprite("next-pattern.png"),
 						this.loadSprite("settings.png"),
 						this.loadSprite("fullscreen.png")]);
 }
@@ -69,7 +69,7 @@ Settings.prototype.addButton = function(x, y, width, height, image, onMouseDown)
 Settings.prototype.initButtons = function() {
 	this.fullscreenButton = this.addButton(10, 10, this.buttonWidth, this.buttonHeight, this.sprites["fullscreen.png"], function(){ this.onFullscreenButtonMouseDown(); }.bind(this));
 	this.settingsButton = this.addButton(50, 10, this.buttonWidth, this.buttonHeight, this.sprites["settings.png"], function(){ this.onSettingsButtonMouseDown(); }.bind(this));
-	this.shuffleButton = this.addButton(90, 10, this.buttonWidth, this.buttonHeight, this.sprites["shuffle.png"], function(){ this.onShuffleClick(); }.bind(this));
+	this.nextPatternButton = this.addButton(90, 10, this.buttonWidth, this.buttonHeight, this.sprites["next-pattern.png"], function(){ this.onNextPatternClick(); }.bind(this));
 	this.resetButton = this.addButton(130, 10, this.buttonWidth, this.buttonHeight, this.sprites["reset.png"], function(){ this.onResetClick(); }.bind(this));
 	this.playPauseButton = this.addButton(170, 10, this.buttonWidth, this.buttonHeight, this.sprites["play.png"], function(){ this.onPlayPauseClick(); }.bind(this));
 }
@@ -253,9 +253,9 @@ Settings.prototype.onResetClick = function() {
 	}
 }
 
-Settings.prototype.onShuffleClick = function() {
+Settings.prototype.onNextPatternClick = function() {
 	if (this.gameOfLife) {
-		this.gameOfLife.shuffleGame();
+		this.gameOfLife.nextPattern();
 	}
 }
 

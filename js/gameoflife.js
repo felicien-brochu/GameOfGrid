@@ -14,6 +14,12 @@ function GameOfLife() {
 	this.drawMode = "none";
 	this.lastDrawX = 0;
 	this.lastDrawY = 0;
+	this.patterns = [
+		function() { this.generateLinearDistribution(0.1); }.bind(this),
+		this.generateCrossPattern.bind(this),
+		this.drawRocketLaunchersCanvas.bind(this)
+		];
+	this.lastPattern = -1;
 	
 	this.timerId;
 	this.rendering = false;
@@ -124,18 +130,78 @@ GameOfLife.prototype.resetGame = function() {
 	this.initFrame();
 }
 
-GameOfLife.prototype.shuffleGame = function() {
+GameOfLife.prototype.nextPattern = function() {
 	if (this.started) {
 		this.toggleGame();
 	}
+	this.lastPattern++;
+	if (this.lastPattern >= this.patterns.length) {
+		this.lastPattern = 0;
+	}
+	this.patterns[this.lastPattern]();
+	this.isAllDirty = true;
+	this.isDirty = true;
+}
+
+GameOfLife.prototype.generateLinearDistribution = function(aliveRate) {
 	this.gridWidth = Math.floor(this.canvas.width / this.cellSize) + 1;
 	this.gridHeight = Math.floor(this.canvas.height / this.cellSize) + 1;
 	for (var i = 0, len = this.gridHeight * this.gridWidth; i < len; ++i) {
-		
-		this.grid[i] = Math.random() > 0.1 ? 0 : -1;
+		this.grid[i] = Math.random() > aliveRate ? 0 : -1;
 	}
-	this.isAllDirty = true;
-	this.isDirty = true;
+}
+
+GameOfLife.prototype.generateCrossPattern = function() {
+	this.gridWidth = Math.floor(this.canvas.width / this.cellSize) + 1;
+	this.gridHeight = Math.floor(this.canvas.height / this.cellSize) + 1;
+	var halfWidth = Math.floor(this.gridWidth / 2),
+		halfHeight = Math.floor(this.gridHeight / 2);
+
+	var a = Math.floor(Math.random() * 6 + 2),
+		b = Math.floor(Math.random() * (8 - a) + a);
+	var horizontal = Math.random() < 0.5;
+	
+	for (var i = 0, len = this.gridHeight * this.gridWidth; i < len; ++i) {
+		var x = Math.floor(i % this.gridWidth),
+			y = Math.floor(i / this.gridWidth);
+		if (((horizontal && (x % a == halfWidth % b) || !horizontal && (y % a == halfHeight % b)) || (x == halfWidth || y == halfHeight)) && !(x == halfWidth && y == halfHeight)) {
+			this.grid[i] = -1;
+		} else {
+			this.grid[i] = 0;
+		}
+	}
+}
+
+GameOfLife.prototype.drawRocketLaunchersCanvas = function() {
+	var brush = [[0, -1, -1], [-1, -1, 0], [0, -1, 0]];
+	var xWidth = 40, yWidth = 35;
+	var xTilt = 10, yTilt = 15;
+	this.drawBrushCanvas(brush, xWidth, yWidth, xTilt, yTilt);
+}
+
+GameOfLife.prototype.drawBrushCanvas = function(brush, xWidth, yWidth, xTilt, yTilt) {
+	var offset = Math.floor(Math.sqrt(xWidth * xWidth + yWidth * yWidth) / 2);
+
+	for (var i = 0, len = this.gridHeight * this.gridWidth; i < len; ++i) {
+		var x = Math.floor(i % this.gridWidth),
+			y = Math.floor(i / this.gridWidth);
+			
+		var epsilon = 1e-9;
+		var k = Math.floor((y - (yTilt * x) / xWidth) / (yWidth - (yTilt * xTilt / xWidth)) + epsilon),
+			l = Math.floor((x - (xTilt * y) / yWidth) / (xWidth - (xTilt * yTilt / yWidth)) + epsilon);
+			
+		var closestY = Math.round((l * yTilt - l * xTilt * yTilt * yTilt / (xWidth * yWidth) - k * xTilt * yTilt / xWidth + k * yWidth) / (1 - xTilt * yTilt / (xWidth * yWidth))),
+			closestX = Math.round(xTilt * (closestY - l * yTilt) / yWidth + l * xWidth);
+
+		var xOffset = Math.floor(x - closestX),
+			yOffset = Math.floor(y - closestY);
+
+		if (yOffset - offset < brush.length && xOffset - offset < brush[0].length && xOffset >= offset && yOffset >= offset) {
+			this.grid[i] = brush[yOffset - offset][xOffset - offset];
+		} else {
+			this.grid[i] = 0;
+		}
+	}
 }
 
 GameOfLife.prototype.onResize = function() {
@@ -152,8 +218,8 @@ GameOfLife.prototype.onResize = function() {
 	}
 	if (this.canvas.width < window.innerWidth || this.canvas.height < window.innerHeight) {
 		for (var i = 0, len = this.gridWidth * this.gridHeight; i < len; ++i) {
-			var x = Math.floor(i % this.gridWidth);
-			var y = Math.floor(i / this.gridWidth);
+			var x = Math.floor(i % this.gridWidth),
+				y = Math.floor(i / this.gridWidth);
 			if (x < oldGridWidth && y < oldGridHeight) {
 				this.newGrid[i] = this.grid[y * oldGridWidth + x];
 			}
@@ -181,10 +247,10 @@ GameOfLife.prototype.onMouseOut = function() {
 
 GameOfLife.prototype.onMouseDown = function(event) {
 	if (!this.started) {
-		var x = event.clientX;
-		var y = event.clientY;
-		var gridX = Math.floor(x / this.cellSize);
-		var gridY = Math.floor(y / this.cellSize);
+		var x = event.clientX,
+			y = event.clientY,
+			gridX = Math.floor(x / this.cellSize),
+			gridY = Math.floor(y / this.cellSize);
 		
 		this.lastDrawX = x;
 		this.lastDrawY = y;
@@ -213,8 +279,8 @@ GameOfLife.prototype.applyBrush = function(x, y) {
 	var drawValue = this.drawMode === "draw" ? -1 : 0;
 	
 	var step = 0.5;
-	var dx = x - this.lastDrawX;
-	var dy = y - this.lastDrawY;
+	var dx = x - this.lastDrawX,
+		dy = y - this.lastDrawY;
 	
 	if (Math.abs(dx) <= Math.abs(dy)) {
 		if (dy == 0) {
@@ -228,11 +294,11 @@ GameOfLife.prototype.applyBrush = function(x, y) {
 		dx = dx < 0 ? -step : step;
 	}
 	
-	var lastGridX = -1;
-	var lastGridY = -1;
+	var lastGridX = -1,
+		lastGridY = -1;
 	for (var i = 0, deltaX = Math.abs(x - this.lastDrawX), deltaY = Math.abs(y - this.lastDrawY); Math.abs(i * dx) <= deltaX && Math.abs(i * dy) <= deltaY; i++) {
-		var gridX = Math.floor((this.lastDrawX + i * dx) / this.cellSize);
-		var gridY = Math.floor((this.lastDrawY + i * dy) / this.cellSize);
+		var gridX = Math.floor((this.lastDrawX + i * dx) / this.cellSize),
+			gridY = Math.floor((this.lastDrawY + i * dy) / this.cellSize);
 		
 		if (lastGridX == gridX && lastGridY == gridY) {
 			continue;
