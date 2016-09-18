@@ -2,14 +2,39 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
-<body>	
+<body>
+	<!-- Game canvas -->
 	<canvas id="gameOfLifeCanvas"></canvas>
 	<canvas id="shadowCanvas"></canvas>
-	<canvas id="panelCanvas"></canvas>
-	<canvas id="widgetsCanvas"></canvas>
+	
+	<!-- Settings controls -->
+	<ul id="actionButtons">
+		<li><button id="playPauseButton" class="playButton"/></li>
+		<li><button id="resetButton"/></li>
+		<li><button id="nextPatternButton"/></li>
+		<li><button id="settingsButton"/></li>
+		<li><button id="fullscreenButton"/></li>
+	</ul>
+	<div id="settingsPanel">
+		<table id="slidersContainer">
+			<tr>
+				<td>Speed</td>
+				<td><div id="speedSlider" class="slider"></div></td>
+			</tr>
+			<tr>
+				<td>Trace</td>
+				<td><div id="traceSlider" class="slider"></div></td>
+			</tr>
+			<tr>
+				<td>Color</td>
+				<td><div id="colorSlider" class="slider"></div></td>
+			</tr>
+		</table>
+	</div>
 	
 	<script type="text/javascript" src="js/gameoflife.js"></script>
 	<script type="text/javascript" src="js/settings.js"></script>
+	<script type="text/javascript" src="js/slider.js"></script>
 	<script type="text/javascript" src="js/fullscreen.js"></script>
 	<script type="text/javascript" src="js/cursor.js"></script>
 	
@@ -65,16 +90,7 @@
 		window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
 	                                   window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 		function render() {
-			//var t1 = window.performance.now(), t;
 			gameOfLife.render.bind(gameOfLife)();
-			//if ((t = (window.performance.now() - t1)) > 10) {
-			//	console.log("render Game: " + t);
-			//}
-			//t1 = window.performance.now(), t;
-			settings.render.bind(settings)();
-			//if ((t = (window.performance.now() - t1)) > 10) {
-			//	console.log("render Sett: " + t);
-			//}
 			requestAnimationFrame(render);
 		};
 		render();

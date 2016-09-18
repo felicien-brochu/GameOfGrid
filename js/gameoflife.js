@@ -27,13 +27,18 @@ function GameOfLife() {
 	this.rendering = false;
 	this.isDirty = false;
 	this.isAllDirty = false;
+	this.isShadowDirty = true;
 	this.webGLEnabled = false;
 	
 	this.settings = null;
+	this.shadowCanvas = document.getElementById("shadowCanvas");
 	this.canvas = document.getElementById("gameOfLifeCanvas");
 
-	this.canvas.width = window.innerWidth; //document.width is obsolete
-	this.canvas.height = window.innerHeight; //document.height is obsolete
+	this.canvas.width = window.innerWidth;
+	this.canvas.height = window.innerHeight;
+	
+	this.shadowCanvas.width = window.innerWidth;
+	this.shadowCanvas.height = window.innerHeight;
 	
 	this.webGLEnabled = this.initWebGL() != null;
 	if (this.webGLEnabled) {
@@ -44,12 +49,12 @@ function GameOfLife() {
 		console.log("WebGL is not available on this browser: rendering with Context2D");
 		GameOfLife.prototype.renderFrame = this.renderContext2D;
 	}
-	window.addEventListener("resize", function(event) { this.onResize(); }.bind(this));
-	window.addEventListener("mouseout", function() {this.onMouseOut();}.bind(this));
+	window.addEventListener("resize", this.onResize.bind(this));
+	window.addEventListener("mouseout", this.onMouseOut.bind(this));
 
-	this.canvas.addEventListener("mousedown", function(event) {this.onMouseDown(event);}.bind(this));
-	this.canvas.addEventListener("mouseup", function(event) {this.onMouseUp(event);}.bind(this));
-	this.canvas.addEventListener("mousemove", function(event) {this.onMouseMove(event);}.bind(this));
+	this.canvas.addEventListener("mousedown", this.onMouseDown.bind(this));
+	this.canvas.addEventListener("mouseup", this.onMouseUp.bind(this));
+	this.canvas.addEventListener("mousemove", this.onMouseMove.bind(this));
 
 	this.initFrame();
 	this.startRendering();
@@ -241,6 +246,11 @@ GameOfLife.prototype.onResize = function() {
 	}
 	this.isAllDirty = true;
 	this.isDirty = true;
+	
+	this.shadowCanvas.width = window.innerWidth;
+	this.shadowCanvas.height = window.innerHeight;
+	
+	this.isShadowDirty = true;
 }
 
 GameOfLife.prototype.onMouseOut = function() {
@@ -417,7 +427,29 @@ GameOfLife.prototype.render = function() {
 		if (this.isDirty) {
 			this.renderFrame();
 		}
+		if (this.isShadowDirty) {
+			this.drawInnerShadow();
+		}
 	}
+}
+
+GameOfLife.prototype.drawInnerShadow = function() {
+	var context = this.shadowCanvas.getContext("2d");
+	context.shadowBlur = 120;
+	context.shadowColor = "#000000";
+	context.shadowOffsetY = -20;
+	context.shadowOffsetX = 0;
+	context.fillRect(-100, -100, this.shadowCanvas.width + 100, 100);
+	context.shadowOffsetY = 0;
+	context.shadowOffsetX = 0;
+	context.fillRect(-100, -100, 100, this.shadowCanvas.height + 100);
+	context.shadowOffsetY = -10;
+	context.shadowOffsetX = 0;
+	context.fillRect(-100, this.shadowCanvas.height, this.shadowCanvas.width + 100, 100);
+	context.shadowOffsetY = 0;
+	context.shadowOffsetX = 0;
+	context.fillRect(this.shadowCanvas.width, -100, 100, this.shadowCanvas.height + 100);
+	this.isShadowDirty = false;
 }
 
 GameOfLife.prototype.renderContext2D = function() {
