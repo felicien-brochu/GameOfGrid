@@ -14,6 +14,8 @@ function GameOfLife() {
 	this.drawMode = "none";
 	this.lastDrawX = 0;
 	this.lastDrawY = 0;
+	this.drawSymmetry = 4;
+	this.drawSymmetries = ["none", "vertical", "horizontal", "double", "central"];
 	this.patterns = [
 		function() { this.generateLinearDistribution(0.1); }.bind(this),
 		this.generateCrossPattern.bind(this),
@@ -277,6 +279,7 @@ GameOfLife.prototype.onMouseMove = function(event) {
 
 GameOfLife.prototype.applyBrush = function(x, y) {
 	var drawValue = this.drawMode === "draw" ? -1 : 0;
+	var symmetry = this.drawSymmetries[this.drawSymmetry];
 	
 	var step = 0.5;
 	var dx = x - this.lastDrawX,
@@ -303,8 +306,26 @@ GameOfLife.prototype.applyBrush = function(x, y) {
 		if (lastGridX == gridX && lastGridY == gridY) {
 			continue;
 		}
-		this.grid[gridY * this.gridWidth + gridX] = drawValue;
-		this.dirtyCells.push(gridY * this.gridWidth + gridX);
+		var coords = gridY * this.gridWidth + gridX;
+		this.grid[coords] = drawValue;
+		this.dirtyCells.push(coords);
+		
+		// Apply symmetry
+		if (symmetry === "horizontal" || symmetry === "double") {
+			coords = (this.gridHeight - gridY) * this.gridWidth + gridX;
+			this.grid[coords] = drawValue;
+			this.dirtyCells.push(coords);
+		}
+		if (symmetry === "vertical" || symmetry === "double") {
+			coords = gridY * this.gridWidth + this.gridWidth - gridX;
+			this.grid[coords] = drawValue;
+			this.dirtyCells.push(coords);
+		}
+		if (symmetry === "central" || symmetry === "double") {
+			coords = (this.gridHeight - gridY) * this.gridWidth + this.gridWidth - gridX;
+			this.grid[coords] = drawValue;
+			this.dirtyCells.push(coords);
+		}
 		lastGridX = gridX;
 		lastGridY = gridY;
 	}
