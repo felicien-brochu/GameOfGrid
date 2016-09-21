@@ -1,7 +1,10 @@
 function Settings(gameOfLife) {
 	this.gameOfLife = gameOfLife;
 	this.panel = document.getElementById("gog-settings-panel");
-	this.cursorHider = new CursorAutoHider(document.getElementById("gog-game-of-life-canvas"), 2200);
+	this.autoHider = new AutoHider(
+		document.getElementById("gog-game-of-life-canvas"),
+		[this.panel, document.getElementById("gog-action-buttons")],
+		2200, 150);
 	this.panelDisplayed = true;
 	
 	this.isShadowDirty = true;
@@ -40,7 +43,6 @@ Settings.prototype.initSliders = function() {
 	
 	this.speedSlider.addEventListener('slideend', function(event) {
 		this.gameOfLife.interval = 2000 / (event.detail / 100 * 80 + 3) - 16;
-		console.log("inter: " + this.gameOfLife.interval);
 		if (this.gameOfLife.started) {
 			this.gameOfLife.toggleGame();
 			this.gameOfLife.toggleGame();
@@ -52,7 +54,6 @@ Settings.prototype.initSliders = function() {
 	}.bind(this));
 	
 	this.colorSlider.addEventListener('valuechanged', function(event) {
-		console.log("color: ", event.detail);
 		this.gameOfLife.hueOffset = event.detail;
 	}.bind(this));
 }
@@ -71,7 +72,6 @@ Settings.prototype.initSymmetryRadio = function() {
 }
 
 Settings.prototype.onSymmetrySelect = function(event) {
-	console.log(event);
 	this.gameOfLife.drawSymmetry = event.target.value;
 }
 
@@ -84,12 +84,12 @@ Settings.prototype.onKeyDown = function(event) {
 
 Settings.prototype.onGamePause = function() {
 	this.playPauseButton.className = "gog-play-button";
-	this.cursorHider.setEnabled(false);
+	this.autoHider.setEnabled(false);
 }
 
 Settings.prototype.onGameStart = function() {
 	this.playPauseButton.className = "gog-pause-button";
-	this.cursorHider.setEnabled(true);
+	this.autoHider.setEnabled(true);
 }
 
 Settings.prototype.onPlayPauseClick = function() {

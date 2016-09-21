@@ -24,6 +24,10 @@
 	margin-right: 9px;
 	z-index: 100;
 	list-style-type: none;
+	
+    transition-property: opacity;
+    transition-duration: 0.15s;
+    transition-timing-function: decelerate;
 }
 #gog-action-buttons li {
 	display: inline-block;
@@ -76,6 +80,10 @@
 	right: 0px;
 	z-index: 80;
 	background-color: rgba(0, 0, 0, 0.5);
+	
+    transition-property: opacity;
+    transition-duration: 0.15s;
+    transition-timing-function: decelerate;
 }
 #gog-settings-panel * {
 	pointer-events: initial;
