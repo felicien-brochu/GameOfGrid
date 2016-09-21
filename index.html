@@ -4,32 +4,55 @@
 </head>
 <body>
 	<!-- Game canvas -->
-	<canvas id="gameOfLifeCanvas"></canvas>
-	<canvas id="shadowCanvas"></canvas>
+	<canvas id="gog-game-of-life-canvas"></canvas>
+	<canvas id="gog-shadow-canvas"></canvas>
 	
 	<!-- Settings controls -->
-	<ul id="actionButtons">
-		<li><button id="playPauseButton" class="playButton"/></li>
-		<li><button id="resetButton"/></li>
-		<li><button id="nextPatternButton"/></li>
-		<li><button id="settingsButton"/></li>
-		<li><button id="fullscreenButton"/></li>
+	<ul id="gog-action-buttons">
+		<li><button id="gog-play-pause-button" class="gog-play-button"/></li>
+		<li><button id="gog-reset-button"/></li>
+		<li><button id="gog-next-pattern-button"/></li>
+		<li><button id="gog-settings-button"/></li>
+		<li><button id="gog-full-screen-button"/></li>
 	</ul>
-	<div id="settingsPanel">
-		<table id="slidersContainer">
+	<div id="gog-settings-panel">
+		<table id="gog-sliders-container">
 			<tr>
 				<td>Speed</td>
-				<td><div id="speedSlider" class="slider"></div></td>
+				<td><div id="gog-speed-slider" class="gog-slider"></div></td>
 			</tr>
 			<tr>
 				<td>Trace</td>
-				<td><div id="traceSlider" class="slider"></div></td>
+				<td><div id="gog-trace-slider" class="gog-slider"></div></td>
 			</tr>
 			<tr>
 				<td>Color</td>
-				<td><div id="colorSlider" class="slider"></div></td>
+				<td><div id="gog-color-slider" class="gog-slider"></div></td>
 			</tr>
 		</table>
+		
+		<ul id="gog-symmetry-container">
+			<li>
+				<input id="gog-symmetry-none-radio" type="radio" name="symmetry" value="0" class="gog-symmetry-radio"/>
+				<label for="gog-symmetry-none-radio"></label>
+			</li>
+			<li>
+				<input id="gog-symmetry-vertical-radio" type="radio" name="symmetry" value="1" class="gog-symmetry-radio"/>
+				<label for="gog-symmetry-vertical-radio"></label>
+			</li>
+			<li>
+				<input id="gog-symmetry-horizontal-radio" type="radio" name="symmetry" value="2" class="gog-symmetry-radio"/>
+				<label for="gog-symmetry-horizontal-radio"></label>
+			</li>
+			<li>
+				<input id="gog-symmetry-double-radio" type="radio" name="symmetry" value="3" class="gog-symmetry-radio"/>
+				<label for="gog-symmetry-double-radio"></label>
+			</li>
+			<li>
+				<input id="gog-symmetry-central-radio" type="radio" name="symmetry" value="4" class="gog-symmetry-radio"/>
+				<label for="gog-symmetry-central-radio"></label>
+			</li>
+		</ul>
 	</div>
 	
 	<script type="text/javascript" src="js/gameoflife.js"></script>

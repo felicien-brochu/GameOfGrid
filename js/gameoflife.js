@@ -14,7 +14,7 @@ function GameOfLife() {
 	this.drawMode = "none";
 	this.lastDrawX = 0;
 	this.lastDrawY = 0;
-	this.drawSymmetry = 4;
+	this.drawSymmetry = 0;
 	this.drawSymmetries = ["none", "vertical", "horizontal", "double", "central"];
 	this.patterns = [
 		function() { this.generateLinearDistribution(0.1); }.bind(this),
@@ -31,8 +31,8 @@ function GameOfLife() {
 	this.webGLEnabled = false;
 	
 	this.settings = null;
-	this.shadowCanvas = document.getElementById("shadowCanvas");
-	this.canvas = document.getElementById("gameOfLifeCanvas");
+	this.shadowCanvas = document.getElementById("gog-shadow-canvas");
+	this.canvas = document.getElementById("gog-game-of-life-canvas");
 
 	this.canvas.width = window.innerWidth;
 	this.canvas.height = window.innerHeight;

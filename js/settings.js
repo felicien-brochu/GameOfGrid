@@ -1,24 +1,25 @@
 function Settings(gameOfLife) {
 	this.gameOfLife = gameOfLife;
-	this.panel = document.getElementById("settingsPanel");
-	this.cursorHider = new CursorAutoHider(document.getElementById("shadowCanvas"), 2200);
-	this.panelDisplayed = false;
+	this.panel = document.getElementById("gog-settings-panel");
+	this.cursorHider = new CursorAutoHider(document.getElementById("gog-game-of-life-canvas"), 2200);
+	this.panelDisplayed = true;
 	
 	this.isShadowDirty = true;
 	this.rendering = false;
 
 	window.addEventListener("keydown", this.onKeyDown.bind(this));
 	
-	this.initButtons();
+	this.initActionButtons();
 	this.initSliders();
+	this.initSymmetryRadio();
 };
 
-Settings.prototype.initButtons = function() {
-	this.fullscreenButton = document.getElementById("fullscreenButton");
-	this.settingsButton = document.getElementById("settingsButton");
-	this.nextPatternButton = document.getElementById("nextPatternButton");
-	this.resetButton = document.getElementById("resetButton");
-	this.playPauseButton = document.getElementById("playPauseButton");
+Settings.prototype.initActionButtons = function() {
+	this.fullscreenButton = document.getElementById("gog-full-screen-button");
+	this.settingsButton = document.getElementById("gog-settings-button");
+	this.nextPatternButton = document.getElementById("gog-next-pattern-button");
+	this.resetButton = document.getElementById("gog-reset-button");
+	this.playPauseButton = document.getElementById("gog-play-pause-button");
 	
 	this.fullscreenButton.addEventListener('click', this.onFullscreenButtonMouseDown.bind(this));
 	this.settingsButton.addEventListener('click', this.onSettingsButtonMouseDown.bind(this));
@@ -28,9 +29,9 @@ Settings.prototype.initButtons = function() {
 }
 
 Settings.prototype.initSliders = function() {
-	this.speedSlider = document.getElementById("speedSlider");
-	this.traceSlider = document.getElementById("traceSlider");
-	this.colorSlider = document.getElementById("colorSlider");
+	this.speedSlider = document.getElementById("gog-speed-slider");
+	this.traceSlider = document.getElementById("gog-trace-slider");
+	this.colorSlider = document.getElementById("gog-color-slider");
 	
 	var intervalX = 2000 / (this.gameOfLife.interval + 16) - 3;
 	this.speedSlider.slider.setValue(intervalX / 80 * 100);
@@ -56,6 +57,24 @@ Settings.prototype.initSliders = function() {
 	}.bind(this));
 }
 
+Settings.prototype.initSymmetryRadio = function() {
+	var symmetryList = document.getElementById("gog-symmetry-container");
+	var symmetriesRadios = symmetryList.getElementsByTagName("input");
+	
+	for (var i = 0; i < symmetriesRadios.length; ++i) {
+		var radio = symmetriesRadios[i];
+		if (radio.value == this.gameOfLife.drawSymmetry) {
+			radio.checked = true;
+		}
+		radio.addEventListener('change', this.onSymmetrySelect.bind(this));
+	}
+}
+
+Settings.prototype.onSymmetrySelect = function(event) {
+	console.log(event);
+	this.gameOfLife.drawSymmetry = event.target.value;
+}
+
 Settings.prototype.onKeyDown = function(event) {
 	// Space bar
 	if (event.keyCode == 32 && this.gameOfLife) {
@@ -64,12 +83,12 @@ Settings.prototype.onKeyDown = function(event) {
 }
 
 Settings.prototype.onGamePause = function() {
-	this.playPauseButton.className = "playButton";
+	this.playPauseButton.className = "gog-play-button";
 	this.cursorHider.setEnabled(false);
 }
 
 Settings.prototype.onGameStart = function() {
-	this.playPauseButton.className = "pauseButton";
+	this.playPauseButton.className = "gog-pause-button";
 	this.cursorHider.setEnabled(true);
 }
 

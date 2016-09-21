@@ -64,7 +64,7 @@ function Slider(element) {
 	this.value = 50;
 	
 	this.button = document.createElement("div");
-	this.button.className = "sliderButton";
+	this.button.className = "gog-slider-button";
 	
 	element.addEventListener('mousedown', this.onMouseDown.bind(this));
 	document.addEventListener('mouseup', this.onMouseUp.bind(this));
@@ -75,7 +75,7 @@ function Slider(element) {
 }
 
 
-var sliders = document.getElementsByClassName("slider");
+var sliders = document.getElementsByClassName("gog-slider");
 
 for (var i = 0; i < sliders.length; ++i) {
 	new Slider(sliders[i]);
