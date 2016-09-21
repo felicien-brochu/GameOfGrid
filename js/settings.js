@@ -29,6 +29,11 @@ Settings.prototype.initActionButtons = function() {
 	this.nextPatternButton.addEventListener('click', this.onNextPatternClick.bind(this));
 	this.resetButton.addEventListener('click', this.onResetClick.bind(this));
 	this.playPauseButton.addEventListener('click', this.onPlayPauseClick.bind(this));
+	
+	var buttons = document.getElementById('gog-action-buttons').getElementsByTagName('button');
+	for (var i = 0; i < buttons.length; ++i) {
+		buttons[i].addEventListener("keyup", this.onKeyUp.bind(this));
+	}
 }
 
 Settings.prototype.initSliders = function() {
@@ -79,6 +84,14 @@ Settings.prototype.onKeyDown = function(event) {
 	// Space bar
 	if (event.keyCode == 32 && this.gameOfLife) {
 		this.gameOfLife.toggleGame();
+		event.preventDefault();
+	}
+}
+
+Settings.prototype.onKeyUp = function(event) {
+	// Space bar
+	if (event.keyCode == 32 && this.gameOfLife) {
+		event.preventDefault();
 	}
 }
 
