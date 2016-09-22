@@ -15,24 +15,23 @@ function Settings(gameOfLife) {
 	this.initActionButtons();
 	this.initSliders();
 	this.initSymmetryRadio();
+	this.initPatternButtons();
 };
 
 Settings.prototype.initActionButtons = function() {
 	this.fullscreenButton = document.getElementById("gog-full-screen-button");
 	this.settingsButton = document.getElementById("gog-settings-button");
-	this.nextPatternButton = document.getElementById("gog-next-pattern-button");
 	this.resetButton = document.getElementById("gog-reset-button");
 	this.playPauseButton = document.getElementById("gog-play-pause-button");
 	
 	this.fullscreenButton.addEventListener('click', this.onFullscreenButtonMouseDown.bind(this));
 	this.settingsButton.addEventListener('click', this.onSettingsButtonMouseDown.bind(this));
-	this.nextPatternButton.addEventListener('click', this.onNextPatternClick.bind(this));
 	this.resetButton.addEventListener('click', this.onResetClick.bind(this));
 	this.playPauseButton.addEventListener('click', this.onPlayPauseClick.bind(this));
 	
 	var buttons = document.getElementById('gog-action-buttons').getElementsByTagName('button');
 	for (var i = 0; i < buttons.length; ++i) {
-		buttons[i].addEventListener("keyup", this.onKeyUp.bind(this));
+		buttons[i].addEventListener("keyup", this.preventDefaultKeyUp.bind(this));
 	}
 }
 
@@ -76,6 +75,31 @@ Settings.prototype.initSymmetryRadio = function() {
 	}
 }
 
+Settings.prototype.initPatternButtons = function() {
+	this.crossPatternButton = document.getElementById("gog-cross-pattern-button");
+	this.gunPatternButton = document.getElementById("gog-gun-pattern-button");
+	this.randomPatternButton = document.getElementById("gog-random-pattern-button");
+	this.canvasPatternButton = document.getElementById("gog-canvas-pattern-button");
+	
+	this.crossPatternButton.addEventListener('click', function() {
+		this.gameOfLife.generatePattern(generateCrossPattern);
+	}.bind(this));
+	this.gunPatternButton.addEventListener('click', function() {
+		this.gameOfLife.generatePattern(generateGunPattern);
+	}.bind(this));
+	this.randomPatternButton.addEventListener('click', function() {
+		this.gameOfLife.generatePattern(generateRandomPattern);
+	}.bind(this));
+	this.canvasPatternButton.addEventListener('click', function() {
+		this.gameOfLife.generatePattern(generateRocketLaunchersCanvas);
+	}.bind(this));
+	
+	var buttons = document.getElementById('gog-pattern-buttons').getElementsByTagName('button');
+	for (var i = 0; i < buttons.length; ++i) {
+		buttons[i].addEventListener("keyup", this.preventDefaultKeyUp.bind(this));
+	}
+}
+
 Settings.prototype.onSymmetrySelect = function(event) {
 	this.gameOfLife.drawSymmetry = event.target.value;
 }
@@ -88,7 +112,7 @@ Settings.prototype.onKeyDown = function(event) {
 	}
 }
 
-Settings.prototype.onKeyUp = function(event) {
+Settings.prototype.preventDefaultKeyUp = function(event) {
 	// Space bar
 	if (event.keyCode == 32 && this.gameOfLife) {
 		event.preventDefault();
@@ -114,12 +138,6 @@ Settings.prototype.onPlayPauseClick = function() {
 Settings.prototype.onResetClick = function() {
 	if (this.gameOfLife) {
 		this.gameOfLife.resetGame();
-	}
-}
-
-Settings.prototype.onNextPatternClick = function() {
-	if (this.gameOfLife) {
-		this.gameOfLife.nextPattern();
 	}
 }
 

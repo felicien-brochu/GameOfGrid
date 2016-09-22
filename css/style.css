@@ -52,22 +52,22 @@
 	cursor: pointer;
 }
 #gog-full-screen-button {
-	background-position: -0px -0px;
-}
-#gog-next-pattern-button {
-	background-position: -34px -0px;
-}
-.gog-pause-button {
 	background-position: -68px -0px;
 }
-.gog-play-button {
-	background-position: -0px -30px;
-}
-#gog-reset-button {
+#gog-next-pattern-button {
 	background-position: -34px -30px;
 }
-#gog-settings-button {
+.gog-pause-button {
 	background-position: -68px -30px;
+}
+.gog-play-button {
+	background-position: -0px -60px;
+}
+#gog-reset-button {
+	background-position: -68px -60px;
+}
+#gog-settings-button {
+	background-position: -0px -90px;
 }
 
 #gog-settings-panel {
@@ -122,7 +122,7 @@
 	display: flex;
 	padding: 0px;
 	margin-left: 24px;
-	margin-top: 14px;
+	margin-top: 18px;
 	list-style-type: none;
 }
 #gog-symmetry-container input[type="radio"] {
@@ -160,17 +160,63 @@
 	background-color: rgba(255, 255, 255, 0.5);
 }
 #gog-symmetry-none-radio + label {
-	background-position: -0px -90px;
+	background-position: -34px -120px;
 }
 #gog-symmetry-vertical-radio + label {
-	background-position: -34px -90px;
+	background-position: -68px -120px;
 }
 #gog-symmetry-horizontal-radio + label {
-	background-position: -68px -60px;
+	background-position: -0px -120px;
 }
 #gog-symmetry-double-radio + label {
-	background-position: -34px -60px;
+	background-position: -68px -90px;
 }
 #gog-symmetry-central-radio + label {
-	background-position: -0px -60px;
+	background-position: -34px -90px;
+}
+
+#gog-pattern-buttons {
+	padding: 0px;
+	margin: 10px;
+	margin-top: 9px;
+	margin-right: 9px;
+	margin-left: 25px;
+	list-style-type: none;
+	display: flex;
+}
+#gog-pattern-buttons li {
+	margin-left: 10px;
+}
+#gog-pattern-buttons li:first-child {
+	margin-left: 0px;
+}
+#gog-pattern-buttons button {
+	width: 36px;
+	height: 32px;
+	padding: 0px;
+	background-image: url('../img/icons.png');
+	background-repeat:  no-repeat;
+	background-color: rgba(255, 255, 255, 0);
+	display: inline-block;
+	cursor: pointer;
+	border: solid 1px white;
+	border-radius: 2px;
+}
+#gog-pattern-buttons button:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+#gog-pattern-buttons button:active {
+	background-color: rgba(255, 255, 255, 0.4);
+}
+#gog-cross-pattern-button {
+	background-position: -34px -0px;
+}
+#gog-gun-pattern-button {
+	background-position: -0px -30px;
+}
+#gog-random-pattern-button {
+	background-position: -34px -60px;
+}
+#gog-canvas-pattern-button {
+	background-position: -0px -0px;
 }
