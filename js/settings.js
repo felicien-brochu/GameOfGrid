@@ -55,7 +55,7 @@ Settings.prototype.initSliders = function() {
 	}.bind(this));
 	
 	this.traceSlider.addEventListener('valuechanged', function(event) {
-		this.gameOfLife.colorAgeSize = event.detail / 100 * 255;
+		this.gameOfLife.colorAgeSize = Math.floor(event.detail / 100 * 254 + 2);
 	}.bind(this));
 	
 	this.colorSlider.addEventListener('valuechanged', function(event) {
