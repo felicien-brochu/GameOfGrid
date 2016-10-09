@@ -1,4 +1,4 @@
-function generateRandomPattern(grid, gridWidth, gridHeight) {
+﻿function generateRandomPattern(grid, gridWidth, gridHeight) {
 	generateLinearDistribution(grid, gridWidth, gridHeight, 0.1);
 }
 

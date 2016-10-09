@@ -1,4 +1,4 @@
-function AutoHider(element, toHide, timeout, transitionDuration) {
+﻿function AutoHider(element, toHide, timeout, transitionDuration) {
 	this.oldCursor = element.style.cursor;
 	this.element = element;
 	this.toHide = toHide;

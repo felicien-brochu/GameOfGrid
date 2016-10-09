@@ -1,4 +1,4 @@
-function GameOfLife() {
+﻿function GameOfLife() {
 	this.started = false;
 	this.gridHeight = 100;
 	this.gridWidth = 100;

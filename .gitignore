@@ -1,2 +1,4 @@
-/Thumbs.db
-/img/*.db
+﻿Thumbs.db
+*.db
+build
+node_modules

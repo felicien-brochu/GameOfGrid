@@ -1,4 +1,4 @@
-function Settings(gameOfLife) {
+﻿function Settings(gameOfLife) {
 	this.gameOfLife = gameOfLife;
 	this.panel = document.getElementById("gog-settings-panel");
 	this.autoHider = new AutoHider(

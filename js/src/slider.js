@@ -1,4 +1,4 @@
-function getLeft(element) {
+﻿function getLeft(element) {
 	for (var left = 0; element != null; left += element.offsetLeft, element = element.offsetParent);
 	return left;
 }

@@ -1,4 +1,4 @@
-function launchFullscreen() {
+﻿function launchFullscreen() {
 	if(document.documentElement.requestFullscreen) {
 		document.documentElement.requestFullscreen();
 	} else if(document.documentElement.mozRequestFullScreen) {

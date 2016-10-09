@@ -1,0 +1,12 @@
+﻿{
+  "name": "gameoflife",
+  "version": "0.1.0",
+  "repository": "https://github.com/felicien-brochu/gameoflife",
+  "description": "HTML5 implementation of Conway's game of life",
+  "devDependencies": {
+    "grunt": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-svgstore": "^1.0.0"
+  }
+}
