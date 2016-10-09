@@ -8,8 +8,9 @@ function AutoHider(element, toHide, timeout, transitionDuration) {
 	this.hidden = false;
 	this.timeout = timeout;
 	this.transitionDuration = transitionDuration;
-	
-	document.addEventListener("mousemove", this.onMouseMove.bind(this));
+
+	document.addEventListener("mousemove", this.resetTimer.bind(this));
+	document.addEventListener("touchstart", this.resetTimer.bind(this));
 }
 
 AutoHider.prototype.setEnabled = function(enabled) {
@@ -66,7 +67,7 @@ AutoHider.prototype.unhide = function() {
 	this.hidden = false;
 }
 
-AutoHider.prototype.onMouseMove = function(event) {
+AutoHider.prototype.resetTimer = function(event) {
 	if (this.enabled) {
 		this.stop();
 		this.start();

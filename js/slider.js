@@ -7,14 +7,14 @@ Slider.prototype.computeValue = function(event) {
 	var x = event.pageX - getLeft(this.element);
 	var minX = 2 + this.button.offsetWidth / 2,
 		maxX = this.element.offsetWidth - this.button.offsetWidth / 2 - 2;
-	
+
 	if (x < minX) {
 		x = minX;
 	}
 	if (x > maxX) {
 		x = maxX;
 	}
-	
+
 	return (x - minX) / (this.element.offsetWidth - 4 - this.button.offsetWidth) * 100;
 }
 
@@ -62,10 +62,10 @@ function Slider(element) {
 	this.element = element;
 	this.sliding = false;
 	this.value = 50;
-	
+
 	this.button = document.createElement("div");
 	this.button.className = "gog-slider-button";
-	
+
 	element.addEventListener('mousedown', this.onMouseDown.bind(this));
 	document.addEventListener('mouseup', this.onMouseUp.bind(this));
 	document.addEventListener('mousemove', this.onMouseMove.bind(this));

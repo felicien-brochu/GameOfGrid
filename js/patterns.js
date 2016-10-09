@@ -15,7 +15,7 @@ function generateCrossPattern(grid, gridWidth, gridHeight) {
 	var a = Math.floor(Math.random() * 6 + 2),
 		b = Math.floor(Math.random() * (8 - a) + a);
 	var horizontal = Math.random() < 0.5;
-	
+
 	for (var i = 0, len = gridHeight * gridWidth; i < len; ++i) {
 		var x = Math.floor(i % gridWidth),
 			y = Math.floor(i / gridWidth);
@@ -40,11 +40,11 @@ function generateBrushCanvas(grid, gridWidth, gridHeight, brush, xWidth, yWidth,
 	for (var i = 0, len = gridHeight * gridWidth; i < len; ++i) {
 		var x = Math.floor(i % gridWidth),
 			y = Math.floor(i / gridWidth);
-			
+
 		var epsilon = 1e-9;
 		var k = Math.floor((y - (yTilt * x) / xWidth) / (yWidth - (yTilt * xTilt / xWidth)) + epsilon),
 			l = Math.floor((x - (xTilt * y) / yWidth) / (xWidth - (xTilt * yTilt / yWidth)) + epsilon);
-			
+
 		var closestY = Math.round((l * yTilt - l * xTilt * yTilt * yTilt / (xWidth * yWidth) - k * xTilt * yTilt / xWidth + k * yWidth) / (1 - xTilt * yTilt / (xWidth * yWidth))),
 			closestX = Math.round(xTilt * (closestY - l * yTilt) / yWidth + l * xWidth);
 
@@ -78,7 +78,7 @@ function generateGunPattern(grid, gridWidth, gridHeight) {
 	for (var i = 0, len = gridHeight * gridWidth; i < len; ++i) {
 		var x = Math.floor(i % gridWidth),
 			y = Math.floor(i / gridWidth);
-		
+
 		var brushX1 = x - startX1,
 			brushY1 = y - startY1,
 			brushX2 = x - startX2,

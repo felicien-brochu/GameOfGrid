@@ -1,12 +1,13 @@
 ﻿<html charset="UTF-8">
 <head>
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<meta name="viewport" content="width=device-width, user-scalable=no">
 </head>
 <body>
 	<!-- Game canvas -->
 	<canvas id="gog-game-of-life-canvas"></canvas>
 	<canvas id="gog-shadow-canvas"></canvas>
-	
+
 	<!-- Settings controls -->
 	<ul id="gog-action-buttons">
 		<li><button id="gog-play-pause-button" class="gog-play-button"/></li>
@@ -30,7 +31,7 @@
 				<td><div id="gog-color-slider" class="gog-slider"></div></td>
 			</tr>
 		</table>
-		
+
 		<ul id="gog-symmetry-container">
 			<li>
 				<input id="gog-symmetry-none-radio" type="radio" name="symmetry" value="0" class="gog-symmetry-radio"/>
@@ -53,31 +54,31 @@
 				<label for="gog-symmetry-central-radio"></label>
 			</li>
 		</ul>
-		
+
 		<ul id="gog-pattern-buttons">
 			<li><button id="gog-cross-pattern-button"/></li>
 			<li><button id="gog-gun-pattern-button"/></li>
 			<li><button id="gog-random-pattern-button"/></li>
 			<li><button id="gog-canvas-pattern-button"/></li>
 		</ul>
-		
+
 	</div>
-	
+
 	<script type="text/javascript" src="js/gameoflife.js"></script>
 	<script type="text/javascript" src="js/patterns.js"></script>
 	<script type="text/javascript" src="js/settings.js"></script>
 	<script type="text/javascript" src="js/slider.js"></script>
 	<script type="text/javascript" src="js/fullscreen.js"></script>
 	<script type="text/javascript" src="js/auto-hide.js"></script>
-	
+
 	<script id="vertex" type="x-shader">
 		attribute vec2 aVertexPosition;
-		
+
 		void main() {
 			gl_Position = vec4(aVertexPosition, 0.0, 1.0);
 		}
 	</script>
-	
+
 	<script id="fragment" type="x-shader">
 		#ifdef GL_ES
 		precision highp float;
@@ -91,7 +92,7 @@
 		int modulo(float dividend, float diviser) {
 			return int(dividend) - (int(dividend) / int(diviser) * int(diviser));
 		}
-		
+
 		void main() {
 			vec2 texSize = resolution;
 			if (modulo(resolution.x, pixWidth) > 0) {
@@ -101,7 +102,7 @@
 				texSize.y = texSize.y + pixHeight - mod(resolution.y, pixHeight);
 			}
 			vec2 offset = vec2(gl_FragCoord.x, resolution.y - gl_FragCoord.y) - vec2(0.5, 0.5);
-			
+
 			if (modulo(offset.x, pixWidth) == 0 ||
 				modulo(offset.y, pixWidth) == 0) {
 				gl_FragColor = vec4(0.874, 0.874, 0.874, 1.0);

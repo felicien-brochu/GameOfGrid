@@ -6,7 +6,7 @@ function GameOfLife() {
 	this.interval = 100;
 	this.colorAgeSize = 100;
 	this.hueOffset = 55;
-	
+
 	this.grid = [];
 	this.newGrid = [];
 	this.dirtyCells = [];
@@ -16,24 +16,24 @@ function GameOfLife() {
 	this.lastDrawY = 0;
 	this.drawSymmetry = 0;
 	this.drawSymmetries = ["none", "vertical", "horizontal", "double", "central"];
-	
+
 	this.timerId;
 	this.rendering = false;
 	this.isDirty = false;
 	this.isAllDirty = false;
 	this.isShadowDirty = true;
 	this.webGLEnabled = false;
-	
+
 	this.settings = null;
 	this.shadowCanvas = document.getElementById("gog-shadow-canvas");
 	this.canvas = document.getElementById("gog-game-of-life-canvas");
 
 	this.canvas.width = window.innerWidth;
 	this.canvas.height = window.innerHeight;
-	
+
 	this.shadowCanvas.width = window.innerWidth;
 	this.shadowCanvas.height = window.innerHeight;
-	
+
 	this.webGLEnabled = this.initWebGL() != null;
 	if (this.webGLEnabled) {
 		console.log("Rendering with WebGL");
@@ -49,6 +49,9 @@ function GameOfLife() {
 	this.canvas.addEventListener("mousedown", this.onMouseDown.bind(this));
 	this.canvas.addEventListener("mouseup", this.onMouseUp.bind(this));
 	this.canvas.addEventListener("mousemove", this.onMouseMove.bind(this));
+	this.canvas.addEventListener("touchstart", this.onTouch.bind(this));
+	this.canvas.addEventListener("touchmove", this.onTouch.bind(this));
+	this.canvas.addEventListener("touchend", this.onTouch.bind(this));
 
 	this.initFrame();
 	this.startRendering();
@@ -74,7 +77,7 @@ GameOfLife.prototype.initWebGL = function() {
 			this.gl = null;
 		}
 	}
-	
+
 	if (!this.gl) {
 		return this.gl;
 	}
@@ -85,11 +88,11 @@ GameOfLife.prototype.initWebGL = function() {
 
 	var v = document.getElementById("vertex").firstChild.nodeValue;
 	var f = document.getElementById("fragment").firstChild.nodeValue;
-	
+
 	var vs = this.gl.createShader(this.gl.VERTEX_SHADER);
 	this.gl.shaderSource(vs, v);
 	this.gl.compileShader(vs);
-	
+
 	var fs = this.gl.createShader(this.gl.FRAGMENT_SHADER);
 	this.gl.shaderSource(fs, f);
 	this.gl.compileShader(fs);
@@ -98,19 +101,19 @@ GameOfLife.prototype.initWebGL = function() {
 	this.gl.attachShader(this.program, vs);
 	this.gl.attachShader(this.program, fs);
 	this.gl.linkProgram(this.program);
-	
+
 	if (!this.gl.getShaderParameter(vs, this.gl.COMPILE_STATUS)) {
 		console.log(this.gl.getShaderInfoLog(vs));
 	}
-		
+
 	if (!this.gl.getShaderParameter(fs, this.gl.COMPILE_STATUS)) {
 		console.log(this.gl.getShaderInfoLog(fs));
 	}
-	
+
 	if (!this.gl.getProgramParameter(this.program, this.gl.LINK_STATUS)) {
 		console.log(this.gl.getProgramInfoLog(program));
 	}
-	
+
 	return this.gl;
 }
 
@@ -145,7 +148,7 @@ GameOfLife.prototype.onResize = function() {
 	var oldGridHeight = this.gridHeight;
 	this.gridWidth = Math.floor(window.innerWidth / this.cellSize) + 1;
 	this.gridHeight = Math.floor(window.innerHeight / this.cellSize) + 1;
-	
+
 	if (this.gridWidth < oldGridWidth) {
 		this.gridWidth = oldGridWidth;
 	}
@@ -167,7 +170,7 @@ GameOfLife.prototype.onResize = function() {
 		this.grid = this.newGrid;
 		this.newGrid = tempGrid;
 	}
-	
+
 	this.canvas.width = window.innerWidth;
 	this.canvas.height = window.innerHeight;
 	if (this.webGLEnabled) {
@@ -175,10 +178,10 @@ GameOfLife.prototype.onResize = function() {
 	}
 	this.isAllDirty = true;
 	this.isDirty = true;
-	
+
 	this.shadowCanvas.width = window.innerWidth;
 	this.shadowCanvas.height = window.innerHeight;
-	
+
 	this.isShadowDirty = true;
 }
 
@@ -192,10 +195,10 @@ GameOfLife.prototype.onMouseDown = function(event) {
 			y = event.clientY,
 			gridX = Math.floor(x / this.cellSize),
 			gridY = Math.floor(y / this.cellSize);
-		
+
 		this.lastDrawX = x;
 		this.lastDrawY = y;
-		
+
 		if (this.grid[gridY * this.gridWidth + gridX] === -1) {
 			this.drawMode = "erase";
 		}
@@ -216,14 +219,49 @@ GameOfLife.prototype.onMouseMove = function(event) {
 	}
 }
 
+GameOfLife.prototype.onTouch = function(event) {
+	event.preventDefault();
+
+	var type = null;
+	switch (event.type) {
+	case "touchstart":
+		type = "mousedown";
+		break;
+	case "touchmove":
+		type = "mousemove";
+		break;
+	case "touchend":
+		type = "mouseup";
+		break;
+	}
+
+	for (var i = 0, length = event.changedTouches.length; i < length; ++i) {
+		var touch = event.changedTouches[i];
+		var mouseEvent = new MouseEvent(type, {
+				bubbles: true,
+				cancelable: true,
+				view: event.target.ownerDocument.defaultView,
+				screenX: touch.screenX,
+				screenY: touch.screenY,
+				clientX: touch.clientX,
+				clientY: touch.clientY,
+				ctrlKey: event.ctrlKey,
+				altKey: event.altKey,
+				shiftKey: event.shiftKey,
+				metaKey: event.metaKey,
+				button: 0});
+		event.target.dispatchEvent(mouseEvent);
+	}
+}
+
 GameOfLife.prototype.applyBrush = function(x, y) {
 	var drawValue = this.drawMode === "draw" ? -1 : 0;
 	var symmetry = this.drawSymmetries[this.drawSymmetry];
-	
+
 	var step = 0.5;
 	var dx = x - this.lastDrawX,
 		dy = y - this.lastDrawY;
-	
+
 	if (Math.abs(dx) <= Math.abs(dy)) {
 		if (dy == 0) {
 			dx = 0
@@ -235,20 +273,20 @@ GameOfLife.prototype.applyBrush = function(x, y) {
 		dy = dy / (Math.abs(dx) / step);
 		dx = dx < 0 ? -step : step;
 	}
-	
+
 	var lastGridX = -1,
 		lastGridY = -1;
 	for (var i = 0, deltaX = Math.abs(x - this.lastDrawX), deltaY = Math.abs(y - this.lastDrawY); Math.abs(i * dx) <= deltaX && Math.abs(i * dy) <= deltaY; i++) {
 		var gridX = Math.floor((this.lastDrawX + i * dx) / this.cellSize),
 			gridY = Math.floor((this.lastDrawY + i * dy) / this.cellSize);
-		
+
 		if (lastGridX == gridX && lastGridY == gridY) {
 			continue;
 		}
 		var coords = gridY * this.gridWidth + gridX;
 		this.grid[coords] = drawValue;
 		this.dirtyCells.push(coords);
-		
+
 		// Apply symmetry
 		if (symmetry === "horizontal" || symmetry === "double") {
 			coords = (this.gridHeight - gridY) * this.gridWidth + gridX;
@@ -268,7 +306,7 @@ GameOfLife.prototype.applyBrush = function(x, y) {
 		lastGridX = gridX;
 		lastGridY = gridY;
 	}
-	
+
 	this.isDirty = true;
 	this.lastDrawX = x;
 	this.lastDrawY = y;
@@ -392,12 +430,12 @@ GameOfLife.prototype.renderContext2D = function() {
 	if (this.canvas.height % this.cellSize > 0) {
 		visibleHeight++;
 	}
-	
+
 	if (this.isAllDirty) {
 		for (var i = 0, len = this.gridWidth * this.gridHeight; i < len; ++i) {
 			var x = Math.floor(i % this.gridWidth);
 			var y = Math.floor(i / this.gridWidth);
-			
+
 			context.clearRect(x * this.cellSize, y * this.cellSize, width, width);
 			var color = this.computeColor(this.grid[y * this.gridWidth + x]);
 			var alpha = color[3] / 255;
@@ -414,7 +452,7 @@ GameOfLife.prototype.renderContext2D = function() {
 			var index = this.dirtyCells[i];
 			var x = (index % this.gridWidth) | 0;
 			var y = (index / this.gridWidth) | 0;
-			if (x < visibleWidth && y < visibleHeight) {			
+			if (x < visibleWidth && y < visibleHeight) {
 				context.clearRect(x * this.cellSize, y * this.cellSize, width, width);
 				var color = this.computeColor(this.grid[index]);
 				var alpha = color[3] / 255;
@@ -433,7 +471,7 @@ GameOfLife.prototype.renderContext2D = function() {
 GameOfLife.prototype.renderWebGL = function() {
 	var vertices = [];
 	var gl = this.gl;
-	
+
 	var visibleWidth = (this.canvas.width / this.cellSize) | 0;
 	if (this.canvas.width % this.cellSize > 0) {
 		visibleWidth++;
@@ -474,9 +512,9 @@ GameOfLife.prototype.renderWebGL = function() {
 		-1,  1,    1, -1,   1,  1
 	]);
 	var vbuffer = this.gl.createBuffer();
-	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vbuffer);					
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vbuffer);
 	this.gl.bufferData(this.gl.ARRAY_BUFFER, vertices, this.gl.STATIC_DRAW);
-	
+
 	var itemSize = 2;
 	var numItems = vertices.length / itemSize;
 
@@ -484,13 +522,13 @@ GameOfLife.prototype.renderWebGL = function() {
 
 	this.program.pixWidth = this.gl.getUniformLocation(this.program, "pixWidth");
 	this.gl.uniform1f(this.program.pixWidth, this.cellSize);
-	
+
 	this.program.pixHeight = this.gl.getUniformLocation(this.program, "pixHeight");
 	this.gl.uniform1f(this.program.pixHeight, this.cellSize);
-	
+
 	this.program.resolution = this.gl.getUniformLocation(this.program, "resolution");
 	this.gl.uniform2fv(this.program.resolution, [this.canvas.width, this.canvas.height]);
-	
+
 	var texture = gl.createTexture();
 	this.program.cellColors = this.gl.getUniformLocation(this.program, "cellColors");
 	this.gl.activeTexture(this.gl.TEXTURE0);
@@ -505,15 +543,15 @@ GameOfLife.prototype.renderWebGL = function() {
 	this.program.aVertexPosition = this.gl.getAttribLocation(this.program, "aVertexPosition");
 	this.gl.enableVertexAttribArray(this.program.aVertexPosition);
 	this.gl.vertexAttribPointer(this.program.aVertexPosition, itemSize, this.gl.FLOAT, false, 0, 0);
-	
+
 	this.gl.clearColor(0.8, 0.8, 0.8, 1);
 	this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 	this.gl.drawArrays(this.gl.TRIANGLES, 0, numItems);
-	
+
 	if (this.isAllDirty) {
 		this.isAllDirty = false;
-	}	
-	
+	}
+
 	this.isDirty = false;
 	this.dirtyCells = [];
 }
@@ -534,7 +572,7 @@ GameOfLife.prototype.computeColor = function(age) {
 		else {
 			hue = (((age - 1) % this.colorAgeSize) / this.colorAgeSize) * 0.7 + 0.3;
 		}
-		
+
 		var opacity;
 		if (age == 1) {
 			opacity = 1;
@@ -546,11 +584,11 @@ GameOfLife.prototype.computeColor = function(age) {
 		r = hue * 2 * Math.PI + (this.hueOffset / 100.) * (2 * Math.PI);
 		g = (hue * 2 * Math.PI + Math.PI / 2) % (2 * Math.PI) + (this.hueOffset / 100.) * (2 * Math.PI);
 		b = (hue * 2 * Math.PI + Math.PI - epsilon) % (2 * Math.PI) + (this.hueOffset / 100.) * (2 * Math.PI);
-		
+
 		r = ((Math.cos(r) + 1) / 2 * 255) | 0;
 		g = ((Math.cos(g) + 1) / 2 * 210) | 0;
 		b = ((Math.cos(b) + 1) / 2 * 230) | 0;
-		
+
 		var color = "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")";
 		return [r, g, b, opacity * 255];
 	}
@@ -563,11 +601,11 @@ GameOfLife.prototype.countNeighbors = function(i) {
 	var downX = x + 1 > this.gridWidth - 1 ? 0 : x + 1;
 	var upY = y - 1 < 0 ? this.gridHeight - 1 : y - 1;
 	var downY = y + 1 > this.gridHeight - 1 ? 0 : y + 1;
-	
+
 	var xs = [upX, x, downX];
 	var ys = [upY, y, downY];
 	var count = 0;
-	
+
 	for (i = 0; i < 3; i++) {
 		for (j = 0; j < 3; j++) {
 			if (xs[j] != x || ys[i] != y) {
@@ -575,6 +613,6 @@ GameOfLife.prototype.countNeighbors = function(i) {
 			}
 		}
 	}
-	
+
 	return count;
 }
