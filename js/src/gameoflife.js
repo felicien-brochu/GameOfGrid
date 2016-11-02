@@ -8,6 +8,7 @@
 	this.hueOffset = 55;
 
 	this.grid = [];
+	this.history = new History();
 	this.newGrid = [];
 	this.dirtyCells = [];
 	this.cellColors = [];
@@ -59,6 +60,7 @@
 
 GameOfLife.prototype.registerSettings = function(settings) {
 	this.settings = settings;
+	this.history.listener = settings;
 }
 
 GameOfLife.prototype.initWebGL = function() {
@@ -128,10 +130,13 @@ GameOfLife.prototype.initFrame = function() {
 }
 
 GameOfLife.prototype.resetGame = function() {
-	if (this.started) {
-		this.toggleGame();
+	if (!this.isReset()) {
+		if (this.started) {
+			this.toggleGame();
+		}
+		this.initFrame();
+		this.history.put([], 0, 0);
 	}
-	this.initFrame();
 }
 
 GameOfLife.prototype.generatePattern = function(generator) {
@@ -139,6 +144,7 @@ GameOfLife.prototype.generatePattern = function(generator) {
 		this.toggleGame();
 	}
 	generator(this.grid, this.gridWidth, this.gridHeight);
+	this.history.put(this.grid, this.gridWidth, this.gridHeight);
 	this.isAllDirty = true;
 	this.isDirty = true;
 }
@@ -211,6 +217,7 @@ GameOfLife.prototype.onMouseDown = function(event) {
 
 GameOfLife.prototype.onMouseUp = function(event) {
 	this.drawMode = "none";
+	this.history.put(this.grid, this.gridWidth, this.gridHeight);
 }
 
 GameOfLife.prototype.onMouseMove = function(event) {
@@ -320,9 +327,10 @@ GameOfLife.prototype.toggleGame = function(dispatchEvent) {
 		clearInterval(this.timerId);
 		if (dispatchEvent && this.settings) {
 			this.settings.onGamePause();
+			this.history.put(this.grid, this.gridWidth, this.gridHeight);
 		}
 	}
-	else {
+	else if (!this.isReset()) {
 		this.bringTheChosenOnesToLife();
 		this.nextStep();
 		this.timerId = setInterval(function() {this.nextStep()}.bind(this), this.interval);
@@ -616,3 +624,135 @@ GameOfLife.prototype.countNeighbors = function(i) {
 
 	return count;
 }
+
+GameOfLife.prototype.undo = function() {
+	if (this.hasToUndo()) {
+		if (this.started) {
+			this.toggleGame();
+		}
+		var grid = this.history.undo();
+		this.applyGrid(grid.grid, grid.width, grid.height);
+	}
+}
+
+GameOfLife.prototype.hasToUndo = function() {
+	return this.history.hasToUndo();
+}
+
+GameOfLife.prototype.redo = function() {
+	if (this.hasToRedo()) {
+		var grid = this.history.redo();
+		this.applyGrid(grid.grid, grid.width, grid.height);
+		if (this.started) {
+			this.toggleGame();
+		}
+	}
+}
+
+GameOfLife.prototype.hasToRedo = function() {
+	return this.history.hasToRedo();
+}
+
+GameOfLife.prototype.isReset = function() {
+	return this.history.isLastEmpty();
+}
+
+GameOfLife.prototype.applyGrid = function(grid, width, height) {
+	for (var i = 0, len = this.gridWidth * this.gridHeight; i < len; ++i) {
+		var x = Math.floor(i % this.gridWidth);
+		var y = Math.floor(i / this.gridWidth);
+		
+		if (x < width && y < height) {
+			this.grid[i] = grid[y * width + x];
+		} else {
+			this.grid[i] = 0;
+		}
+	}
+	this.isAllDirty = true;
+	this.isDirty = true;
+}
+
+function History(listener) {
+	this.history = [new Grid([], 0, 0)];
+	this.currentGrid = -1;
+	this.size = 0;
+	this.maxSize = 18 * 1024 * 1024 / 8; //< 18 Mo max of history
+	this.listener = listener;
+}
+
+History.prototype.put = function(grid, width, height) {
+	if (this.currentGrid < 0) {
+		this.currentGrid++;
+	}
+	
+	if (this.currentGrid < this.history.length - 1) {
+		for (var i = this.currentGrid + 1; i < this.history.length; ++i) {
+			this.size -= this.history[i].grid.length;
+		}
+		this.history = this.history.slice(0, this.currentGrid + 1);
+	}
+	
+	this.history.push(new Grid(grid.slice(), width, height));
+	this.size += grid.length;
+	this.currentGrid++;
+	
+	if (this.size > this.maxSize) {		
+		var toDelete = 0;
+		for (var i = 1; i < this.history.length && this.size > this.maxSize; i++) {
+			this.size -= this.history[i].grid.length;
+			toDelete = i;
+		}
+		this.history.splice(1, toDelete);
+		this.currentGrid -= toDelete;
+	}
+	this.onChange();
+}
+
+History.prototype.undo = function() {
+	if (this.currentGrid < 0) {
+		throw new NothingToUndoException();
+	}
+	
+	this.currentGrid--;
+	this.onChange();
+	
+	return this.history[this.currentGrid];
+}
+
+History.prototype.hasToUndo = function() {
+	return this.currentGrid > 0;
+}
+
+History.prototype.redo = function() {
+	if (this.currentGrid == this.history.length - 1) {
+		throw new NothingToRedoException();
+	}
+	
+	this.currentGrid++;
+	this.onChange();
+	
+	return this.history[this.currentGrid];
+}
+
+History.prototype.hasToRedo = function() {
+	return this.currentGrid < this.history.length - 1;
+}
+
+History.prototype.isLastEmpty = function() {
+	return this.history[this.currentGrid].grid.length == 0;
+}
+
+History.prototype.onChange = function() {
+	if (this.listener) {
+		this.listener.onHistoryChange();
+	}
+}
+
+function Grid(grid, width, height) {
+	this.grid = grid;
+	this.width = width;
+	this.height = height;
+}
+
+function NothingToUndoException() {}
+function NothingToRedoException() {}

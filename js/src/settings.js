@@ -24,12 +24,16 @@ Settings.prototype.initActionButtons = function() {
 	this.settingsButton = document.getElementById("gog-settings-button");
 	this.resetButton = document.getElementById("gog-reset-button");
 	this.playPauseButton = document.getElementById("gog-play-pause-button");
+	this.undoButton = document.getElementById("gog-undo-button");
+	this.redoButton = document.getElementById("gog-redo-button");
 
 	this.fullscreenButton.addEventListener('click', this.onFullscreenButtonMouseDown.bind(this));
 	document.addEventListener('fullscreenchange', this.onFullscreenChange.bind(this));
 	this.settingsButton.addEventListener('click', this.onSettingsButtonMouseDown.bind(this));
 	this.resetButton.addEventListener('click', this.onResetClick.bind(this));
 	this.playPauseButton.addEventListener('click', this.onPlayPauseClick.bind(this));
+	this.undoButton.addEventListener('click', this.onUndoClick.bind(this));
+	this.redoButton.addEventListener('click', this.onRedoClick.bind(this));
 
 	var buttons = document.getElementById('gog-action-buttons').getElementsByTagName('button');
 	for (var i = 0; i < buttons.length; ++i) {
@@ -107,16 +111,24 @@ Settings.prototype.onSymmetrySelect = function(event) {
 }
 
 Settings.prototype.onKeyDown = function(event) {
-	// Space bar
-	if (event.keyCode == 32 && this.gameOfLife) {
+	if (event.keyCode == 32 && this.gameOfLife) {      //< Space bar
 		this.gameOfLife.toggleGame();
+		event.preventDefault();
+	} else if (event.keyCode == 90 && event.ctrlKey) { //< Ctrl+Z
+		this.onUndoClick();
+		event.preventDefault();
+	} else if (event.keyCode == 89 && event.ctrlKey) { //< Ctrl+Y
+		this.onRedoClick();
 		event.preventDefault();
 	}
 }
 
 Settings.prototype.preventDefaultKeyUp = function(event) {
-	// Space bar
-	if (event.keyCode == 32 && this.gameOfLife) {
+	if (event.keyCode == 32) {                         //< Space bar
+		event.preventDefault();
+	} else if (event.keyCode == 90 && event.ctrlKey) { //< Ctrl+Z
+		event.preventDefault();
+	} else if (event.keyCode == 89 && event.ctrlKey) { //< Ctrl+Y
 		event.preventDefault();
 	}
 }
@@ -138,7 +150,7 @@ Settings.prototype.onPlayPauseClick = function() {
 }
 
 Settings.prototype.onResetClick = function() {
-	if (this.gameOfLife) {
+	if (this.gameOfLife && !this.gameOfLife.isReset()) {
 		this.gameOfLife.resetGame();
 	}
 }
@@ -156,6 +168,34 @@ Settings.prototype.onFullscreenChange = function() {
 		this.fullscreenButton.childNodes[0].childNodes[0].setAttribute("xlink:href", "svg/sprite.svg#shape-ic-fullscreen-exit");
 	} else {
 		this.fullscreenButton.childNodes[0].childNodes[0].setAttribute("xlink:href", "svg/sprite.svg#shape-ic-fullscreen");	
+	}
+}
+
+Settings.prototype.onUndoClick = function() {
+	if (this.gameOfLife.hasToUndo()) {
+		this.gameOfLife.undo();
+	}
+}
+
+Settings.prototype.onRedoClick = function() {
+	if (this.gameOfLife.hasToRedo()) {
+		this.gameOfLife.redo();
+	}
+}
+
+Settings.prototype.onHistoryChange = function() {
+	setButtonEnabled(this.undoButton, this.gameOfLife.hasToUndo());
+	setButtonEnabled(this.redoButton, this.gameOfLife.hasToRedo());
+	setButtonEnabled(this.resetButton, !this.gameOfLife.isReset());
+	setButtonEnabled(this.playPauseButton, !this.gameOfLife.isReset());
+}
+
+function setButtonEnabled(button, enabled) {
+	var disabledClass = "gog-disabled";
+	if (enabled && button.className.includes(disabledClass)) {
+		button.className = button.className.replace(new RegExp('(?:^|\\s)'+ disabledClass + '(?:\\s|$)'), ' ');
+	} else if (!enabled && !button.className.includes(disabledClass)) {
+		button.className += " " + disabledClass;
 	}
 }
 
