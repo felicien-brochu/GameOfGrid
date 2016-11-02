@@ -10,12 +10,14 @@
 
 	<!-- Settings controls -->
 	<ul id="gog-action-buttons">
-		<li><button id="gog-play-pause-button" class="gog-play-button"/></li>
-		<li><button id="gog-reset-button"/></li>
-		<li><button id="gog-next-pattern-button"/></li>
-		<li><button id="gog-settings-button"/></li>
-		<li><button id="gog-full-screen-button"/></li>
+		<li><button id="gog-play-pause-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-play-arrow"></use></svg></button></li>
+		<li><button id="gog-undo-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-undo"></use></svg></button></li>
+		<li><button id="gog-redo-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-redo"></use></svg></button></li>
+		<li><button id="gog-reset-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-delete"></use></svg></button></li>
+		<li><button id="gog-settings-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-menu"></use></svg></button></li>
 	</ul>
+	<button id="gog-fullscreen-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-fullscreen"></use></svg></button>
+	
 	<div id="gog-settings-panel">
 		<table id="gog-sliders-container">
 			<tr>
@@ -35,31 +37,31 @@
 		<ul id="gog-symmetry-container">
 			<li>
 				<input id="gog-symmetry-none-radio" type="radio" name="symmetry" value="0" class="gog-symmetry-radio"/>
-				<label for="gog-symmetry-none-radio"></label>
+				<label for="gog-symmetry-none-radio"><svg><use xlink:href="svg/sprite.svg#shape-symmetry-none"></use></svg></label>
 			</li>
 			<li>
 				<input id="gog-symmetry-vertical-radio" type="radio" name="symmetry" value="1" class="gog-symmetry-radio"/>
-				<label for="gog-symmetry-vertical-radio"></label>
+				<label for="gog-symmetry-vertical-radio"><svg><use xlink:href="svg/sprite.svg#shape-symmetry-vertical"></use></svg></label>
 			</li>
 			<li>
 				<input id="gog-symmetry-horizontal-radio" type="radio" name="symmetry" value="2" class="gog-symmetry-radio"/>
-				<label for="gog-symmetry-horizontal-radio"></label>
+				<label for="gog-symmetry-horizontal-radio"><svg><use xlink:href="svg/sprite.svg#shape-symmetry-horizontal"></use></svg></label>
 			</li>
 			<li>
 				<input id="gog-symmetry-double-radio" type="radio" name="symmetry" value="3" class="gog-symmetry-radio"/>
-				<label for="gog-symmetry-double-radio"></label>
+				<label for="gog-symmetry-double-radio"><svg><use xlink:href="svg/sprite.svg#shape-symmetry-double"></use></svg></label>
 			</li>
 			<li>
 				<input id="gog-symmetry-central-radio" type="radio" name="symmetry" value="4" class="gog-symmetry-radio"/>
-				<label for="gog-symmetry-central-radio"></label>
+				<label for="gog-symmetry-central-radio"><svg><use xlink:href="svg/sprite.svg#shape-symmetry-central"></use></svg></label>
 			</li>
 		</ul>
 
 		<ul id="gog-pattern-buttons">
-			<li><button id="gog-cross-pattern-button"/></li>
-			<li><button id="gog-gun-pattern-button"/></li>
-			<li><button id="gog-random-pattern-button"/></li>
-			<li><button id="gog-canvas-pattern-button"/></li>
+			<li><button id="gog-cross-pattern-button" class="gog-pattern-button"><svg><use xlink:href="svg/sprite.svg#shape-pattern-cross"></use></svg></button></li>
+			<li><button id="gog-gun-pattern-button" class="gog-pattern-button"><svg><use xlink:href="svg/sprite.svg#shape-pattern-gun"></use></svg></button></li>
+			<li><button id="gog-random-pattern-button" class="gog-pattern-button"><svg><use xlink:href="svg/sprite.svg#shape-pattern-random"></use></svg></button></li>
+			<li><button id="gog-canvas-pattern-button" class="gog-pattern-button"><svg><use xlink:href="svg/sprite.svg#shape-pattern-canvas"></use></svg></button></li>
 		</ul>
 
 	</div>

@@ -53,6 +53,7 @@ AutoHider.prototype.startHiding = function() {
 
 AutoHider.prototype.finishHiding = function() {
 	this.toHide.forEach(function(element) {
+		element.lastDisplay = element.style.display;
 		element.style.display = 'none';
 	});
 	this.hidden = true;
@@ -62,7 +63,7 @@ AutoHider.prototype.unhide = function() {
 	this.element.style.cursor = this.oldCursor;
 	this.toHide.forEach(function(element) {
 		element.style.opacity = 1;
-		element.style.display = 'block';
+		element.style.display = element.lastDisplay;
 	});
 	this.hidden = false;
 }

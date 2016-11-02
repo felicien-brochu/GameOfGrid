@@ -3,7 +3,7 @@
 	this.panel = document.getElementById("gog-settings-panel");
 	this.autoHider = new AutoHider(
 		document.getElementById("gog-game-of-life-canvas"),
-		[this.panel, document.getElementById("gog-action-buttons")],
+		[this.panel, document.getElementById("gog-action-buttons"), document.getElementById("gog-fullscreen-button")],
 		2200, 150);
 	this.panelDisplayed = true;
 
@@ -20,12 +20,13 @@
 };
 
 Settings.prototype.initActionButtons = function() {
-	this.fullscreenButton = document.getElementById("gog-full-screen-button");
+	this.fullscreenButton = document.getElementById("gog-fullscreen-button");
 	this.settingsButton = document.getElementById("gog-settings-button");
 	this.resetButton = document.getElementById("gog-reset-button");
 	this.playPauseButton = document.getElementById("gog-play-pause-button");
 
 	this.fullscreenButton.addEventListener('click', this.onFullscreenButtonMouseDown.bind(this));
+	document.addEventListener('fullscreenchange', this.onFullscreenChange.bind(this));
 	this.settingsButton.addEventListener('click', this.onSettingsButtonMouseDown.bind(this));
 	this.resetButton.addEventListener('click', this.onResetClick.bind(this));
 	this.playPauseButton.addEventListener('click', this.onPlayPauseClick.bind(this));
@@ -95,7 +96,7 @@ Settings.prototype.initPatternButtons = function() {
 		this.gameOfLife.generatePattern(generateRocketLaunchersCanvas);
 	}.bind(this));
 
-	var buttons = document.getElementById('gog-pattern-buttons').getElementsByTagName('button');
+	var buttons = document.getElementsByTagName('button');
 	for (var i = 0; i < buttons.length; ++i) {
 		buttons[i].addEventListener("keyup", this.preventDefaultKeyUp.bind(this));
 	}
@@ -121,12 +122,12 @@ Settings.prototype.preventDefaultKeyUp = function(event) {
 }
 
 Settings.prototype.onGamePause = function() {
-	this.playPauseButton.className = "gog-play-button";
+	this.playPauseButton.childNodes[0].childNodes[0].setAttribute("xlink:href", "svg/sprite.svg#shape-ic-play-arrow");
 	this.autoHider.setEnabled(false);
 }
 
 Settings.prototype.onGameStart = function() {
-	this.playPauseButton.className = "gog-pause-button";
+	this.playPauseButton.childNodes[0].childNodes[0].setAttribute("xlink:href", "svg/sprite.svg#shape-ic-pause");
 	this.autoHider.setEnabled(true);
 }
 
@@ -148,6 +149,14 @@ Settings.prototype.onSettingsButtonMouseDown = function() {
 
 Settings.prototype.onFullscreenButtonMouseDown = function() {
 	toggleFullscreen();
+}
+
+Settings.prototype.onFullscreenChange = function() {
+	if (getFullscreenElement()) {
+		this.fullscreenButton.childNodes[0].childNodes[0].setAttribute("xlink:href", "svg/sprite.svg#shape-ic-fullscreen-exit");
+	} else {
+		this.fullscreenButton.childNodes[0].childNodes[0].setAttribute("xlink:href", "svg/sprite.svg#shape-ic-fullscreen");	
+	}
 }
 
 Settings.prototype.togglePanel = function() {

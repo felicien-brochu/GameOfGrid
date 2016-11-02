@@ -37,3 +37,16 @@ function toggleFullscreen() {
 		}
 	}
 }
+
+var fullscreenChange = function(e) {
+		e.stopImmediatePropagation();
+		var event = new CustomEvent("fullscreenchange");
+		document.dispatchEvent(event);
+
+		if (typeof document.onfullscreenchange == "function") {
+			document.onfullscreenchange(event);
+		}
+	};
+document.addEventListener("mozfullscreenchange", fullscreenChange, false);
+document.addEventListener("MSFullscreenChange", fullscreenChange, false);
+document.addEventListener("webkitfullscreenchange", fullscreenChange, false);

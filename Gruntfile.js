@@ -22,11 +22,23 @@
 				src: 'js/build/gameoflife-<%= pkg.version %>.js',
 				dest: 'js/build/gameoflife-<%= pkg.version %>.min.js'
 			}
-		}
+		},
+		
+		svgstore: {
+			options: {
+				prefix: 'shape-',
+			},
+			default: {
+				files: {
+					'svg/sprite.svg': ['svg/*.svg'],
+				}
+			}
+		},
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-svgstore');
 
-	grunt.registerTask('default', ['concat', 'uglify']);
+	grunt.registerTask('default', ['concat', 'uglify', 'svgstore']);
 };

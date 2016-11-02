@@ -24,50 +24,53 @@
 	margin-right: 9px;
 	z-index: 100;
 	list-style-type: none;
+	display: flex;
 	
     transition-property: opacity;
     transition-duration: 0.15s;
     transition-timing-function: decelerate;
 }
 #gog-action-buttons li {
-	display: inline-block;
+	margin: auto;
 }
-#gog-action-buttons button {
+.gog-action-button {
 	width: 34px;
-	height: 30px;
+	height: 40px;
+	padding: 3px;
 	margin-right: 1px;
 	margin-left: 1px;
 	border: none;
-	background-image: url('../img/icons.png');
-	background-repeat:  no-repeat;
-	background-color: rgba(255, 255, 255, 0);
-	opacity: 0.9;
 	display: inline-block;
 	overflow: hidden;
-	text-indent: -9999px;
 	text-align: left;
+	background: #00000000;
 }
-#gog-action-buttons button:hover {
+#gog-action-buttons li:first-child button.gog-action-button, #gog-action-buttons li:last-child button.gog-action-button {
+	width: 46px;
+	height: 40px;
+}
+.gog-action-button svg {
+	width: 100%;
+	height: 100%;
+	fill: white;
+	opacity: 0.9;
+}
+.gog-action-button:hover svg {
 	opacity: 1;
+}
+.gog-action-button:hover {
 	cursor: pointer;
 }
-#gog-full-screen-button {
-	background-position: -68px -0px;
-}
-#gog-next-pattern-button {
-	background-position: -34px -30px;
-}
-.gog-pause-button {
-	background-position: -68px -30px;
-}
-.gog-play-button {
-	background-position: -0px -60px;
-}
-#gog-reset-button {
-	background-position: -68px -60px;
-}
-#gog-settings-button {
-	background-position: -0px -90px;
+#gog-fullscreen-button {
+	width: 36px;
+	height: 36px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	padding: 0px;
+	margin-right: 17px;
+	margin-bottom: 8px;
+	z-index: 100;
 }
 
 #gog-settings-panel {
@@ -125,7 +128,7 @@
 	margin-top: 18px;
 	list-style-type: none;
 }
-#gog-symmetry-container input[type="radio"] {
+.gog-symmetry-radio {
 	display: none;
 	margin: 0px;
 	padding: 0px;
@@ -134,14 +137,30 @@
 .gog-symmetry-radio  {
 	display: none;
 }
-#gog-symmetry-container input[type="radio"] + label {
+.gog-symmetry-radio + label {
 	width: 34px;
 	height: 30px;
-	background-image: url('../img/icons.png');
 	display: inline-block;
 	cursor: pointer;
 	border: solid 1px white;
 	border-right: 0px;
+}
+.gog-symmetry-radio + label svg {
+	width: 34px;
+	height: 30px;
+	opacity: 0.9;
+}
+.gog-symmetry-radio:checked + label {
+	background-color: rgba(255, 255, 255, 0.4);
+}
+.gog-symmetry-radio:not(:checked):hover + label {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+.gog-symmetry-radio:checked:hover + label {
+	background-color: rgba(255, 255, 255, 0.5);
+}
+.gog-symmetry-radio:checked + label svg, .gog-symmetry-radio:hover + label svg {
+	opacity: 1;
 }
 #gog-symmetry-container li:first-child input[type="radio"] + label {
 	border-radius: 2px 0px 0px 2px;
@@ -149,30 +168,6 @@
 #gog-symmetry-container li:last-child input[type="radio"] + label {
 	border-radius: 0px 2px 2px 0px;
 	border-right: solid 1px white;
-}
-#gog-symmetry-container input[type="radio"]:checked + label {
-	background-color: rgba(255, 255, 255, 0.4);
-}
-#gog-symmetry-container input[type="radio"]:not(:checked):hover + label {
-	background-color: rgba(255, 255, 255, 0.1);
-}
-#gog-symmetry-container input[type="radio"]:checked:hover + label {
-	background-color: rgba(255, 255, 255, 0.5);
-}
-#gog-symmetry-none-radio + label {
-	background-position: -34px -120px;
-}
-#gog-symmetry-vertical-radio + label {
-	background-position: -68px -120px;
-}
-#gog-symmetry-horizontal-radio + label {
-	background-position: -0px -120px;
-}
-#gog-symmetry-double-radio + label {
-	background-position: -68px -90px;
-}
-#gog-symmetry-central-radio + label {
-	background-position: -34px -90px;
 }
 
 #gog-pattern-buttons {
@@ -190,11 +185,10 @@
 #gog-pattern-buttons li:first-child {
 	margin-left: 0px;
 }
-#gog-pattern-buttons button {
+.gog-pattern-button {
 	width: 36px;
 	height: 32px;
 	padding: 0px;
-	background-image: url('../img/icons.png');
 	background-repeat:  no-repeat;
 	background-color: rgba(255, 255, 255, 0);
 	display: inline-block;
@@ -202,21 +196,18 @@
 	border: solid 1px white;
 	border-radius: 2px;
 }
-#gog-pattern-buttons button:hover {
+.gog-pattern-button svg {
+	width: 34px;
+	height: 30px;
+	shape-rendering: crispedges;
+	opacity: 0.9;
+}
+.gog-pattern-button:hover {
 	background-color: rgba(255, 255, 255, 0.1);
 }
-#gog-pattern-buttons button:active {
+.gog-pattern-button:active {
 	background-color: rgba(255, 255, 255, 0.4);
 }
-#gog-cross-pattern-button {
-	background-position: -34px -0px;
-}
-#gog-gun-pattern-button {
-	background-position: -0px -30px;
-}
-#gog-random-pattern-button {
-	background-position: -34px -60px;
-}
-#gog-canvas-pattern-button {
-	background-position: -0px -0px;
+.gog-pattern-button:hover svg, .gog-pattern-button:active svg {
+	opacity: 1;
 }
