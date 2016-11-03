@@ -32,17 +32,28 @@ Tutorial.prototype.nextStep = function() {
 
 		var skipButtons = popup.getElementsByClassName("gog-skip-button");
 		if (skipButtons && skipButtons.length == 1) {
-			skipButtons[0].addEventListener("click", this.hideCurrentPopup.bind(this));
+			skipButtons[0].addEventListener("click", this.skip.bind(this));
 		}
 
 		var nextButtons = popup.getElementsByClassName("gog-next-button");
 		if (nextButtons && nextButtons.length == 1) {
 			nextButtons[0].addEventListener("click", this.nextStep.bind(this));
 		}
+	} else {
+		this.end();
 	}
 }
 
 Tutorial.prototype.hideCurrentPopup = function() {
 	var popup = document.getElementById(this.popupIds[this.currentPopup]);
 	popup.style.display = 'none';
+}
+
+Tutorial.prototype.skip = function() {
+	this.hideCurrentPopup();
+	this.end();
+}
+
+Tutorial.prototype.end = function() {
+	localStorage.setItem('tutorialSeen', true);
 }

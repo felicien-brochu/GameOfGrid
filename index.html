@@ -205,11 +205,13 @@
 		};
 		render();
 		
-		var tutorial = new Tutorial();
-		if (!settings.panelDisplayed) {
-			settings.togglePanel();
+		if (!localStorage.getItem('tutorialSeen')) {
+			var tutorial = new Tutorial();
+			if (!settings.panelDisplayed) {
+				settings.togglePanel();
+			}
+			tutorial.start();
 		}
-		tutorial.start();
 	</script>
 
 </body>
