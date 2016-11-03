@@ -40,5 +40,7 @@
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-svgstore');
 
-	grunt.registerTask('default', ['concat', 'uglify', 'svgstore']);
+	grunt.registerTask('js', ['concat', 'uglify']);
+	grunt.registerTask('graphics', ['svgstore']);
+	grunt.registerTask('default', ['js', 'graphics']);
 };
