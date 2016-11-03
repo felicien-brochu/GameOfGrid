@@ -120,8 +120,12 @@ GameOfLife.prototype.initWebGL = function() {
 }
 
 GameOfLife.prototype.initFrame = function() {
-	this.gridWidth = Math.floor(this.canvas.width / this.cellSize) + 1;
-	this.gridHeight = Math.floor(this.canvas.height / this.cellSize) + 1;
+	this.gridWidth = Math.ceil(this.canvas.width / this.cellSize);
+	this.gridHeight = Math.ceil(this.canvas.height / this.cellSize);
+	this.resetFrame();
+}
+
+GameOfLife.prototype.resetFrame = function() {
 	for (var i = 0, len = this.gridHeight * this.gridWidth; i < len; ++i) {
 		this.grid[i] = 0;
 	}
@@ -134,7 +138,7 @@ GameOfLife.prototype.resetGame = function() {
 		if (this.started) {
 			this.toggleGame();
 		}
-		this.initFrame();
+		this.resetFrame();
 		this.history.put([], 0, 0);
 	}
 }
@@ -144,7 +148,7 @@ GameOfLife.prototype.generatePattern = function(generator) {
 		this.toggleGame();
 	}
 	generator(this.grid, this.gridWidth, this.gridHeight);
-	this.history.put(this.grid, this.gridWidth, this.gridHeight);
+	this.saveHistory();
 	this.isAllDirty = true;
 	this.isDirty = true;
 }
@@ -152,8 +156,8 @@ GameOfLife.prototype.generatePattern = function(generator) {
 GameOfLife.prototype.onResize = function() {
 	var oldGridWidth = this.gridWidth;
 	var oldGridHeight = this.gridHeight;
-	this.gridWidth = Math.floor(window.innerWidth / this.cellSize) + 1;
-	this.gridHeight = Math.floor(window.innerHeight / this.cellSize) + 1;
+	this.gridWidth = Math.ceil(window.innerWidth / this.cellSize);
+	this.gridHeight = Math.ceil(window.innerHeight / this.cellSize);
 
 	if (this.gridWidth < oldGridWidth) {
 		this.gridWidth = oldGridWidth;
@@ -192,6 +196,9 @@ GameOfLife.prototype.onResize = function() {
 }
 
 GameOfLife.prototype.onMouseOut = function() {
+	if (this.drawMode != "none") {
+		this.saveHistory();
+	}
 	this.drawMode = "none";
 }
 
@@ -217,7 +224,7 @@ GameOfLife.prototype.onMouseDown = function(event) {
 
 GameOfLife.prototype.onMouseUp = function(event) {
 	this.drawMode = "none";
-	this.history.put(this.grid, this.gridWidth, this.gridHeight);
+	this.saveHistory();
 }
 
 GameOfLife.prototype.onMouseMove = function(event) {
@@ -284,29 +291,31 @@ GameOfLife.prototype.applyBrush = function(x, y) {
 	var lastGridX = -1,
 		lastGridY = -1;
 	for (var i = 0, deltaX = Math.abs(x - this.lastDrawX), deltaY = Math.abs(y - this.lastDrawY); Math.abs(i * dx) <= deltaX && Math.abs(i * dy) <= deltaY; i++) {
-		var gridX = Math.floor((this.lastDrawX + i * dx) / this.cellSize),
-			gridY = Math.floor((this.lastDrawY + i * dy) / this.cellSize);
+		var gridX = (this.lastDrawX + i * dx) / this.cellSize,
+			gridY = (this.lastDrawY + i * dy) / this.cellSize;
 
 		if (lastGridX == gridX && lastGridY == gridY) {
 			continue;
 		}
-		var coords = gridY * this.gridWidth + gridX;
+		var coords = Math.floor(gridY) * this.gridWidth + Math.floor(gridX);
 		this.grid[coords] = drawValue;
 		this.dirtyCells.push(coords);
 
+		var symmetryX = gridX + 1e-7, symmetryY = gridY + 1e-7;
+		
 		// Apply symmetry
 		if (symmetry === "horizontal" || symmetry === "double") {
-			coords = (this.gridHeight - gridY) * this.gridWidth + gridX;
+			coords = Math.floor(this.gridHeight - symmetryY) * this.gridWidth + Math.floor(symmetryX);
 			this.grid[coords] = drawValue;
 			this.dirtyCells.push(coords);
 		}
 		if (symmetry === "vertical" || symmetry === "double") {
-			coords = gridY * this.gridWidth + this.gridWidth - gridX;
+			coords = Math.floor(symmetryY) * this.gridWidth + Math.floor(this.gridWidth - symmetryX);
 			this.grid[coords] = drawValue;
 			this.dirtyCells.push(coords);
 		}
 		if (symmetry === "central" || symmetry === "double") {
-			coords = (this.gridHeight - gridY) * this.gridWidth + this.gridWidth - gridX;
+			coords = Math.floor(this.gridHeight - symmetryY) * this.gridWidth + Math.floor(this.gridWidth - symmetryX);
 			this.grid[coords] = drawValue;
 			this.dirtyCells.push(coords);
 		}
@@ -327,12 +336,13 @@ GameOfLife.prototype.toggleGame = function(dispatchEvent) {
 		clearInterval(this.timerId);
 		if (dispatchEvent && this.settings) {
 			this.settings.onGamePause();
-			this.history.put(this.grid, this.gridWidth, this.gridHeight);
+			this.saveHistory();
 		}
 	}
 	else if (!this.isReset()) {
 		this.bringTheChosenOnesToLife();
 		this.nextStep();
+		this.history.deleteFuture();
 		this.timerId = setInterval(function() {this.nextStep()}.bind(this), this.interval);
 		if (dispatchEvent && this.settings) {
 			this.settings.onGameStart();
@@ -625,6 +635,10 @@ GameOfLife.prototype.countNeighbors = function(i) {
 	return count;
 }
 
+GameOfLife.prototype.saveHistory = function() {
+	this.history.put(this.grid, this.gridWidth, this.gridHeight);
+}
+
 GameOfLife.prototype.undo = function() {
 	if (this.hasToUndo()) {
 		if (this.started) {
@@ -685,12 +699,7 @@ History.prototype.put = function(grid, width, height) {
 		this.currentGrid++;
 	}
 	
-	if (this.currentGrid < this.history.length - 1) {
-		for (var i = this.currentGrid + 1; i < this.history.length; ++i) {
-			this.size -= this.history[i].grid.length;
-		}
-		this.history = this.history.slice(0, this.currentGrid + 1);
-	}
+	this.deleteFuture();
 	
 	this.history.push(new Grid(grid.slice(), width, height));
 	this.size += grid.length;
@@ -706,6 +715,16 @@ History.prototype.put = function(grid, width, height) {
 		this.currentGrid -= toDelete;
 	}
 	this.onChange();
+}
+
+History.prototype.deleteFuture = function() {
+	if (this.currentGrid < this.history.length - 1) {
+		for (var i = this.currentGrid + 1; i < this.history.length; ++i) {
+			this.size -= this.history[i].grid.length;
+		}
+		this.history = this.history.slice(0, this.currentGrid + 1);
+		this.onChange();
+	}
 }
 
 History.prototype.undo = function() {
