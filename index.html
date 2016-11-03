@@ -66,6 +66,84 @@
 
 	</div>
 
+	<!-- Tutorial layer -->
+	<div id="gog-tutorial-container">
+		<div class="gog-popup" id="gog-welcome-popup">
+			<h2 class="gog-i18n">tutorial.welcome.title</h2>
+			<p>
+				<img src="gif/tutorial-draw.gif" class="gog-image-right" alt="Draw something animation"/>
+				<span class="gog-i18n">tutorial.welcome.text</span>
+			</p>
+			<div class="gog-popup-buttons">
+				<button class="gog-skip-button gog-popup-button gog-i18n">tutorial.button.skip</button>
+				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.next</button>
+			</div>
+		</div>
+		
+		<div class="gog-popup gog-button-popup" id="gog-play-popup">
+			<p class="gog-i18n">tutorial.play</p>
+			<div class="gog-popup-buttons">
+				<button class="gog-skip-button gog-popup-button gog-i18n">tutorial.button.skip</button>
+				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.next</button>
+			</div>
+		</div>
+
+		<div class="gog-popup gog-button-popup" id="gog-history-popup">
+			<p class="gog-i18n">tutorial.history</p>
+			<div class="gog-popup-buttons">
+				<button class="gog-skip-button gog-popup-button gog-i18n">tutorial.button.skip</button>
+				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.next</button>
+			</div>
+		</div>
+
+		<div class="gog-popup gog-button-popup" id="gog-clear-popup">
+			<p class="gog-i18n">tutorial.clear</p>
+			<div class="gog-popup-buttons">
+				<button class="gog-skip-button gog-popup-button gog-i18n">tutorial.button.skip</button>
+				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.next</button>
+			</div>
+		</div>
+
+		<div class="gog-popup gog-button-popup" id="gog-menu-popup">
+			<p class="gog-i18n">tutorial.menu</p>
+			<div class="gog-popup-buttons">
+				<button class="gog-skip-button gog-popup-button gog-i18n">tutorial.button.skip</button>
+				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.next</button>
+			</div>
+		</div>
+
+		<div class="gog-popup gog-panel-popup" id="gog-sliders-popup">
+			<p class="gog-i18n">tutorial.sliders</p>
+			<div class="gog-popup-buttons">
+				<button class="gog-skip-button gog-popup-button gog-i18n">tutorial.button.skip</button>
+				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.next</button>
+			</div>
+		</div>
+
+		<div class="gog-popup gog-panel-popup" id="gog-symmetry-popup">
+			<p class="gog-i18n">tutorial.symmetry</p>
+			<div class="gog-popup-buttons">
+				<button class="gog-skip-button gog-popup-button gog-i18n">tutorial.button.skip</button>
+				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.next</button>
+			</div>
+		</div>
+
+		<div class="gog-popup gog-panel-popup" id="gog-patterns-popup">
+			<p class="gog-i18n">tutorial.patterns</p>
+			<div class="gog-popup-buttons">
+				<button class="gog-skip-button gog-popup-button gog-i18n">tutorial.button.skip</button>
+				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.next</button>
+			</div>
+		</div>
+
+		<div class="gog-popup gog-bottom-button-popup" id="gog-fullscreen-popup">
+			<p class="gog-i18n">tutorial.fullscreen</p>
+			<div class="gog-popup-buttons">
+				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.end</button>
+			</div>
+		</div>
+	</div>
+
 	<script type="text/javascript" src="js/build/gameoflife-0.1.0.min.js"></script>
 
 	<script id="vertex" type="x-shader">
@@ -126,6 +204,12 @@
 			requestAnimationFrame(render);
 		};
 		render();
+		
+		var tutorial = new Tutorial();
+		if (!settings.panelDisplayed) {
+			settings.togglePanel();
+		}
+		tutorial.start();
 	</script>
 
 </body>

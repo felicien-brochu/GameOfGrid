@@ -1,4 +1,8 @@
-﻿#gog-game-of-life-canvas {
+﻿body {
+	font-family: Verdana, Arial;
+}
+
+#gog-game-of-life-canvas {
 	background-color: #DFDFDF;
 	position: absolute;
 	top: 0;
@@ -99,7 +103,7 @@
 	padding-top: 63px;
 	padding-left: 14px;
 	padding-right: 12px;
-	font: 12px Verdana;
+	font-size: 12px;
 	color: white;
 	text-align: center;
 }
@@ -212,4 +216,158 @@
 }
 .gog-pattern-button:hover svg, .gog-pattern-button:active svg {
 	opacity: 1;
+}
+
+#gog-tutorial-container {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	z-index: 120;
+	pointer-events: none;
+	top: 0;
+	left: 0;
+}
+#gog-tutorial-container * {
+	pointer-events: initial;
+}
+.gog-popup {
+    padding: 20px 20px;
+    background: white;
+    border-radius: 10px;
+	text-align: center;
+	font-size: 15px;
+	box-shadow: 6px 6px 15px 0px #32323280;
+	color: #666666;
+	display: none;
+}
+.gog-popup p {
+	vertical-align: middle;
+	margin: 0px;
+}
+.gog-popup h2 {
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+.gog-image-right {
+	float: right;
+	margin-left: 20px;
+	border-radius: 10px;
+}
+.gog-popup-buttons {
+	display: flex;
+	margin: auto;
+	margin-top: 30px;
+	max-width: 280px;
+}
+.gog-popup-button {
+	border: 0px;
+	color: white;
+	padding: 7px 16px;
+	height: 36px;
+	font-size: 13px;
+	font-weight: bold;
+	border-radius: 18px;
+	margin: auto;
+	cursor: pointer;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+.gog-skip-button {
+	background-color: #C4C4C4;
+	color: white;
+}
+.gog-skip-button:hover {
+	background-color: #D6D6D6;
+}
+.gog-next-button {
+	background-color: #4286F4;
+	color: white;
+}
+.gog-next-button:hover {
+	background-color: #518FF5;
+}
+#gog-welcome-popup {
+    margin: auto;
+	max-width: 400px;
+	margin-top: 50vh;
+	transform: translateY(-50%);
+}
+#gog-welcome-popup p {
+	text-align: justify;
+	min-height: 105px;
+	margin: 0px 15px;
+}
+.gog-button-popup {
+	position: absolute;
+	top: 60px;
+	right: 5px;
+	width: 220px;
+	text-align: center;
+}
+.gog-button-popup::after {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 50px;
+    border-width: 0px 15px 15px;
+    border-style: solid;
+    border-color: white transparent;
+    display: block;
+    width: 0;
+}
+#gog-play-popup::after {
+	left: 62px;
+}
+#gog-history-popup::after {
+	left: 121px;
+}
+#gog-clear-popup::after {
+	left: 175px;
+}
+#gog-menu-popup::after {
+	left: 217px;
+}
+.gog-panel-popup {
+	position: absolute;
+	right: 227px;
+	width: 220px;
+	text-align: center;
+}
+.gog-panel-popup::after {
+    content: "";
+    position: absolute;
+    top: 58px;
+    right: -15px;
+    border-width: 15px 0px 15px 15px;
+    border-style: solid;
+    border-color: transparent white;
+    display: block;
+    width: 0;
+}
+#gog-sliders-popup {
+	top: 28px;
+}
+#gog-symmetry-popup {
+	top: 98px;
+}
+#gog-patterns-popup {
+	top: 150px;
+}
+.gog-bottom-button-popup {
+	position: absolute;
+	bottom: 60px;
+	right: 5px;
+	width: 220px;
+	text-align: center;
+}
+.gog-bottom-button-popup::after {
+    content: "";
+	position: absolute;
+	bottom: -15px;
+	right: 9px;
+	border-width: 15px 15px 0;
+	border-style: solid;
+	border-color: white transparent;
+	display: block;
+	width: 0;
 }
