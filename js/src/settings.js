@@ -52,19 +52,15 @@ Settings.prototype.initSliders = function() {
 	this.colorSlider.slider.setValue(this.gameOfLife.hueOffset);
 
 	this.speedSlider.addEventListener('slideend', function(event) {
-		this.gameOfLife.interval = 2000 / (event.detail / 100 * 80 + 3) - 16;
-		if (this.gameOfLife.started) {
-			this.gameOfLife.toggleGame();
-			this.gameOfLife.toggleGame();
-		}
+		this.gameOfLife.setInterval(2000 / (event.detail / 100 * 80 + 3) - 16);
 	}.bind(this));
 
 	this.traceSlider.addEventListener('valuechanged', function(event) {
-		this.gameOfLife.colorAgeSize = Math.floor(event.detail / 100 * 254 + 2);
+		this.gameOfLife.setColorAgeSize(Math.floor(event.detail / 100 * 254 + 2));
 	}.bind(this));
 
 	this.colorSlider.addEventListener('valuechanged', function(event) {
-		this.gameOfLife.hueOffset = event.detail;
+		this.gameOfLife.setHueOffset(event.detail);
 	}.bind(this));
 }
 

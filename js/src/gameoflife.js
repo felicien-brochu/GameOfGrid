@@ -351,6 +351,30 @@ GameOfLife.prototype.toggleGame = function(dispatchEvent) {
 	this.started = !this.started;
 }
 
+GameOfLife.prototype.setInterval = function(interval) {
+	this.interval = interval;
+	if (this.started) {
+		this.toggleGame(false);
+		this.toggleGame(false);
+	}
+}
+
+GameOfLife.prototype.setColorAgeSize = function(colorAgeSize) {
+	this.colorAgeSize = colorAgeSize;
+	if (!this.started || this.interval > 40) {
+		this.isDirty = true;
+		this.isAllDirty = true;
+	}
+}
+
+GameOfLife.prototype.setHueOffset = function(hueOffset) {
+	this.hueOffset = hueOffset;
+	if (!this.started || this.interval > 40) {
+		this.isDirty = true;
+		this.isAllDirty = true;
+	}
+}
+
 GameOfLife.prototype.bringTheChosenOnesToLife = function() {
 	for (var i = 0, len = this.gridHeight * this.gridWidth; i < len; i++) {
 		if (this.grid[i] === -1) {
