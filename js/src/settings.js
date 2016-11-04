@@ -3,7 +3,7 @@
 	this.panel = document.getElementById("gog-settings-panel");
 	this.autoHider = new AutoHider(
 		document.getElementById("gog-game-of-life-canvas"),
-		[this.panel, document.getElementById("gog-action-buttons"), document.getElementById("gog-fullscreen-button")],
+		[this.panel, document.getElementById("gog-action-buttons"), document.getElementById("gog-bottom-action-buttons")],
 		2200, 150);
 	this.panelDisplayed = true;
 
@@ -20,6 +20,7 @@
 };
 
 Settings.prototype.initActionButtons = function() {
+	this.tutorialButton = document.getElementById("gog-tutorial-button");
 	this.fullscreenButton = document.getElementById("gog-fullscreen-button");
 	this.settingsButton = document.getElementById("gog-settings-button");
 	this.resetButton = document.getElementById("gog-reset-button");
@@ -27,6 +28,7 @@ Settings.prototype.initActionButtons = function() {
 	this.undoButton = document.getElementById("gog-undo-button");
 	this.redoButton = document.getElementById("gog-redo-button");
 
+	this.tutorialButton.addEventListener('click', startTutorial);
 	this.fullscreenButton.addEventListener('click', this.onFullscreenButtonMouseDown.bind(this));
 	document.addEventListener('fullscreenchange', this.onFullscreenChange.bind(this));
 	this.settingsButton.addEventListener('click', this.onSettingsButtonMouseDown.bind(this));

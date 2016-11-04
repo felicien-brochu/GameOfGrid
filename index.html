@@ -16,7 +16,10 @@
 		<li><button id="gog-reset-button" class="gog-action-button gog-disabled"><svg><use xlink:href="svg/sprite.svg#shape-ic-delete"></use></svg></button></li>
 		<li><button id="gog-settings-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-menu"></use></svg></button></li>
 	</ul>
-	<button id="gog-fullscreen-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-fullscreen"></use></svg></button>
+	<ul id="gog-bottom-action-buttons">
+		<li><button id="gog-tutorial-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-tutorial"></use></svg></button></li>
+		<li><button id="gog-fullscreen-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-fullscreen"></use></svg></button></li>
+	</ul>
 	
 	<div id="gog-settings-panel">
 		<table id="gog-sliders-container">
@@ -139,6 +142,14 @@
 		<div class="gog-popup gog-bottom-button-popup" id="gog-fullscreen-popup">
 			<p class="gog-i18n">tutorial.fullscreen</p>
 			<div class="gog-popup-buttons">
+				<button class="gog-skip-button gog-popup-button gog-i18n">tutorial.button.skip</button>
+				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.next</button>
+			</div>
+		</div>
+
+		<div class="gog-popup gog-bottom-button-popup" id="gog-tutorial-popup">
+			<p class="gog-i18n">tutorial.tutorial</p>
+			<div class="gog-popup-buttons">
 				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.end</button>
 			</div>
 		</div>
@@ -206,11 +217,7 @@
 		render();
 		
 		if (!localStorage.getItem('tutorialSeen')) {
-			var tutorial = new Tutorial();
-			if (!settings.panelDisplayed) {
-				settings.togglePanel();
-			}
-			tutorial.start();
+			startTutorial();
 		}
 	</script>
 

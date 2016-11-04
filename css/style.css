@@ -67,16 +67,26 @@
 	cursor: pointer;
 	opacity: 1;
 }
-#gog-fullscreen-button {
-	width: 36px;
-	height: 36px;
+#gog-bottom-action-buttons {
 	position: absolute;
 	right: 0;
 	bottom: 0;
-	padding: 0px;
 	margin-right: 12px;
 	margin-bottom: 8px;
 	z-index: 100;
+	list-style: none;
+	display: flex;
+}
+#gog-bottom-action-buttons .gog-action-button {
+	width: 36px;
+	height: 36px;
+}
+#gog-fullscreen-button {
+	padding: 0px;
+}
+#gog-tutorial-button {
+	padding: 4px;
+	opacity: 0.5;
 }
 
 #gog-settings-panel {
@@ -364,10 +374,15 @@
     content: "";
 	position: absolute;
 	bottom: -15px;
-	right: 9px;
 	border-width: 15px 15px 0;
 	border-style: solid;
 	border-color: white transparent;
 	display: block;
 	width: 0;
+}
+#gog-fullscreen-popup::after {
+	right: 10px;
+}
+#gog-tutorial-popup::after {
+	right: 49px;
 }

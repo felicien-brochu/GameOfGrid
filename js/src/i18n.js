@@ -17,7 +17,8 @@ function I18n() {
 			'tutorial.sliders': 'Tweak speed, trace and color here',
 			'tutorial.symmetry': 'Choose the symmetry to draw with',
 			'tutorial.patterns': 'Click on these to draw a preset pattern',
-			'tutorial.fullscreen': 'Go into fullscreen'
+			'tutorial.fullscreen': 'Go into fullscreen',
+			'tutorial.tutorial': 'To see this tutorial again click here'
 		},
 		'fr': {
 			'settings.label.speed': 'Vitesse',
@@ -36,7 +37,8 @@ function I18n() {
 			'tutorial.sliders': 'Tweak speed, trace and color here',
 			'tutorial.symmetry': 'Choose the symmetry to draw with',
 			'tutorial.patterns': 'Click on these to draw a preset pattern',
-			'tutorial.fullscreen': 'Go into fullscreen'
+			'tutorial.fullscreen': 'Go into fullscreen',
+			'tutorial.tutorial': 'To see this tutorial again click here'
 		}
 	};
 	this.language = this.getBestLanguage();
