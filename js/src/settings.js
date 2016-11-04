@@ -49,12 +49,12 @@ Settings.prototype.initSliders = function() {
 	this.colorSlider = document.getElementById("gog-color-slider");
 
 	var intervalX = 2000 / (this.gameOfLife.interval + 16) - 3;
-	this.speedSlider.slider.setValue(intervalX / 80 * 100);
+	this.speedSlider.slider.setValue(intervalX / 38 * 100);
 	this.traceSlider.slider.setValue(this.gameOfLife.colorAgeSize / 255 * 100);
 	this.colorSlider.slider.setValue(this.gameOfLife.hueOffset);
 
 	this.speedSlider.addEventListener('slideend', function(event) {
-		this.gameOfLife.setInterval(2000 / (event.detail / 100 * 80 + 3) - 16);
+		this.gameOfLife.setInterval(2000 / (event.detail / 100 * 38 + 3) - 16);
 	}.bind(this));
 
 	this.traceSlider.addEventListener('valuechanged', function(event) {

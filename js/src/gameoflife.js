@@ -631,7 +631,6 @@ GameOfLife.prototype.computeColor = function(age) {
 		g = ((Math.cos(g) + 1) / 2 * 210) | 0;
 		b = ((Math.cos(b) + 1) / 2 * 230) | 0;
 
-		var color = "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")";
 		return [r, g, b, opacity * 255];
 	}
 }
