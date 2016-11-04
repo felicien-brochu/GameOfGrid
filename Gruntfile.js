@@ -30,7 +30,7 @@
 			},
 			default: {
 				files: {
-					'svg/sprite.svg': ['svg/*.svg'],
+					'svg/sprite.svg': ['svg/src/*.svg'],
 				}
 			}
 		},
