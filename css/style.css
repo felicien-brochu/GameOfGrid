@@ -254,6 +254,22 @@
 	vertical-align: middle;
 	margin: 0px;
 }
+.gog-popup a, .gog-popup a:visited {
+	color: #4286F4;
+}
+kbd {
+    margin: 0 .1em;
+    padding: .1em .6em;
+    font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
+    font-size: 11px;
+    line-height: 1.4;
+    text-shadow: 0 1px 0 #FFF;
+    background-color: #e1e3e5;
+    border: 1px solid #adb3b9;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(12,13,14,0.2),0 0 0 2px #FFF inset;
+    white-space: nowrap;
+}
 .gog-popup h2 {
 	margin-top: 10px;
 	margin-bottom: 30px;
@@ -283,11 +299,11 @@
 	white-space: nowrap;
 }
 .gog-skip-button {
-	background-color: #C4C4C4;
+	background-color: #A4A4A4;
 	color: white;
 }
 .gog-skip-button:hover {
-	background-color: #D6D6D6;
+	background-color: #A9A9A9;
 }
 .gog-next-button {
 	background-color: #4286F4;
@@ -303,7 +319,7 @@
 	transform: translateY(-50%);
 }
 #gog-welcome-popup p {
-	text-align: justify;
+	text-align: left;
 	min-height: 105px;
 	margin: 0px 15px;
 }
@@ -318,7 +334,6 @@
     content: "";
     position: absolute;
     top: -15px;
-    left: 50px;
     border-width: 0px 15px 15px;
     border-style: solid;
     border-color: white transparent;
