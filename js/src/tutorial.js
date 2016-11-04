@@ -30,7 +30,7 @@ function Tutorial() {
 }
 
 Tutorial.prototype.start = function() {
-	if (this.currentPopup != -1) {
+	if (this.currentPopup > -1 && this.currentPopup < this.popupIds.length) {
 		this.skip();
 	}
 	this.currentPopup = -1;
