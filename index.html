@@ -1,4 +1,5 @@
-﻿<html charset="UTF-8">
+﻿<!DOCTYPE html>
+<html charset="UTF-8">
 <head>
 	<title>Game of Grid</title>
 
@@ -242,7 +243,7 @@
 		};
 		render();
 		
-		if (!localStorage.getItem('tutorialSeen')) {
+		if (!localStorage || !localStorage.getItem('tutorialSeen')) {
 			startTutorial();
 		}
 	</script>

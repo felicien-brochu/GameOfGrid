@@ -63,7 +63,9 @@ Tutorial.prototype.skip = function() {
 }
 
 Tutorial.prototype.end = function() {
-	localStorage.setItem('tutorialSeen', true);
+	if (localStorage) {
+		localStorage.setItem('tutorialSeen', true);
+	}
 }
 
 function startTutorial() {

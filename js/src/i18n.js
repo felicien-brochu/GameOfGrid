@@ -44,12 +44,23 @@ function I18n() {
 	this.language = this.getBestLanguage();
 }
 
+if (!String.prototype.includes) {
+	String.prototype.includes = function() {
+		'use strict';
+		return String.prototype.indexOf.apply(this, arguments) !== -1;
+	};
+}
+
 I18n.prototype.getBestLanguage = function() {
 	var bestLanguage = 'en';
+	var languages = navigator.languages;
+	if (!languages) {
+		languages = [navigator.language];
+	}
 	loop:
-	for (var i = 0; i < navigator.languages.length; i++) {
+	for (var i = 0; i < languages.length; i++) {
 		for (var j = 0; j < Object.keys(this.messages).length; j++) {
-			if (navigator.languages[i].includes(Object.keys(this.messages)[j])) {
+			if (languages[i].includes(Object.keys(this.messages)[j])) {
 				bestLanguage = Object.keys(this.messages)[j];
 				break loop;
 			}

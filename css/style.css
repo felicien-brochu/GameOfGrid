@@ -103,7 +103,7 @@
 	transition-duration: 0.15s;
 }
 #gog-settings-panel * {
-	pointer-events: initial;
+	pointer-events: auto;
 }
 
 #gog-sliders-container {
@@ -234,7 +234,7 @@
 	left: 0;
 }
 #gog-tutorial-container * {
-	pointer-events: initial;
+	pointer-events: auto;
 }
 .gog-popup {
 	padding: 20px 20px;
