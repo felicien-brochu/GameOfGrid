@@ -53,6 +53,7 @@
 	this.canvas.addEventListener("touchstart", this.onTouch.bind(this));
 	this.canvas.addEventListener("touchmove", this.onTouch.bind(this));
 	this.canvas.addEventListener("touchend", this.onTouch.bind(this));
+	this.canvas.addEventListener("selectstart", function(e) { e.preventDefault(); });
 
 	this.initFrame();
 	this.startRendering();

@@ -17,6 +17,8 @@
 	this.initSliders();
 	this.initSymmetryRadio();
 	this.initPatternButtons();
+
+	this.panel.addEventListener("selectstart", function(e) { e.preventDefault(); });
 };
 
 Settings.prototype.initActionButtons = function() {
