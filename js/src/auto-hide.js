@@ -69,7 +69,7 @@ AutoHider.prototype.unhide = function() {
 }
 
 AutoHider.prototype.resetTimer = function(event) {
-	if (this.enabled) {
+	if (this.enabled && !(event.type === "mousemove" && event.movementX == 0 && event.movementY == 0)) {
 		this.stop();
 		this.start();
 	}
