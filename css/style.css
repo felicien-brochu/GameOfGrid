@@ -29,10 +29,9 @@
 	z-index: 100;
 	list-style-type: none;
 	display: flex;
-	
-    transition-property: opacity;
-    transition-duration: 0.15s;
-    transition-timing-function: decelerate;
+
+	transition-property: opacity;
+	transition-duration: 0.15s;
 }
 #gog-action-buttons li {
 	margin: auto;
@@ -47,7 +46,7 @@
 	display: inline-block;
 	overflow: hidden;
 	text-align: left;
-	background: #00000000;
+	background: transparent;
 	opacity: 0.9;
 }
 .gog-action-button.gog-disabled, .gog-action-button.gog-disabled:hover {
@@ -99,10 +98,9 @@
 	right: 0px;
 	z-index: 80;
 	background-color: rgba(0, 0, 0, 0.5);
-	
-    transition-property: opacity;
-    transition-duration: 0.15s;
-    transition-timing-function: decelerate;
+
+	transition-property: opacity;
+	transition-duration: 0.15s;
 }
 #gog-settings-panel * {
 	pointer-events: initial;
@@ -129,7 +127,6 @@
 }
 .gog-slider:hover {
 	cursor: pointer;
-	
 }
 .gog-slider-button {
 	width: 7px;
@@ -169,13 +166,13 @@
 .gog-symmetry-radio:checked + label {
 	background-color: rgba(255, 255, 255, 0.4);
 }
-.gog-symmetry-radio:not(:checked):hover + label {
+.gog-symmetry-radio:not(:checked) + label:hover {
 	background-color: rgba(255, 255, 255, 0.1);
 }
-.gog-symmetry-radio:checked:hover + label {
+.gog-symmetry-radio:checked + label:hover {
 	background-color: rgba(255, 255, 255, 0.5);
 }
-.gog-symmetry-radio:checked + label svg, .gog-symmetry-radio:hover + label svg {
+.gog-symmetry-radio:checked + label svg, .gog-symmetry-radio + label:hover svg {
 	opacity: 1;
 }
 #gog-symmetry-container li:first-child input[type="radio"] + label {
@@ -205,7 +202,6 @@
 	width: 36px;
 	height: 32px;
 	padding: 0px;
-	background-repeat:  no-repeat;
 	background-color: rgba(255, 255, 255, 0);
 	display: inline-block;
 	cursor: pointer;
@@ -241,12 +237,12 @@
 	pointer-events: initial;
 }
 .gog-popup {
-    padding: 20px 20px;
-    background: white;
-    border-radius: 10px;
+	padding: 20px 20px;
+	background: white;
+	border-radius: 10px;
 	text-align: center;
 	font-size: 15px;
-	box-shadow: 6px 6px 15px 0px #32323280;
+	box-shadow: 6px 6px 15px 0px rgba(50, 50, 50, 0.5);
 	color: #666666;
 	display: none;
 }
@@ -258,17 +254,17 @@
 	color: #4286F4;
 }
 kbd {
-    margin: 0 .1em;
-    padding: .1em .6em;
-    font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
-    font-size: 11px;
-    line-height: 1.4;
-    text-shadow: 0 1px 0 #FFF;
-    background-color: #e1e3e5;
-    border: 1px solid #adb3b9;
-    border-radius: 3px;
-    box-shadow: 0 1px 0 rgba(12,13,14,0.2),0 0 0 2px #FFF inset;
-    white-space: nowrap;
+	margin: 0 .1em;
+	padding: .1em .6em;
+	font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
+	font-size: 11px;
+	line-height: 1.4;
+	text-shadow: 0 1px 0 #FFF;
+	background-color: #e1e3e5;
+	border: 1px solid #adb3b9;
+	border-radius: 3px;
+	box-shadow: 0 1px 0 rgba(12,13,14,0.2),0 0 0 2px #FFF inset;
+	white-space: nowrap;
 }
 .gog-popup h2 {
 	margin-top: 10px;
@@ -313,7 +309,7 @@ kbd {
 	background-color: #518FF5;
 }
 #gog-welcome-popup {
-    margin: auto;
+	margin: auto;
 	max-width: 400px;
 	margin-top: 50vh;
 	transform: translateY(-50%);
@@ -331,14 +327,14 @@ kbd {
 	text-align: center;
 }
 .gog-button-popup::after {
-    content: "";
-    position: absolute;
-    top: -15px;
-    border-width: 0px 15px 15px;
-    border-style: solid;
-    border-color: white transparent;
-    display: block;
-    width: 0;
+	content: "";
+	position: absolute;
+	top: -15px;
+	border-width: 0px 15px 15px;
+	border-style: solid;
+	border-color: white transparent;
+	display: block;
+	width: 0;
 }
 #gog-play-popup::after {
 	left: 62px;
@@ -359,15 +355,15 @@ kbd {
 	text-align: center;
 }
 .gog-panel-popup::after {
-    content: "";
-    position: absolute;
-    top: 58px;
-    right: -15px;
-    border-width: 15px 0px 15px 15px;
-    border-style: solid;
-    border-color: transparent white;
-    display: block;
-    width: 0;
+	content: "";
+	position: absolute;
+	top: 58px;
+	right: -15px;
+	border-width: 15px 0px 15px 15px;
+	border-style: solid;
+	border-color: transparent white;
+	display: block;
+	width: 0;
 }
 #gog-sliders-popup {
 	top: 28px;
@@ -386,7 +382,7 @@ kbd {
 	text-align: center;
 }
 .gog-bottom-button-popup::after {
-    content: "";
+	content: "";
 	position: absolute;
 	bottom: -15px;
 	border-width: 15px 15px 0;
