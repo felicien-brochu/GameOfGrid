@@ -1,5 +1,4 @@
-﻿<!DOCTYPE html>
-<html charset="UTF-8">
+﻿<html charset="UTF-8">
 <head>
 	<title>Game of Grid</title>
 
@@ -29,6 +28,8 @@
 
 	<meta name="keywords" content="game of grid, game of life, jeu de la vie, conway, graphics game, cellular automata, drawing, game">
 	<meta name="description" content="Game of Grid is a graphics game freely inspired from Conway's game of life. Each drawing you draw will give birth to a unique animation.">
+
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
 </head>
 <body>
 	<!-- Game canvas -->
@@ -236,16 +237,18 @@
 		var settings = new Settings(gameOfLife);
 		gameOfLife.registerSettings(settings);
 		window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-	                                   window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+		                               window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 		function render() {
 			gameOfLife.render.bind(gameOfLife)();
 			requestAnimationFrame(render);
 		};
 		render();
-		
+
 		if (!localStorage || !localStorage.getItem('tutorialSeen')) {
 			startTutorial();
 		}
+
+		svg4everybody();
 	</script>
 
 </body>
