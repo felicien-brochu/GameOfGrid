@@ -67,8 +67,11 @@ Tutorial.prototype.end = function() {
 }
 
 function startTutorial() {
-	if (!settings.panelDisplayed) {
+	if (settings && !settings.panelDisplayed) {
 		settings.togglePanel();
+	}
+	if (gameOfLife && gameOfLife.started) {
+		gameOfLife.toggleGame();
 	}
 	tutorial.start();
 }
