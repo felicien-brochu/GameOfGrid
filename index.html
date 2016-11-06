@@ -32,6 +32,7 @@
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 </head>
 <body>
+
 	<!-- Game canvas -->
 	<canvas id="gog-game-of-grid-canvas"></canvas>
 	<canvas id="gog-shadow-canvas"></canvas>
@@ -44,11 +45,13 @@
 		<li><button id="gog-reset-button" class="gog-action-button gog-disabled"><svg><use xlink:href="svg/sprite.svg#shape-ic-delete"></use></svg></button></li>
 		<li><button id="gog-settings-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-menu"></use></svg></button></li>
 	</ul>
+
 	<ul id="gog-bottom-action-buttons">
-		<li><button id="gog-tutorial-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-tutorial"></use></svg></button></li>
+		<li><button id="gog-about-button" class="gog-action-button gog-small"><svg><use xlink:href="svg/sprite.svg#shape-ic-about"></use></svg></button></li>
+		<li><button id="gog-tutorial-button" class="gog-action-button gog-small"><svg><use xlink:href="svg/sprite.svg#shape-ic-tutorial"></use></svg></button></li>
 		<li><button id="gog-fullscreen-button" class="gog-action-button"><svg><use xlink:href="svg/sprite.svg#shape-ic-fullscreen"></use></svg></button></li>
 	</ul>
-	
+
 	<div id="gog-settings-panel">
 		<table id="gog-sliders-container">
 			<tr>
@@ -97,10 +100,22 @@
 
 	</div>
 
-	<!-- Tutorial layer -->
-	<div id="gog-tutorial-container">
-		<div class="gog-welcome-popup-container">
-			<div class="gog-popup" id="gog-welcome-popup">
+	<!-- Popup layer -->
+	<div id="gog-popup-container">
+
+		<div class="gog-center-popup-container">
+			<div class="gog-popup gog-center" id="gog-about-popup">
+				<h2 class="gog-i18n">about.title</h2>
+				<p class="gog-i18n">about.concept</p>
+				<p class="gog-i18n">about.presentation</p>
+				<div class="gog-popup-buttons">
+					<button class="gog-next-button gog-popup-button gog-i18n">about.button</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="gog-center-popup-container">
+			<div class="gog-popup gog-center" id="gog-welcome-popup">
 				<h2 class="gog-i18n">tutorial.welcome.title</h2>
 				<p>
 					<img src="img/tutorial-draw.gif" class="gog-image-right" alt="Draw something animation" title="Draw something animation"/>
@@ -183,6 +198,7 @@
 				<button class="gog-next-button gog-popup-button gog-i18n">tutorial.button.end</button>
 			</div>
 		</div>
+
 	</div>
 
 	<script type="text/javascript" src="js/build/gameofgrid-0.1.0.min.js"></script>

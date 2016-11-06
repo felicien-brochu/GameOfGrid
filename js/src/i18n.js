@@ -18,7 +18,12 @@ function I18n() {
 			'tutorial.symmetry': 'Choose the symmetry to draw with',
 			'tutorial.patterns': 'Click on these to draw a preset pattern',
 			'tutorial.fullscreen': 'Fullscreen',
-			'tutorial.tutorial': 'To see this tutorial again, click here'
+			'tutorial.tutorial': 'To see this tutorial again, click here',
+
+			'about.title': 'About Game of Grid',
+			'about.concept': 'Game of Grid is a graphics game freely inspired from <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway\'s game of life</a>. Each drawing you draw gives birth to a unique animation.',
+			'about.presentation': 'Game of Grid is an open source project created by Félicien Brochu. Please visit the <a href="https://github.com/felicien-brochu/GameOfGrid">GitHub repository</a>. Any contribution is welcome.',
+			'about.button': 'OK'
 		},
 		'fr': {
 			'settings.label.speed': 'Vitesse',
@@ -38,7 +43,12 @@ function I18n() {
 			'tutorial.symmetry': 'Choisis la symétrie du dessin',
 			'tutorial.patterns': 'Clique sur l\'un de ces boutons pour dessiner un motif prédéfini',
 			'tutorial.fullscreen': 'Plein écran',
-			'tutorial.tutorial': 'Pour revoir ce tutoriel, clique ici'
+			'tutorial.tutorial': 'Pour revoir ce tutoriel, clique ici',
+
+			'about.title': 'À propos de Game of Grid',
+			'about.concept': 'Game of Grid  est un jeu graphique librement inspiré du <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie">jeu de la vie</a>. Chaque dessin donne naissance à une animation unique.',
+			'about.presentation': 'Game of Grid est un projet open source créé par Félicien Brochu. N\'hésite pas à visiter le <a href="https://github.com/felicien-brochu/GameOfGrid">dépôt GitHub</a>. Toute contribution est la bienvenue.',
+			'about.button': 'OK'
 		}
 	};
 	this.language = this.getBestLanguage();

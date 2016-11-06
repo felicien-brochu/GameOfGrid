@@ -42,6 +42,8 @@ Tutorial.prototype.start = function() {
 	if (gameOfGrid && gameOfGrid.started) {
 		gameOfGrid.toggleGame();
 	}
+	hideAboutPopup();
+
 	this.nextStep();
 }
 

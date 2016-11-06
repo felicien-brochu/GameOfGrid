@@ -75,27 +75,29 @@
 	position: absolute;
 	right: 0;
 	bottom: 0;
-	margin-right: 12px;
+	margin-right: 9px;
 	margin-bottom: 8px;
+	padding: 0px;
 	z-index: 100;
 	list-style: none;
 	display: flex;
 }
 #gog-bottom-action-buttons .gog-action-button {
-	width: 36px;
-	height: 36px;
+}
+#gog-fullscreen-button {
+	width: 46px;
 }
 #gog-fullscreen-button svg {
 	width: 30;
 	height: 30;
 }
-#gog-tutorial-button {
-	padding: 8px;
+#gog-bottom-action-buttons .gog-action-button.gog-small {
+	width: 34px;
 	opacity: 0.5;
 }
-#gog-tutorial-button svg {
+.gog-action-button.gog-small svg {
 	width: 20px;
-	height: 20px;
+	height: 30px;
 }
 
 #gog-settings-panel {
@@ -234,7 +236,7 @@
 	opacity: 1;
 }
 
-#gog-tutorial-container {
+#gog-popup-container {
 	position: absolute;
 	height: 100%;
 	width: 100%;
@@ -243,7 +245,7 @@
 	top: 0;
 	left: 0;
 }
-#gog-tutorial-container * {
+#gog-popup-container * {
 	pointer-events: auto;
 }
 .gog-popup {
@@ -318,20 +320,20 @@ kbd {
 .gog-next-button:hover {
 	background-color: #518FF5;
 }
-.gog-welcome-popup-container {
+.gog-center-popup-container {
 	margin: auto;
 	max-width: 480px;
-	margin-top: 50vh;
-	transform: translateY(-50%);
 }
-#gog-welcome-popup {
+.gog-popup.gog-center {
 	margin: 10px;
 }
-#gog-welcome-popup p {
+.gog-popup.gog-center p {
 	text-align: left;
-	min-height: 105px;
-	margin: 0px 15px;
 	line-height: 20px;
+	margin: 18px 15px 0px 15px;
+}
+#gog-welcome-popup p {
+	min-height: 105px;
 }
 .gog-button-popup {
 	position: absolute;
@@ -413,10 +415,10 @@ kbd {
 		right: -14px;
 	}
 	#gog-symmetry-popup {
-		top: 97px;
+		top: 99px;
 	}
 	#gog-patterns-popup {
-		top: 147px;
+		top: 150px;
 	}
 }
 .gog-bottom-button-popup {
@@ -437,8 +439,8 @@ kbd {
 	width: 0;
 }
 #gog-fullscreen-popup::after {
-	right: 10px;
+	right: 12px;
 }
 #gog-tutorial-popup::after {
-	right: 49px;
+	right: 55px;
 }
