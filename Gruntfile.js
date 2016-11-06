@@ -8,7 +8,7 @@
 			},
 			dist: {
 				src: 'js/src/*.js',
-				dest: 'js/build/gameoflife-<%= pkg.version %>.js'
+				dest: 'js/build/gameofgrid-<%= pkg.version %>.js'
 			}
 		},
 
@@ -16,11 +16,11 @@
 			options: {
 				mangle: false,
 				sourceMap: true,
-				sourceMapIn: 'js/build/gameoflife-<%= pkg.version %>.js.map'
+				sourceMapIn: 'js/build/gameofgrid-<%= pkg.version %>.js.map'
 			},
 			build: {
-				src: 'js/build/gameoflife-<%= pkg.version %>.js',
-				dest: 'js/build/gameoflife-<%= pkg.version %>.min.js'
+				src: 'js/build/gameofgrid-<%= pkg.version %>.js',
+				dest: 'js/build/gameofgrid-<%= pkg.version %>.min.js'
 			}
 		},
 		

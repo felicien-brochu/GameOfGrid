@@ -1,1 +1,1 @@
-﻿# gameoflife
+﻿# Game of Grid

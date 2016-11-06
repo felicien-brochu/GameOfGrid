@@ -1,13 +1,13 @@
-﻿function Settings(gameOfLife) {
-	this.gameOfLife = gameOfLife;
+﻿function Settings(gameOfGrid) {
+	this.gameOfGrid = gameOfGrid;
 	this.panel = document.getElementById("gog-settings-panel");
 	this.autoHider = new AutoHider(
-		document.getElementById("gog-game-of-life-canvas"),
+		document.getElementById("gog-game-of-grid-canvas"),
 		[this.panel, document.getElementById("gog-action-buttons"), document.getElementById("gog-bottom-action-buttons")],
 		2200, 150);
 	this.panelDisplayed = true;
 
-	gameOfLife.canvas.addEventListener("click", this.onGlobalClick.bind(this));
+	gameOfGrid.canvas.addEventListener("click", this.onGlobalClick.bind(this));
 	window.addEventListener("keydown", this.onKeyDown.bind(this));
 
 	this.hidePanelForSmallDevice();
@@ -55,21 +55,21 @@ Settings.prototype.initSliders = function() {
 	this.traceSlider = document.getElementById("gog-trace-slider");
 	this.colorSlider = document.getElementById("gog-color-slider");
 
-	var intervalX = 2000 / (this.gameOfLife.interval + 16) - 3;
+	var intervalX = 2000 / (this.gameOfGrid.interval + 16) - 3;
 	this.speedSlider.slider.setValue(intervalX / 38 * 100);
-	this.traceSlider.slider.setValue(this.gameOfLife.colorAgeSize / 255 * 100);
-	this.colorSlider.slider.setValue(this.gameOfLife.hueOffset);
+	this.traceSlider.slider.setValue(this.gameOfGrid.colorAgeSize / 255 * 100);
+	this.colorSlider.slider.setValue(this.gameOfGrid.hueOffset);
 
 	this.speedSlider.addEventListener('slideend', function(event) {
-		this.gameOfLife.setInterval(2000 / (event.detail / 100 * 38 + 3) - 16);
+		this.gameOfGrid.setInterval(2000 / (event.detail / 100 * 38 + 3) - 16);
 	}.bind(this));
 
 	this.traceSlider.addEventListener('valuechanged', function(event) {
-		this.gameOfLife.setColorAgeSize(Math.floor(event.detail / 100 * 254 + 2));
+		this.gameOfGrid.setColorAgeSize(Math.floor(event.detail / 100 * 254 + 2));
 	}.bind(this));
 
 	this.colorSlider.addEventListener('valuechanged', function(event) {
-		this.gameOfLife.setHueOffset(event.detail);
+		this.gameOfGrid.setHueOffset(event.detail);
 	}.bind(this));
 }
 
@@ -79,7 +79,7 @@ Settings.prototype.initSymmetryRadio = function() {
 
 	for (var i = 0; i < symmetriesRadios.length; ++i) {
 		var radio = symmetriesRadios[i];
-		if (radio.value == this.gameOfLife.drawSymmetry) {
+		if (radio.value == this.gameOfGrid.drawSymmetry) {
 			radio.checked = true;
 		}
 		radio.addEventListener('change', this.onSymmetrySelect.bind(this));
@@ -93,16 +93,16 @@ Settings.prototype.initPatternButtons = function() {
 	this.canvasPatternButton = document.getElementById("gog-canvas-pattern-button");
 
 	this.crossPatternButton.addEventListener('click', function() {
-		this.gameOfLife.generatePattern(generateCrossPattern);
+		this.gameOfGrid.generatePattern(generateCrossPattern);
 	}.bind(this));
 	this.gunPatternButton.addEventListener('click', function() {
-		this.gameOfLife.generatePattern(generateGunPattern);
+		this.gameOfGrid.generatePattern(generateGunPattern);
 	}.bind(this));
 	this.randomPatternButton.addEventListener('click', function() {
-		this.gameOfLife.generatePattern(generateRandomPattern);
+		this.gameOfGrid.generatePattern(generateRandomPattern);
 	}.bind(this));
 	this.canvasPatternButton.addEventListener('click', function() {
-		this.gameOfLife.generatePattern(generateRocketLaunchersCanvas);
+		this.gameOfGrid.generatePattern(generateRocketLaunchersCanvas);
 	}.bind(this));
 
 	var buttons = document.getElementsByTagName('button');
@@ -112,12 +112,12 @@ Settings.prototype.initPatternButtons = function() {
 }
 
 Settings.prototype.onSymmetrySelect = function(event) {
-	this.gameOfLife.drawSymmetry = event.target.value;
+	this.gameOfGrid.drawSymmetry = event.target.value;
 }
 
 Settings.prototype.onKeyDown = function(event) {
-	if (event.keyCode == 32 && this.gameOfLife) {      //< Space bar
-		this.gameOfLife.toggleGame();
+	if (event.keyCode == 32 && this.gameOfGrid) {      //< Space bar
+		this.gameOfGrid.toggleGame();
 		event.preventDefault();
 	} else if (event.keyCode == 90 && event.ctrlKey) { //< Ctrl+Z
 		this.onUndoClick();
@@ -139,8 +139,8 @@ Settings.prototype.preventDefaultKeyUp = function(event) {
 }
 
 Settings.prototype.onGlobalClick = function(event) {
-	if (this.gameOfLife.started) {
-		this.gameOfLife.toggleGame();
+	if (this.gameOfGrid.started) {
+		this.gameOfGrid.toggleGame();
 	}
 }
 
@@ -155,14 +155,14 @@ Settings.prototype.onGameStart = function() {
 }
 
 Settings.prototype.onPlayPauseClick = function() {
-	if (this.gameOfLife) {
-		this.gameOfLife.toggleGame();
+	if (this.gameOfGrid) {
+		this.gameOfGrid.toggleGame();
 	}
 }
 
 Settings.prototype.onResetClick = function() {
-	if (this.gameOfLife && !this.gameOfLife.isReset()) {
-		this.gameOfLife.resetGame();
+	if (this.gameOfGrid && !this.gameOfGrid.isReset()) {
+		this.gameOfGrid.resetGame();
 	}
 }
 
@@ -183,22 +183,22 @@ Settings.prototype.onFullscreenChange = function() {
 }
 
 Settings.prototype.onUndoClick = function() {
-	if (this.gameOfLife.hasToUndo()) {
-		this.gameOfLife.undo();
+	if (this.gameOfGrid.hasToUndo()) {
+		this.gameOfGrid.undo();
 	}
 }
 
 Settings.prototype.onRedoClick = function() {
-	if (this.gameOfLife.hasToRedo()) {
-		this.gameOfLife.redo();
+	if (this.gameOfGrid.hasToRedo()) {
+		this.gameOfGrid.redo();
 	}
 }
 
 Settings.prototype.onHistoryChange = function() {
-	setButtonEnabled(this.undoButton, this.gameOfLife.hasToUndo());
-	setButtonEnabled(this.redoButton, this.gameOfLife.hasToRedo());
-	setButtonEnabled(this.resetButton, !this.gameOfLife.isReset());
-	setButtonEnabled(this.playPauseButton, !this.gameOfLife.isReset());
+	setButtonEnabled(this.undoButton, this.gameOfGrid.hasToUndo());
+	setButtonEnabled(this.redoButton, this.gameOfGrid.hasToRedo());
+	setButtonEnabled(this.resetButton, !this.gameOfGrid.isReset());
+	setButtonEnabled(this.playPauseButton, !this.gameOfGrid.isReset());
 }
 
 function setButtonEnabled(button, enabled) {

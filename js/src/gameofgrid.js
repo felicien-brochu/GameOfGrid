@@ -1,4 +1,4 @@
-﻿function GameOfLife() {
+﻿function GameOfGrid() {
 	this.started = false;
 	this.gridHeight = 100;
 	this.gridWidth = 100;
@@ -27,7 +27,7 @@
 
 	this.settings = null;
 	this.shadowCanvas = document.getElementById("gog-shadow-canvas");
-	this.canvas = document.getElementById("gog-game-of-life-canvas");
+	this.canvas = document.getElementById("gog-game-of-grid-canvas");
 
 	this.canvas.width = window.innerWidth;
 	this.canvas.height = window.innerHeight;
@@ -38,11 +38,11 @@
 	this.webGLEnabled = this.initWebGL() != null;
 	if (this.webGLEnabled) {
 		console.log("Rendering with WebGL");
-		GameOfLife.prototype.renderFrame = this.renderWebGL;
+		GameOfGrid.prototype.renderFrame = this.renderWebGL;
 	}
 	else {
 		console.log("WebGL is not available on this browser: rendering with Context2D");
-		GameOfLife.prototype.renderFrame = this.renderContext2D;
+		GameOfGrid.prototype.renderFrame = this.renderContext2D;
 	}
 	window.addEventListener("resize", this.onResize.bind(this));
 	window.addEventListener("mouseout", this.onMouseOut.bind(this));
@@ -59,12 +59,12 @@
 	this.startRendering();
 }
 
-GameOfLife.prototype.registerSettings = function(settings) {
+GameOfGrid.prototype.registerSettings = function(settings) {
 	this.settings = settings;
 	this.history.listener = settings;
 }
 
-GameOfLife.prototype.initWebGL = function() {
+GameOfGrid.prototype.initWebGL = function() {
 	try {
 		this.gl = this.canvas.getContext("webgl");
 	}
@@ -120,13 +120,13 @@ GameOfLife.prototype.initWebGL = function() {
 	return this.gl;
 }
 
-GameOfLife.prototype.initFrame = function() {
+GameOfGrid.prototype.initFrame = function() {
 	this.gridWidth = Math.ceil(this.canvas.width / this.cellSize);
 	this.gridHeight = Math.ceil(this.canvas.height / this.cellSize);
 	this.resetFrame();
 }
 
-GameOfLife.prototype.resetFrame = function() {
+GameOfGrid.prototype.resetFrame = function() {
 	for (var i = 0, len = this.gridHeight * this.gridWidth; i < len; ++i) {
 		this.grid[i] = 0;
 	}
@@ -134,7 +134,7 @@ GameOfLife.prototype.resetFrame = function() {
 	this.isDirty = true;
 }
 
-GameOfLife.prototype.resetGame = function() {
+GameOfGrid.prototype.resetGame = function() {
 	if (!this.isReset()) {
 		if (this.started) {
 			this.toggleGame();
@@ -144,7 +144,7 @@ GameOfLife.prototype.resetGame = function() {
 	}
 }
 
-GameOfLife.prototype.generatePattern = function(generator) {
+GameOfGrid.prototype.generatePattern = function(generator) {
 	if (this.started) {
 		this.toggleGame();
 	}
@@ -154,7 +154,7 @@ GameOfLife.prototype.generatePattern = function(generator) {
 	this.isDirty = true;
 }
 
-GameOfLife.prototype.onResize = function() {
+GameOfGrid.prototype.onResize = function() {
 	var oldGridWidth = this.gridWidth;
 	var oldGridHeight = this.gridHeight;
 	this.gridWidth = Math.ceil(window.innerWidth / this.cellSize);
@@ -196,14 +196,14 @@ GameOfLife.prototype.onResize = function() {
 	this.isShadowDirty = true;
 }
 
-GameOfLife.prototype.onMouseOut = function() {
+GameOfGrid.prototype.onMouseOut = function() {
 	if (this.drawMode != "none") {
 		this.saveHistory();
 	}
 	this.drawMode = "none";
 }
 
-GameOfLife.prototype.onMouseDown = function(event) {
+GameOfGrid.prototype.onMouseDown = function(event) {
 	if (!this.started) {
 		var x = event.clientX,
 			y = event.clientY,
@@ -223,18 +223,18 @@ GameOfLife.prototype.onMouseDown = function(event) {
 	}
 }
 
-GameOfLife.prototype.onMouseUp = function(event) {
+GameOfGrid.prototype.onMouseUp = function(event) {
 	this.drawMode = "none";
 	this.saveHistory();
 }
 
-GameOfLife.prototype.onMouseMove = function(event) {
+GameOfGrid.prototype.onMouseMove = function(event) {
 	if (!this.started && this.drawMode != "none") {
 		this.applyBrush(event.clientX, event.clientY);
 	}
 }
 
-GameOfLife.prototype.onTouch = function(event) {
+GameOfGrid.prototype.onTouch = function(event) {
 	if (!this.started) {
 		event.preventDefault();
 
@@ -271,7 +271,7 @@ GameOfLife.prototype.onTouch = function(event) {
 	}
 }
 
-GameOfLife.prototype.applyBrush = function(x, y) {
+GameOfGrid.prototype.applyBrush = function(x, y) {
 	var drawValue = this.drawMode === "draw" ? -1 : 0;
 	var symmetry = this.drawSymmetries[this.drawSymmetry];
 
@@ -331,7 +331,7 @@ GameOfLife.prototype.applyBrush = function(x, y) {
 	this.lastDrawY = y;
 }
 
-GameOfLife.prototype.toggleGame = function(dispatchEvent) {
+GameOfGrid.prototype.toggleGame = function(dispatchEvent) {
 	if (dispatchEvent === undefined) {
 		dispatchEvent = true;
 	}
@@ -354,7 +354,7 @@ GameOfLife.prototype.toggleGame = function(dispatchEvent) {
 	}
 }
 
-GameOfLife.prototype.setInterval = function(interval) {
+GameOfGrid.prototype.setInterval = function(interval) {
 	this.interval = interval;
 	if (this.started) {
 		this.toggleGame(false);
@@ -362,7 +362,7 @@ GameOfLife.prototype.setInterval = function(interval) {
 	}
 }
 
-GameOfLife.prototype.setColorAgeSize = function(colorAgeSize) {
+GameOfGrid.prototype.setColorAgeSize = function(colorAgeSize) {
 	this.colorAgeSize = colorAgeSize;
 	if (!this.started || this.interval > 40) {
 		this.isDirty = true;
@@ -370,7 +370,7 @@ GameOfLife.prototype.setColorAgeSize = function(colorAgeSize) {
 	}
 }
 
-GameOfLife.prototype.setHueOffset = function(hueOffset) {
+GameOfGrid.prototype.setHueOffset = function(hueOffset) {
 	this.hueOffset = hueOffset;
 	if (!this.started || this.interval > 40) {
 		this.isDirty = true;
@@ -378,7 +378,7 @@ GameOfLife.prototype.setHueOffset = function(hueOffset) {
 	}
 }
 
-GameOfLife.prototype.bringTheChosenOnesToLife = function() {
+GameOfGrid.prototype.bringTheChosenOnesToLife = function() {
 	for (var i = 0, len = this.gridHeight * this.gridWidth; i < len; i++) {
 		if (this.grid[i] === -1) {
 			this.grid[i] = 1;
@@ -388,7 +388,7 @@ GameOfLife.prototype.bringTheChosenOnesToLife = function() {
 	this.isDirty = true;
 }
 
-GameOfLife.prototype.nextStep = function() {
+GameOfGrid.prototype.nextStep = function() {
 	for (var i = 0, len = this.gridHeight * this.gridWidth; i < len; ++i) {
 		var neighborsCount = this.countNeighbors(i);
 		if (this.grid[i] === 1) {
@@ -430,11 +430,11 @@ GameOfLife.prototype.nextStep = function() {
 	this.newGrid = tempGrid;
 }
 
-GameOfLife.prototype.startRendering = function() {
+GameOfGrid.prototype.startRendering = function() {
 	this.rendering = true;
 }
 
-GameOfLife.prototype.render = function() {
+GameOfGrid.prototype.render = function() {
 	if (this.rendering) {
 		if (this.isDirty) {
 			this.renderFrame();
@@ -445,7 +445,7 @@ GameOfLife.prototype.render = function() {
 	}
 }
 
-GameOfLife.prototype.drawInnerShadow = function() {
+GameOfGrid.prototype.drawInnerShadow = function() {
 	var context = this.shadowCanvas.getContext("2d");
 	context.shadowBlur = 120;
 	context.shadowColor = "#000000";
@@ -464,7 +464,7 @@ GameOfLife.prototype.drawInnerShadow = function() {
 	this.isShadowDirty = false;
 }
 
-GameOfLife.prototype.renderContext2D = function() {
+GameOfGrid.prototype.renderContext2D = function() {
 	var width = this.cellSize - 1;
 	var context = this.canvas.getContext("2d");
 	var visibleWidth = (this.canvas.width / this.cellSize) | 0;
@@ -513,7 +513,7 @@ GameOfLife.prototype.renderContext2D = function() {
 	this.dirtyCells = [];
 }
 
-GameOfLife.prototype.renderWebGL = function() {
+GameOfGrid.prototype.renderWebGL = function() {
 	var vertices = [];
 	var gl = this.gl;
 
@@ -601,7 +601,7 @@ GameOfLife.prototype.renderWebGL = function() {
 	this.dirtyCells = [];
 }
 
-GameOfLife.prototype.computeColor = function(age) {
+GameOfGrid.prototype.computeColor = function(age) {
 	if (age === 0 || age >= this.colorAgeSize) {
 		return [204, 204, 204, 255];
 	}
@@ -638,7 +638,7 @@ GameOfLife.prototype.computeColor = function(age) {
 	}
 }
 
-GameOfLife.prototype.countNeighbors = function(i) {
+GameOfGrid.prototype.countNeighbors = function(i) {
 	var x = Math.floor(i % this.gridWidth);
 	var y = Math.floor(i / this.gridWidth);
 	var upX = x - 1 < 0 ? this.gridWidth - 1 : x - 1;
@@ -661,11 +661,11 @@ GameOfLife.prototype.countNeighbors = function(i) {
 	return count;
 }
 
-GameOfLife.prototype.saveHistory = function() {
+GameOfGrid.prototype.saveHistory = function() {
 	this.history.put(this.grid, this.gridWidth, this.gridHeight);
 }
 
-GameOfLife.prototype.undo = function() {
+GameOfGrid.prototype.undo = function() {
 	if (this.hasToUndo()) {
 		if (this.started) {
 			this.toggleGame();
@@ -675,11 +675,11 @@ GameOfLife.prototype.undo = function() {
 	}
 }
 
-GameOfLife.prototype.hasToUndo = function() {
+GameOfGrid.prototype.hasToUndo = function() {
 	return this.history.hasToUndo();
 }
 
-GameOfLife.prototype.redo = function() {
+GameOfGrid.prototype.redo = function() {
 	if (this.hasToRedo()) {
 		var grid = this.history.redo();
 		this.applyGrid(grid.grid, grid.width, grid.height);
@@ -689,15 +689,15 @@ GameOfLife.prototype.redo = function() {
 	}
 }
 
-GameOfLife.prototype.hasToRedo = function() {
+GameOfGrid.prototype.hasToRedo = function() {
 	return this.history.hasToRedo();
 }
 
-GameOfLife.prototype.isReset = function() {
+GameOfGrid.prototype.isReset = function() {
 	return this.history.isLastEmpty();
 }
 
-GameOfLife.prototype.applyGrid = function(grid, width, height) {
+GameOfGrid.prototype.applyGrid = function(grid, width, height) {
 	for (var i = 0, len = this.gridWidth * this.gridHeight; i < len; ++i) {
 		var x = Math.floor(i % this.gridWidth);
 		var y = Math.floor(i / this.gridWidth);

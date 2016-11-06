@@ -33,7 +33,7 @@
 </head>
 <body>
 	<!-- Game canvas -->
-	<canvas id="gog-game-of-life-canvas"></canvas>
+	<canvas id="gog-game-of-grid-canvas"></canvas>
 	<canvas id="gog-shadow-canvas"></canvas>
 
 	<!-- Settings controls -->
@@ -185,7 +185,7 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" src="js/build/gameoflife-0.1.0.min.js"></script>
+	<script type="text/javascript" src="js/build/gameofgrid-0.1.0.min.js"></script>
 
 	<script id="vertex" type="x-shader">
 		attribute vec2 aVertexPosition;
@@ -235,13 +235,13 @@
 	<script type="text/javascript">
 		var i18n = new I18n();
 		i18n.translateAll();
-		var gameOfLife = new GameOfLife();
-		var settings = new Settings(gameOfLife);
-		gameOfLife.registerSettings(settings);
+		var gameOfGrid = new GameOfGrid();
+		var settings = new Settings(gameOfGrid);
+		gameOfGrid.registerSettings(settings);
 		window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
 		                               window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 		function render() {
-			gameOfLife.render.bind(gameOfLife)();
+			gameOfGrid.render.bind(gameOfGrid)();
 			requestAnimationFrame(render);
 		};
 		render();

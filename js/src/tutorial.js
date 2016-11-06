@@ -39,8 +39,8 @@ Tutorial.prototype.start = function() {
 	if (settings && !settings.panelDisplayed) {
 		settings.togglePanel();
 	}
-	if (gameOfLife && gameOfLife.started) {
-		gameOfLife.toggleGame();
+	if (gameOfGrid && gameOfGrid.started) {
+		gameOfGrid.toggleGame();
 	}
 	this.nextStep();
 }

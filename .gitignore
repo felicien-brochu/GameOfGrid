@@ -1,5 +1,4 @@
-﻿Thumbs.db
-*.db
+﻿*.db
 build
 node_modules
 /svg/sprite.svg
