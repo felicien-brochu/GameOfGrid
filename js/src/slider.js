@@ -58,6 +58,48 @@ Slider.prototype.setValue = function(newValue, fromEvent) {
 	}
 }
 
+Slider.prototype.onTouch = function(event) {
+	var type = null;
+	switch (event.type) {
+	case "touchstart":
+		type = "mousedown";
+		break;
+	case "touchmove":
+		type = "mousemove";
+		break;
+	case "touchend":
+		type = "mouseup";
+		break;
+	}
+
+	for (var i = 0, length = event.changedTouches.length; i < length; ++i) {
+		var touch = event.changedTouches[i];
+		var mouseEvent = new MouseEvent(type, {
+				bubbles: true,
+				cancelable: true,
+				view: event.target.ownerDocument.defaultView,
+				screenX: touch.screenX,
+				screenY: touch.screenY,
+				clientX: touch.clientX,
+				clientY: touch.clientY,
+				movementX: 1,
+				movementY: 1,
+				ctrlKey: event.ctrlKey,
+				altKey: event.altKey,
+				shiftKey: event.shiftKey,
+				metaKey: event.metaKey,
+				button: 0});
+
+		if (type === "mousedown") {
+			this.onMouseDown(mouseEvent);
+		} else if (type === "mouseup") {
+			this.onMouseUp(mouseEvent);
+		} else if (type === "mousemove") {
+			this.onMouseMove(mouseEvent);
+		}
+	}
+}
+
 function Slider(element) {
 	this.element = element;
 	this.sliding = false;
@@ -69,6 +111,9 @@ function Slider(element) {
 	element.addEventListener('mousedown', this.onMouseDown.bind(this));
 	document.addEventListener('mouseup', this.onMouseUp.bind(this));
 	document.addEventListener('mousemove', this.onMouseMove.bind(this));
+	element.addEventListener("touchstart", this.onTouch.bind(this));
+	element.addEventListener("touchmove", this.onTouch.bind(this));
+	element.addEventListener("touchend", this.onTouch.bind(this));
 
 	element.appendChild(this.button);
 	element.slider = this;

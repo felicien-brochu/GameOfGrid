@@ -7,6 +7,7 @@
 		2200, 150);
 	this.panelDisplayed = true;
 
+	gameOfLife.canvas.addEventListener("click", this.onGlobalClick.bind(this));
 	window.addEventListener("keydown", this.onKeyDown.bind(this));
 
 	if (window.innerWidth < 600) {
@@ -130,6 +131,12 @@ Settings.prototype.preventDefaultKeyUp = function(event) {
 		event.preventDefault();
 	} else if (event.keyCode == 89 && event.ctrlKey) { //< Ctrl+Y
 		event.preventDefault();
+	}
+}
+
+Settings.prototype.onGlobalClick = function(event) {
+	if (this.gameOfLife.started) {
+		this.gameOfLife.toggleGame();
 	}
 }
 

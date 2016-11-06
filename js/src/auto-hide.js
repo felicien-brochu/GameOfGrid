@@ -10,6 +10,7 @@
 	this.transitionDuration = transitionDuration;
 
 	document.addEventListener("mousemove", this.resetTimer.bind(this));
+	document.addEventListener("touchmove", this.resetTimer.bind(this));
 	document.addEventListener("touchstart", this.resetTimer.bind(this));
 }
 

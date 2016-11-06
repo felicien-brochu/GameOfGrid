@@ -235,37 +235,39 @@ GameOfLife.prototype.onMouseMove = function(event) {
 }
 
 GameOfLife.prototype.onTouch = function(event) {
-	event.preventDefault();
+	if (!this.started) {
+		event.preventDefault();
 
-	var type = null;
-	switch (event.type) {
-	case "touchstart":
-		type = "mousedown";
-		break;
-	case "touchmove":
-		type = "mousemove";
-		break;
-	case "touchend":
-		type = "mouseup";
-		break;
-	}
+		var type = null;
+		switch (event.type) {
+		case "touchstart":
+			type = "mousedown";
+			break;
+		case "touchmove":
+			type = "mousemove";
+			break;
+		case "touchend":
+			type = "mouseup";
+			break;
+		}
 
-	for (var i = 0, length = event.changedTouches.length; i < length; ++i) {
-		var touch = event.changedTouches[i];
-		var mouseEvent = new MouseEvent(type, {
-				bubbles: true,
-				cancelable: true,
-				view: event.target.ownerDocument.defaultView,
-				screenX: touch.screenX,
-				screenY: touch.screenY,
-				clientX: touch.clientX,
-				clientY: touch.clientY,
-				ctrlKey: event.ctrlKey,
-				altKey: event.altKey,
-				shiftKey: event.shiftKey,
-				metaKey: event.metaKey,
-				button: 0});
-		event.target.dispatchEvent(mouseEvent);
+		for (var i = 0, length = event.changedTouches.length; i < length; ++i) {
+			var touch = event.changedTouches[i];
+			var mouseEvent = new MouseEvent(type, {
+					bubbles: true,
+					cancelable: true,
+					view: event.target.ownerDocument.defaultView,
+					screenX: touch.screenX,
+					screenY: touch.screenY,
+					clientX: touch.clientX,
+					clientY: touch.clientY,
+					ctrlKey: event.ctrlKey,
+					altKey: event.altKey,
+					shiftKey: event.shiftKey,
+					metaKey: event.metaKey,
+					button: 0});
+			event.target.dispatchEvent(mouseEvent);
+		}
 	}
 }
 
@@ -339,8 +341,8 @@ GameOfLife.prototype.toggleGame = function(dispatchEvent) {
 			this.settings.onGamePause();
 			this.saveHistory();
 		}
-	}
-	else if (!this.isReset()) {
+		this.started = false;
+	} else if (!this.isReset()) {
 		this.bringTheChosenOnesToLife();
 		this.nextStep();
 		this.history.deleteFuture();
@@ -348,8 +350,8 @@ GameOfLife.prototype.toggleGame = function(dispatchEvent) {
 		if (dispatchEvent && this.settings) {
 			this.settings.onGameStart();
 		}
+		this.started = true;
 	}
-	this.started = !this.started;
 }
 
 GameOfLife.prototype.setInterval = function(interval) {
@@ -782,7 +784,7 @@ History.prototype.hasToRedo = function() {
 }
 
 History.prototype.isLastEmpty = function() {
-	return this.history[this.currentGrid].grid.length == 0;
+	return this.currentGrid < 0 || this.history[this.currentGrid].grid.length == 0;
 }
 
 History.prototype.onChange = function() {
