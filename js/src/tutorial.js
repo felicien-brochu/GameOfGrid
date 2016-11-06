@@ -34,6 +34,14 @@ Tutorial.prototype.start = function() {
 		this.skip();
 	}
 	this.currentPopup = -1;
+
+	this.panelWasDisplayed = settings.panelDisplayed;
+	if (settings && !settings.panelDisplayed) {
+		settings.togglePanel();
+	}
+	if (gameOfLife && gameOfLife.started) {
+		gameOfLife.toggleGame();
+	}
 	this.nextStep();
 }
 
@@ -66,15 +74,12 @@ Tutorial.prototype.end = function() {
 	if (localStorage) {
 		localStorage.setItem('tutorialSeen', true);
 	}
+	if (!this.panelWasDisplayed && settings.panelDisplayed) {
+		settings.hidePanelForSmallDevice();
+	}
 }
 
 function startTutorial() {
-	if (settings && !settings.panelDisplayed) {
-		settings.togglePanel();
-	}
-	if (gameOfLife && gameOfLife.started) {
-		gameOfLife.toggleGame();
-	}
 	tutorial.start();
 }
 

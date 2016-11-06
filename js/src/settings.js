@@ -10,9 +10,7 @@
 	gameOfLife.canvas.addEventListener("click", this.onGlobalClick.bind(this));
 	window.addEventListener("keydown", this.onKeyDown.bind(this));
 
-	if (window.innerWidth < 600) {
-		this.togglePanel();
-	}
+	this.hidePanelForSmallDevice();
 
 	this.initActionButtons();
 	this.initSliders();
@@ -21,6 +19,12 @@
 
 	this.panel.addEventListener("selectstart", function(e) { e.preventDefault(); });
 };
+
+Settings.prototype.hidePanelForSmallDevice = function() {
+	if (window.innerWidth < 600 && this.panelDisplayed) {
+		this.togglePanel();
+	}
+}
 
 Settings.prototype.initActionButtons = function() {
 	this.tutorialButton = document.getElementById("gog-tutorial-button");
