@@ -45,7 +45,8 @@
 	border: none;
 	display: inline-block;
 	overflow: hidden;
-	text-align: left;
+	text-align: center;
+	vertical-align: middle;
 	background: transparent;
 	opacity: 0.9;
 }
@@ -317,16 +318,20 @@ kbd {
 .gog-next-button:hover {
 	background-color: #518FF5;
 }
-#gog-welcome-popup {
+.gog-welcome-popup-container {
 	margin: auto;
-	max-width: 400px;
+	max-width: 480px;
 	margin-top: 50vh;
 	transform: translateY(-50%);
+}
+#gog-welcome-popup {
+	margin: 10px;
 }
 #gog-welcome-popup p {
 	text-align: left;
 	min-height: 105px;
 	margin: 0px 15px;
+	line-height: 20px;
 }
 .gog-button-popup {
 	position: absolute;
@@ -338,7 +343,7 @@ kbd {
 .gog-button-popup::after {
 	content: "";
 	position: absolute;
-	top: -15px;
+	top: -14px;
 	border-width: 0px 15px 15px;
 	border-style: solid;
 	border-color: white transparent;
@@ -359,29 +364,60 @@ kbd {
 }
 .gog-panel-popup {
 	position: absolute;
-	right: 227px;
+	right: 5px;
 	width: 220px;
-	text-align: center;
 }
 .gog-panel-popup::after {
 	content: "";
 	position: absolute;
-	top: 58px;
-	right: -15px;
-	border-width: 15px 0px 15px 15px;
+	top: -14px;
+	right: 88px;
+	border-width: 0px 15px 15px;
 	border-style: solid;
-	border-color: transparent white;
+	border-color: white transparent;
 	display: block;
 	width: 0;
 }
 #gog-sliders-popup {
-	top: 28px;
+	top: 152px;
+}
+#gog-sliders-popup::after {
+	right: 57px;
 }
 #gog-symmetry-popup {
-	top: 98px;
+	top: 203px;
 }
 #gog-patterns-popup {
-	top: 150px;
+	top: 260px;
+}
+@media only screen and (min-width: 600px) {
+	.gog-panel-popup {
+		right: 227px;
+		width: 220px;
+	}
+	.gog-panel-popup::after {
+		content: "";
+		position: absolute;
+		right: -14px;
+		top: 57px;
+		border-width: 15px 0px 15px 15px;
+		border-style: solid;
+		border-color: transparent white;
+		display: block;
+		width: 0;
+	}
+	#gog-sliders-popup {
+		top: 28px;
+	}
+	#gog-sliders-popup::after {
+		right: -14px;
+	}
+	#gog-symmetry-popup {
+		top: 97px;
+	}
+	#gog-patterns-popup {
+		top: 147px;
+	}
 }
 .gog-bottom-button-popup {
 	position: absolute;
@@ -393,7 +429,7 @@ kbd {
 .gog-bottom-button-popup::after {
 	content: "";
 	position: absolute;
-	bottom: -15px;
+	bottom: -14px;
 	border-width: 15px 15px 0;
 	border-style: solid;
 	border-color: white transparent;

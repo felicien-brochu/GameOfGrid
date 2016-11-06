@@ -28,7 +28,7 @@ function I18n() {
 			'tutorial.button.skip': 'Passer',
 			'tutorial.button.next': 'Suivant &gt;',
 			'tutorial.button.end': 'OK',
-			'tutorial.welcome.title': 'Bienvenue dans Game of Grid !',
+			'tutorial.welcome.title': 'Bienvenue dans Game of Grid&nbsp;!',
 			'tutorial.welcome.text': 'Dessine quelque chose sur la grille puis clique sur lecture. Chaque dessin donnera naissance à une animation unique.<br/><br/>Ce jeu est librement inspiré du <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie">jeu de la vie</a>.',
 			'tutorial.play': 'Clique sur lecture pour donner vie à la grille<br/><br/>raccourci&nbsp;: <kbd>Barre d\'espace</kbd>',
 			'tutorial.history': 'Clique Annuler/Rétablir pour annuler tes dernières actions<br/><br/>raccourcis&nbsp;: <kbd>Ctrl</kbd>+<kbd>Z</kbd>/<kbd>Ctrl</kbd>+<kbd>Y</kbd>',
