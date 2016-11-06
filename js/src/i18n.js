@@ -22,7 +22,7 @@ function I18n() {
 
 			'about.title': 'About Game of Grid',
 			'about.concept': 'Game of Grid is a graphics game freely inspired from <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway\'s game of life</a>. Each drawing you draw gives birth to a unique animation.',
-			'about.presentation': 'Game of Grid is an open source project created by Félicien Brochu. Please visit the <a href="https://github.com/felicien-brochu/GameOfGrid">GitHub repository</a>. Any contribution is welcome.',
+			'about.presentation': 'Game of Grid is an open source project created by Félicien Brochu. Please visit the <a href="https://github.com/felicien-brochu/GameOfGrid">GitHub repository</a>: any contribution is welcome.',
 			'about.button': 'OK'
 		},
 		'fr': {
@@ -47,7 +47,7 @@ function I18n() {
 
 			'about.title': 'À propos de Game of Grid',
 			'about.concept': 'Game of Grid  est un jeu graphique librement inspiré du <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie">jeu de la vie</a>. Chaque dessin donne naissance à une animation unique.',
-			'about.presentation': 'Game of Grid est un projet open source créé par Félicien Brochu. N\'hésite pas à visiter le <a href="https://github.com/felicien-brochu/GameOfGrid">dépôt GitHub</a>. Toute contribution est la bienvenue.',
+			'about.presentation': 'Game of Grid est un projet open source créé par Félicien Brochu. N\'hésite pas à visiter le <a href="https://github.com/felicien-brochu/GameOfGrid">dépôt GitHub</a>&nbsp;: toute contribution est la bienvenue.',
 			'about.button': 'OK'
 		}
 	};
