@@ -29,12 +29,34 @@ function generateCrossPattern(grid, gridWidth, gridHeight) {
 
 function generateRocketLaunchersCanvas(grid, gridWidth, gridHeight) {
 	var brush = [[0, -1, -1], [-1, -1, 0], [0, -1, 0]];
-	var xWidth = 40, yWidth = 35;
-	var xTilt = 10, yTilt = 15;
-	generateBrushCanvas(grid, gridWidth, gridHeight, brush, xWidth, yWidth, xTilt, yTilt);
+	generateBrush(brush, grid, gridWidth, gridHeight);
 }
 
-function generateBrushCanvas(grid, gridWidth, gridHeight, brush, xWidth, yWidth, xTilt, yTilt) {
+function generateBrush(brush, grid, gridWidth, gridHeight) {
+	if (Math.min(gridWidth, gridHeight) <= 40 || Math.max(gridWidth, gridHeight) <= 83) {
+		generateCenteredBrush(brush, grid, gridWidth, gridHeight);
+	} else {
+		var xWidth = 40, yWidth = 35;
+		var xTilt = 10, yTilt = 15;
+		generateBrushCanvas(brush, xWidth, yWidth, xTilt, yTilt, grid, gridWidth, gridHeight);
+	}
+}
+
+function generateCenteredBrush(brush, grid, gridWidth, gridHeight) {
+	var startX = Math.floor(gridWidth / 2 - brush[0].length / 2),
+		startY = Math.floor(gridHeight / 2 - brush.length / 2);
+	for (var i = 0, len = gridHeight * gridWidth; i < len; ++i) {
+		var x = Math.floor(i % gridWidth),
+			y = Math.floor(i / gridWidth);
+		if (x >= startX && x < startX + brush[0].length && y >= startY && y < startY + brush.length) {
+			grid[i] = brush[y - startY][x - startX];
+		} else {
+			grid[i] = 0;
+		}
+	}
+}
+
+function generateBrushCanvas(brush, xWidth, yWidth, xTilt, yTilt, grid, gridWidth, gridHeight) {
 	var offset = Math.floor(Math.sqrt(xWidth * xWidth + yWidth * yWidth) / 2);
 
 	for (var i = 0, len = gridHeight * gridWidth; i < len; ++i) {
