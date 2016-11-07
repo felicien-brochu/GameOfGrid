@@ -102,7 +102,7 @@ Settings.prototype.initPatternButtons = function() {
 		this.gameOfGrid.generatePattern(generateRandomPattern);
 	}.bind(this));
 	this.canvasPatternButton.addEventListener('click', function() {
-		this.gameOfGrid.generatePattern(generateRocketLaunchersCanvas);
+		this.gameOfGrid.generatePattern(generatePatternCanvas);
 	}.bind(this));
 
 	var buttons = document.getElementsByTagName('button');

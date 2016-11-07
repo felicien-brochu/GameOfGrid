@@ -27,13 +27,40 @@ function generateCrossPattern(grid, gridWidth, gridHeight) {
 	}
 }
 
+var lastCanvasPattern = -1;
+var canvasPatterns = [
+	generateRocketLaunchersCanvas,
+	generateGliderCanvas,
+	generateAcornCanvas
+];
+
+function generatePatternCanvas(grid, gridWidth, gridHeight) {
+	lastCanvasPattern++;
+	if (lastCanvasPattern >= canvasPatterns.length) {
+		lastCanvasPattern = 0;
+	}
+	canvasPatterns[lastCanvasPattern](grid, gridWidth, gridHeight);
+}
+
 function generateRocketLaunchersCanvas(grid, gridWidth, gridHeight) {
 	var brush = [[0, -1, -1], [-1, -1, 0], [0, -1, 0]];
 	generateBrush(brush, grid, gridWidth, gridHeight);
 }
 
+function generateGliderCanvas(grid, gridWidth, gridHeight) {
+	var brush = [[0, -1, -1], [-1, 0, -1], [0, 0, -1]];
+	generateBrush(brush, grid, gridWidth, gridHeight);
+}
+
+function generateAcornCanvas(grid, gridWidth, gridHeight) {
+	var brush = [[0, -1, 0, 0, 0, 0, 0],
+	             [0, 0, 0, -1, 0, 0, 0],
+	             [-1, -1, 0, 0, -1, -1, -1]];
+	generateBrush(brush, grid, gridWidth, gridHeight);
+}
+
 function generateBrush(brush, grid, gridWidth, gridHeight) {
-	if (Math.min(gridWidth, gridHeight) <= 40 || Math.max(gridWidth, gridHeight) <= 83) {
+	if (Math.min(gridWidth, gridHeight) <= 74 || Math.max(gridWidth, gridHeight) <= 98) {
 		generateCenteredBrush(brush, grid, gridWidth, gridHeight);
 	} else {
 		var xWidth = 40, yWidth = 35;
