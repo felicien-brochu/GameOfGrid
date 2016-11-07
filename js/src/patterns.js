@@ -71,18 +71,30 @@ function generateGunPattern(grid, gridWidth, gridHeight) {
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	];
-	var startY1 = Math.floor(gridHeight / 6 - gun.length / 2),
-		startX1 = Math.floor(gridWidth / 2 - (gridHeight / 3) - 2 * gun.length + 4),
-		startY2 = Math.floor(5 * gridHeight / 6  - gun.length / 2),
-		startX2 = Math.floor(gridWidth / 2 + (gridHeight / 3) - gun.length - 4);
+	var w = gridWidth, h = gridHeight;
+	if (gridWidth < gridHeight) {
+		w = gridHeight;
+		h = gridWidth;
+	}
+	var startY1 = Math.floor(h / 6 - gun.length / 2),
+		startX1 = Math.floor(w / 2 - (h / 3) - 2 * gun.length),
+		startY2 = Math.floor(5 * h / 6 - gun.length / 2),
+		startX2 = Math.floor(w / 2 + (h / 3) - gun.length - 8);
+
 	for (var i = 0, len = gridHeight * gridWidth; i < len; ++i) {
 		var x = Math.floor(i % gridWidth),
 			y = Math.floor(i / gridWidth);
 
+		if (gridWidth < gridHeight) {
+			x += y;
+			y = x - y;
+			x -= y;
+		}
 		var brushX1 = x - startX1,
 			brushY1 = y - startY1,
 			brushX2 = x - startX2,
 			brushY2 = y - startY2;
+
 		if (brushY1  < gun.length && brushY1 >= 0 && brushX1 < gun[0].length && brushX1 >= 0) {
 			grid[i] = gun[brushY1][brushX1];
 		} else if (brushY2  < gun.length && brushY2 >= 0 && brushX2 < gun[0].length && brushX2 >= 0) {
