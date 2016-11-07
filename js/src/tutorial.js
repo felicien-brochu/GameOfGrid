@@ -1,4 +1,4 @@
-function Tutorial() {
+﻿function Tutorial() {
 	this.popupIds = [
 		"gog-welcome-popup",
 		"gog-play-popup",

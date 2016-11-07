@@ -1,4 +1,4 @@
-function showAboutPopup() {
+﻿function showAboutPopup() {
 	var popup = document.getElementById("gog-about-popup");
 	popup.style.display = "block";
 }

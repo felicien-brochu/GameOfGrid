@@ -71,6 +71,9 @@
 	width: 34px;
 	height: 32px;
 }
+.gog-ic-pause {
+	display: none;
+}
 #gog-bottom-action-buttons {
 	position: absolute;
 	right: 0;

@@ -1,4 +1,4 @@
-function I18n() {
+﻿function I18n() {
 	this.messages = {
 		'en': {
 			'settings.label.speed': 'Speed',
@@ -54,13 +54,6 @@ function I18n() {
 		}
 	};
 	this.language = this.getBestLanguage();
-}
-
-if (!String.prototype.includes) {
-	String.prototype.includes = function() {
-		'use strict';
-		return String.prototype.indexOf.apply(this, arguments) !== -1;
-	};
 }
 
 I18n.prototype.getBestLanguage = function() {

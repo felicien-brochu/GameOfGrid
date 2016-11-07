@@ -145,12 +145,20 @@ Settings.prototype.onGlobalClick = function(event) {
 }
 
 Settings.prototype.onGamePause = function() {
-	this.playPauseButton.childNodes[0].childNodes[0].setAttribute("xlink:href", "svg/sprite.svg#shape-ic-play-arrow");
+	var playIcon = this.playPauseButton.getElementsByClassName("gog-ic-play-arrow")[0];
+	var pauseIcon = this.playPauseButton.getElementsByClassName("gog-ic-pause")[0];
+	playIcon.style.display = "inline-block";
+	pauseIcon.style.display = "none";
+
 	this.autoHider.setEnabled(false);
 }
 
 Settings.prototype.onGameStart = function() {
-	this.playPauseButton.childNodes[0].childNodes[0].setAttribute("xlink:href", "svg/sprite.svg#shape-ic-pause");
+	var playIcon = this.playPauseButton.getElementsByClassName("gog-ic-play-arrow")[0];
+	var pauseIcon = this.playPauseButton.getElementsByClassName("gog-ic-pause")[0];
+	playIcon.style.display = "none";
+	pauseIcon.style.display = "inline-block";
+
 	this.autoHider.setEnabled(true);
 }
 
@@ -203,10 +211,10 @@ Settings.prototype.onHistoryChange = function() {
 
 function setButtonEnabled(button, enabled) {
 	var disabledClass = "gog-disabled";
-	if (enabled && button.className.includes(disabledClass)) {
-		button.className = button.className.replace(new RegExp('(?:^|\\s)'+ disabledClass + '(?:\\s|$)'), ' ');
-	} else if (!enabled && !button.className.includes(disabledClass)) {
-		button.className += " " + disabledClass;
+	if (enabled) {
+		button.classList.remove(disabledClass);
+	} else {
+		button.classList.add(disabledClass);
 	}
 }
 
