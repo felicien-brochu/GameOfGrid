@@ -44,6 +44,8 @@
 		console.log("WebGL is not available on this browser: rendering with Context2D");
 		GameOfGrid.prototype.renderFrame = this.renderContext2D;
 	}
+
+	window.addEventListener("orientationchange", this.onOrientationChange.bind(this));
 	window.addEventListener("resize", this.onResize.bind(this));
 	window.addEventListener("mouseout", this.onMouseOut.bind(this));
 
@@ -152,6 +154,22 @@ GameOfGrid.prototype.generatePattern = function(generator) {
 	this.saveHistory();
 	this.isAllDirty = true;
 	this.isDirty = true;
+}
+
+GameOfGrid.prototype.onOrientationChange = function(e) {
+	for (var i = 0, len = this.gridWidth * this.gridHeight; i < len; ++i) {
+		var y = Math.floor(i % this.gridHeight),
+			x = Math.floor(i / this.gridHeight);
+		this.newGrid[i] = this.grid[y * this.gridWidth + x];
+	}
+	var tempGrid = this.grid;
+	this.grid = this.newGrid;
+	this.newGrid = tempGrid;
+
+	// Invert Width/Height
+	this.gridWidth += this.gridHeight;
+	this.gridHeight = this.gridWidth - this.gridHeight;
+	this.gridWidth -= this.gridHeight;
 }
 
 GameOfGrid.prototype.onResize = function() {
