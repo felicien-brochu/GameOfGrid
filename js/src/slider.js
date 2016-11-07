@@ -51,7 +51,7 @@ Slider.prototype.onMouseMove = function(event) {
 
 Slider.prototype.setValue = function(newValue, fromEvent) {
 	this.value = newValue;
-	this.button.style.marginLeft = (newValue / 100) * (this.element.offsetWidth - 4 - this.button.offsetWidth);
+	this.button.style.marginLeft = (newValue / 100) * (this.element.offsetWidth - 4 - this.button.offsetWidth) + "px";
 	if (fromEvent) {
 		var event = new CustomEvent('valuechanged', { 'detail': newValue });
 		this.element.dispatchEvent(event);
