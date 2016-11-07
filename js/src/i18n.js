@@ -23,6 +23,7 @@ function I18n() {
 			'about.title': 'About Game of Grid',
 			'about.concept': 'Game of Grid is a graphics game freely inspired from <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway\'s game of life</a>. Each drawing you draw gives birth to a unique animation.',
 			'about.presentation': 'Game of Grid is an open source project created by Félicien Brochu. Please visit the <a href="https://github.com/felicien-brochu/GameOfGrid">GitHub repository</a>: any contribution is welcome.',
+			'about.donate': '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=contact%40gameofgrid%2ecom&lc=FR&item_name=gameofgrid%2ecom&no_note=1&no_shipping=1&rm=1&return=http%3a%2f%2fgameofgrid%2ecom&cancel_return=http%3a%2f%2fgameofgrid%2ecom&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted">Donate</a> to support this project.',
 			'about.button': 'OK'
 		},
 		'fr': {
@@ -48,6 +49,7 @@ function I18n() {
 			'about.title': 'À propos de Game of Grid',
 			'about.concept': 'Game of Grid  est un jeu graphique librement inspiré du <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie">jeu de la vie</a>. Chaque dessin donne naissance à une animation unique.',
 			'about.presentation': 'Game of Grid est un projet open source créé par Félicien Brochu. N\'hésite pas à visiter le <a href="https://github.com/felicien-brochu/GameOfGrid">dépôt GitHub</a>&nbsp;: toute contribution est la bienvenue.',
+			'about.donate': '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=contact%40gameofgrid%2ecom&lc=FR&item_name=gameofgrid%2ecom&no_note=1&no_shipping=1&rm=1&return=http%3a%2f%2fgameofgrid%2ecom&cancel_return=http%3a%2f%2fgameofgrid%2ecom&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted">Faire un don</a> pour soutenir ce projet.',
 			'about.button': 'OK'
 		}
 	};
