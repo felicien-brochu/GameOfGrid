@@ -263,7 +263,14 @@
 	margin: 0px;
 }
 .gog-popup a, .gog-popup a:visited {
-	color: #4286F4;
+	color: #08C;
+	text-decoration: none;
+}
+.gog-popup a:hover, .gog-popup a:focus {
+    text-decoration: underline;
+}
+.gog-popup a:visited {
+	color: #058;
 }
 kbd {
 	margin: 0 .1em;
