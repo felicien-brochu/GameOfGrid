@@ -183,10 +183,15 @@ Settings.prototype.onFullscreenButtonMouseDown = function() {
 }
 
 Settings.prototype.onFullscreenChange = function() {
+	var fullscreenIcon = this.fullscreenButton.getElementsByClassName("gog-ic-fullscreen")[0];
+	var fullscreenExitIcon = this.fullscreenButton.getElementsByClassName("gog-ic-fullscreen-exit")[0];
+
 	if (getFullscreenElement()) {
-		this.fullscreenButton.childNodes[0].childNodes[0].setAttribute("xlink:href", "svg/sprite.svg#shape-ic-fullscreen-exit");
+		fullscreenIcon.style.display = "none";
+		fullscreenExitIcon.style.display = "inline-block";
 	} else {
-		this.fullscreenButton.childNodes[0].childNodes[0].setAttribute("xlink:href", "svg/sprite.svg#shape-ic-fullscreen");	
+		fullscreenIcon.style.display = "inline-block";
+		fullscreenExitIcon.style.display = "none";
 	}
 }
 

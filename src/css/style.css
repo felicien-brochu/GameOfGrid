@@ -74,6 +74,9 @@
 .gog-ic-pause {
 	display: none;
 }
+.gog-ic-fullscreen-exit {
+	display: none;
+}
 #gog-bottom-action-buttons {
 	position: absolute;
 	right: 0;
@@ -91,8 +94,8 @@
 	width: 46px;
 }
 #gog-fullscreen-button svg {
-	width: 30;
-	height: 30;
+	width: 30px;
+	height: 30px;
 }
 #gog-bottom-action-buttons .gog-action-button.gog-small {
 	width: 34px;
