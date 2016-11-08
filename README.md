@@ -7,7 +7,7 @@
 Go to [gameofgrid.com](http://gameofgrid.com) to play with it.
 
 
-![screenshot1](img/screenshot-panel.png "screenshot") | ![screenshot2](img/screenshot-no-panel.png "screenshot")
+![screenshot1](src/img/screenshot-panel.png "screenshot") | ![screenshot2](src/img/screenshot-no-panel.png "screenshot")
 :-------------------------:|:-------------------------:
 
 Game of Grid is an open source project created by Félicien Brochu. Any contribution is welcome.
