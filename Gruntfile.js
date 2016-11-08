@@ -3,7 +3,7 @@
 		pkg: grunt.file.readJSON('package.json'),
 
 		clean: {
-			all: 'build',
+			all: 'build/*',
 			html: 'build/*.html',
 			css: 'build/css',
 			js: 'build/js',
