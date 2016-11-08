@@ -1,11 +1,13 @@
-﻿{
+{
   "name": "gameofgrid",
   "version": "0.1.0",
   "repository": "https://github.com/felicien-brochu/gameofgrid",
   "description": "Game of Grid is a graphics game freely inspired from Conway's game of life",
   "devDependencies": {
     "grunt": "^1.0.0",
+    "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-svgstore": "^1.0.0"
   }
